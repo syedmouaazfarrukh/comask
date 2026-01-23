@@ -149,11 +149,13 @@ export default function ChatInterface({ location }: ChatInterfaceProps) {
       // Extract processing steps metadata
       const processingSteps = metadata.processing_steps || {};
       
-      // Set processing metadata
+      // Set processing metadata with all the detailed info
       setProcessingMetadata({
         intent_analysis: processingSteps.intent_analysis,
         source_search: processingSteps.source_search,
         answer_generation: processingSteps.answer_generation,
+        validation: processingSteps.validation,
+        totalProcessingTime: metadata.total_processing_time_ms || response.processing_time_ms,
       });
       
       // Update active sources from actual sources searched
@@ -363,6 +365,7 @@ export default function ChatInterface({ location }: ChatInterfaceProps) {
                 dataSources={coloradoDataSources}
                 processingStep={processingStep}
                 processingMetadata={processingMetadata}
+                totalProcessingTime={processingMetadata?.totalProcessingTime}
                 onClose={handleCloseRightSidebar}
                 isComplete={processingStep === 'complete'}
               />

@@ -17,6 +17,26 @@ logger = structlog.get_logger()
 router = APIRouter(prefix="/api/queries", tags=["queries"])
 
 
+def _get_intent_description(intent: str) -> str:
+    """Get a user-friendly description of the query intent."""
+    descriptions = {
+        "regulatory_requirement": "Looking for specific regulatory requirements or rules",
+        "compliance_question": "Seeking compliance guidance or obligations",
+        "how_to": "Asking how to accomplish a specific task or process",
+        "definition": "Asking for a definition or explanation of a term",
+        "comparison": "Comparing different options or requirements",
+        "deadline": "Asking about dates, deadlines, or timelines",
+        "cost": "Asking about costs, fees, or financial requirements",
+        "eligibility": "Asking about eligibility criteria or qualifications",
+        "process": "Asking about a process, procedure, or steps",
+        "penalty": "Asking about penalties, fines, or consequences",
+        "exemption": "Asking about exemptions or exceptions to rules",
+        "general_query": "General information request",
+        "clarification": "Follow-up question seeking clarification",
+    }
+    return descriptions.get(intent, "Information request about energy regulations")
+
+
 @router.post("", response_model=QueryResponse)
 async def submit_query(
     request: QueryRequest,
@@ -134,6 +154,16 @@ async def submit_query(
             }
         )
 
+        # Extract detailed document info for processing steps
+        ranked_documents = relevance_data.get("ranked_documents", [])
+        top_documents = ranked_documents[:5] if ranked_documents else []
+
+        # Calculate average relevance score
+        avg_relevance = 0.0
+        if top_documents:
+            scores = [doc.get("relevance_score", 0) for doc in top_documents]
+            avg_relevance = sum(scores) / len(scores) if scores else 0.0
+
         response = QueryResponse(
             answer=answer_text,
             citations=[
@@ -166,22 +196,49 @@ async def submit_query(
                     "intent_analysis": {
                         "completed": True,
                         "intent": intent_result.data.get("intent", "general_query"),
-                        "keywords": intent_result.data.get("keywords", [])
+                        "intent_description": _get_intent_description(intent_result.data.get("intent", "general_query")),
+                        "keywords": intent_result.data.get("keywords", []),
+                        "entities": intent_result.data.get("entities", []),
+                        "confidence": intent_result.data.get("confidence", "medium"),
+                        "is_followup": intent_result.data.get("is_followup", False),
+                        "processing_time_ms": intent_result.metadata.get("processing_time_ms", 0)
                     },
                     "source_search": {
                         "completed": True,
+                        "search_method": extraction_result.metadata.get("search_method", "keyword"),
+                        "embeddings_used": extraction_result.metadata.get("embeddings_available", False),
                         "sources_searched": sources_used if sources_used else ["Colorado Public Utilities Commission", "Colorado Energy Office", "Colorado State Legislature"],
-                        "sources_found": sources_found_count
+                        "sources_found": sources_found_count,
+                        "top_documents": [
+                            {
+                                "title": doc.get("title", "Unknown"),
+                                "source": doc.get("source", "Unknown"),
+                                "relevance_score": round(doc.get("relevance_score", 0) * 100, 1),
+                                "excerpt_preview": doc.get("excerpt", "")[:100] + "..." if doc.get("excerpt", "") else ""
+                            }
+                            for doc in top_documents
+                        ],
+                        "average_relevance": round(avg_relevance * 100, 1),
+                        "processing_time_ms": extraction_result.metadata.get("processing_time_ms", 0)
                     },
                     "answer_generation": {
                         "completed": True,
                         "used_gpt_fallback": used_gpt_fallback,
-                        "sources_used": generation_data.get("documents_used", 0)
+                        "sources_used": generation_data.get("documents_used", 0),
+                        "inline_citations_count": len(generation_data.get("inline_citations", [])),
+                        "model_used": generation_result.metadata.get("model", "unknown"),
+                        "tokens_used": generation_result.metadata.get("tokens", 0),
+                        "confidence": generation_data.get("confidence", "medium"),
+                        "processing_time_ms": generation_result.metadata.get("processing_time_ms", 0)
                     },
                     "validation": {
-                        "completed": validation_result.success
+                        "completed": validation_result.success,
+                        "issues": validation_result.data.get("issues", []) if validation_result.data else [],
+                        "is_valid": validation_result.data.get("is_valid", True) if validation_result.data else True,
+                        "processing_time_ms": validation_result.metadata.get("processing_time_ms", 0) if validation_result.metadata else 0
                     }
-                }
+                },
+                "total_processing_time_ms": processing_time
             }
         )
 

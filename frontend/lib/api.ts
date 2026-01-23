@@ -128,6 +128,7 @@ export interface QueryResponse {
     sources_found?: number;
     sources_used?: number;
     used_gpt_fallback?: boolean;
+    total_processing_time_ms?: number;
   };
 }
 
