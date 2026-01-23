@@ -7,8 +7,39 @@ import ChatMessage from './ChatMessage';
 import ThinkingIndicator from './ThinkingIndicator';
 import MapVisualization from './MapVisualization';
 import LeftSidebar from './LeftSidebar';
+import KnowledgeGraph from './KnowledgeGraph';
 import { ProcessingStep } from './ProcessingPipeline';
 import { submitQuery, createConversation, deleteConversation, type QueryResponse } from '@/lib/api';
+
+// Inline citation data structure
+interface InlineCitationData {
+  id: string;
+  fact: string;
+  source_index: number;
+  source_title: string;
+  source_excerpt: string;
+  source_url?: string;
+}
+
+// Retrieval flow structures for knowledge graph
+interface RetrievalFlowNode {
+  id: string;
+  type: string;
+  label: string;
+  metadata?: Record<string, unknown>;
+}
+
+interface RetrievalFlowEdge {
+  source: string;
+  target: string;
+  label?: string;
+  relevance_score?: number;
+}
+
+interface RetrievalFlow {
+  nodes: RetrievalFlowNode[];
+  edges: RetrievalFlowEdge[];
+}
 
 interface Message {
   id: string;
@@ -19,6 +50,8 @@ interface Message {
     url: string;
     excerpt: string;
   }>;
+  inline_citations?: InlineCitationData[];
+  retrieval_flow?: RetrievalFlow;
 }
 
 interface ChatInterfaceProps {
@@ -49,6 +82,8 @@ export default function ChatInterface({ location }: ChatInterfaceProps) {
   const [hasActiveQuery, setHasActiveQuery] = useState(false); // Track if there's an active query
   const [processingStep, setProcessingStep] = useState<ProcessingStep>('intent_analysis');
   const [processingMetadata, setProcessingMetadata] = useState<any>(null);
+  const [showKnowledgeGraph, setShowKnowledgeGraph] = useState(false);
+  const [currentRetrievalFlow, setCurrentRetrievalFlow] = useState<RetrievalFlow | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -139,6 +174,8 @@ export default function ChatInterface({ location }: ChatInterfaceProps) {
           url: cit.url || '#',
           excerpt: cit.excerpt,
         })),
+        inline_citations: response.inline_citations,
+        retrieval_flow: response.retrieval_flow,
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
@@ -186,6 +223,11 @@ export default function ChatInterface({ location }: ChatInterfaceProps) {
     setShowRightSidebar(false);
     setHasActiveQuery(false);
     setLeftSidebarOpen(false);
+  };
+
+  const handleShowKnowledgeGraph = (flow: RetrievalFlow) => {
+    setCurrentRetrievalFlow(flow);
+    setShowKnowledgeGraph(true);
   };
 
   return (
@@ -247,7 +289,11 @@ export default function ChatInterface({ location }: ChatInterfaceProps) {
             <div className="max-w-4xl mx-auto space-y-6">
               <AnimatePresence>
                 {messages.map((message) => (
-                  <ChatMessage key={message.id} message={message} />
+                  <ChatMessage
+                    key={message.id}
+                    message={message}
+                    onShowKnowledgeGraph={handleShowKnowledgeGraph}
+                  />
                 ))}
               </AnimatePresence>
 
@@ -311,7 +357,7 @@ export default function ChatInterface({ location }: ChatInterfaceProps) {
               transition={{ duration: 0.3 }}
               className="border-l border-gray-200 overflow-hidden"
             >
-              <MapVisualization 
+              <MapVisualization
                 location={location}
                 activeSources={activeSources}
                 dataSources={coloradoDataSources}
@@ -324,6 +370,16 @@ export default function ChatInterface({ location }: ChatInterfaceProps) {
           )}
         </AnimatePresence>
       </div>
+
+      {/* Knowledge Graph Modal */}
+      <AnimatePresence>
+        {showKnowledgeGraph && currentRetrievalFlow && (
+          <KnowledgeGraph
+            retrievalFlow={currentRetrievalFlow}
+            onClose={() => setShowKnowledgeGraph(false)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -147,6 +147,8 @@ async def submit_query(
                 }
                 for cit in generation_data.get("citations", [])
             ],
+            inline_citations=generation_data.get("inline_citations", []),
+            retrieval_flow=generation_data.get("retrieval_flow"),
             confidence=generation_data.get("confidence", "medium"),
             processing_time_ms=processing_time,
             conversation_id=conversation_id,

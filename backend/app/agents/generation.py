@@ -1,6 +1,8 @@
 """Answer generation agent."""
 
-from typing import List, Dict, Any
+import re
+import uuid
+from typing import List, Dict, Any, Tuple
 from app.agents.base import BaseAgent, AgentContext, AgentResult
 from app.llm import get_llm
 from app.llm.base import LLMMessage
@@ -9,16 +11,126 @@ import structlog
 logger = structlog.get_logger()
 
 
+def extract_inline_citations(answer: str, documents: List[Dict]) -> Tuple[str, List[Dict]]:
+    """
+    Extract inline citations from the answer text.
+
+    The LLM uses format: [[cite:N:fact text]] where N is the document number (1-indexed)
+    Returns the cleaned answer and a list of inline citation objects.
+    """
+    inline_citations = []
+    citation_pattern = r'\[\[cite:(\d+):([^\]]+)\]\]'
+
+    matches = list(re.finditer(citation_pattern, answer))
+
+    for i, match in enumerate(matches):
+        doc_num = int(match.group(1)) - 1  # Convert to 0-indexed
+        fact_text = match.group(2).strip()
+
+        if 0 <= doc_num < len(documents):
+            doc = documents[doc_num]
+            citation_id = f"cite-{i+1}"
+
+            inline_citations.append({
+                "id": citation_id,
+                "fact": fact_text,
+                "source_index": doc_num,
+                "source_title": doc.get("title", "Unknown"),
+                "source_excerpt": doc.get("excerpt", doc.get("content", ""))[:500],
+                "source_url": doc.get("source_url", "#")
+            })
+
+    # Replace [[cite:N:text]] with [[cite-N]] for frontend rendering
+    def replace_citation(match):
+        doc_num = int(match.group(1)) - 1
+        fact_text = match.group(2).strip()
+        # Find the citation index
+        for i, cite in enumerate(inline_citations):
+            if cite["source_index"] == doc_num and cite["fact"] == fact_text:
+                return f"[[{cite['id']}:{fact_text}]]"
+        return fact_text
+
+    cleaned_answer = re.sub(citation_pattern, replace_citation, answer)
+
+    return cleaned_answer, inline_citations
+
+
+def build_retrieval_flow(query: str, documents: List[Dict], answer: str) -> Dict:
+    """
+    Build a retrieval flow graph for knowledge graph visualization.
+    Shows: Query -> Documents Retrieved -> Answer
+    """
+    nodes = []
+    edges = []
+
+    # Query node
+    query_id = "query-1"
+    nodes.append({
+        "id": query_id,
+        "type": "query",
+        "label": query[:50] + "..." if len(query) > 50 else query,
+        "metadata": {"full_text": query}
+    })
+
+    # Document nodes
+    for i, doc in enumerate(documents[:5]):  # Top 5 documents
+        doc_id = f"doc-{i+1}"
+        nodes.append({
+            "id": doc_id,
+            "type": "document",
+            "label": doc.get("title", "Unknown")[:40] + "..." if len(doc.get("title", "")) > 40 else doc.get("title", "Unknown"),
+            "metadata": {
+                "full_title": doc.get("title", "Unknown"),
+                "source": doc.get("source", "Unknown"),
+                "relevance_score": doc.get("relevance_score", 0),
+                "source_url": doc.get("source_url", "#"),
+                "excerpt": doc.get("excerpt", doc.get("content", ""))[:300]
+            }
+        })
+
+        # Edge from query to document
+        edges.append({
+            "source": query_id,
+            "target": doc_id,
+            "label": f"Retrieved (score: {doc.get('relevance_score', 0):.2f})",
+            "relevance_score": doc.get("relevance_score", 0)
+        })
+
+    # Answer node
+    answer_id = "answer-1"
+    nodes.append({
+        "id": answer_id,
+        "type": "answer",
+        "label": "Generated Answer",
+        "metadata": {"preview": answer[:100] + "..." if len(answer) > 100 else answer}
+    })
+
+    # Edges from documents to answer
+    for i, doc in enumerate(documents[:5]):
+        doc_id = f"doc-{i+1}"
+        edges.append({
+            "source": doc_id,
+            "target": answer_id,
+            "label": "Used in answer",
+            "relevance_score": doc.get("relevance_score", 0)
+        })
+
+    return {
+        "nodes": nodes,
+        "edges": edges
+    }
+
+
 class GenerationAgent(BaseAgent):
     """Generates accurate answers with citations."""
-    
+
     def __init__(self):
         super().__init__(
             name="generation",
             description="Generates accurate answers with proper citations"
         )
         self.llm = get_llm()
-    
+
     async def execute(self, context: AgentContext) -> AgentResult:
         """Generate answer with citations."""
         try:
@@ -135,31 +247,40 @@ Provide a professional, well-formatted answer that's easy to read in a chat inte
                 f"Content: {doc.get('content', doc.get('excerpt', ''))[:2000]}\n"  # Use full content, limit to 2000 chars
                 for i, doc in enumerate(documents[:5])  # Top 5 most relevant
             ])
-            
+
             # Add conversation history context if available
             history_context = ""
             if context.conversation_history:
                 history_context = f"\n\nPrevious conversation context:\n{context.conversation_history}\n\nPlease use this context to provide a relevant answer that continues the conversation naturally and references previous topics when relevant."
-            
-            system_prompt = """You are an expert on Colorado energy regulations. Your role is to provide accurate, 
+
+            system_prompt = """You are an expert on Colorado energy regulations. Your role is to provide accurate,
 cited answers based ONLY on the provided documents.
 
-CRITICAL RULES:
+CRITICAL CITATION RULES:
 1. ONLY use information from the provided documents
-2. ALWAYS cite specific documents with [Document: Title] format
-3. If information is not in the documents, explicitly state "I don't have specific information on this"
-4. Never make up information or use knowledge outside the documents
-5. If the answer is uncertain, say so clearly
-6. Provide actionable information when possible
-7. Include relevant dates and sources
-8. If there's conversation history, use it to provide contextually relevant answers that build on previous questions
+2. For EVERY specific fact, number, percentage, date, or requirement, use INLINE citations with this EXACT format:
+   [[cite:N:the exact fact or claim]]
+   where N is the document number (1, 2, 3, etc.)
 
-Answer format:
-- Clear, concise answer
-- Specific citations in [Document: Title] format
-- If uncertain, state the uncertainty
-- Suggest alternatives if the exact answer isn't available
-- Reference previous conversation topics when relevant"""
+3. Examples of inline citations:
+   - "Utilities must generate [[cite:1:30% of electricity from renewable sources]] starting in 2020."
+   - "The emission reduction target is [[cite:2:80% by 2030]] compared to 2005 levels."
+   - "IOUs are required to achieve [[cite:1:3% from distributed generation]]."
+
+4. ALWAYS cite specific numbers, percentages, dates, requirements, and key facts
+5. If information is not in the documents, explicitly state "I don't have specific information on this"
+6. Never make up information or use knowledge outside the documents
+7. If the answer is uncertain, say so clearly
+8. Provide actionable information when possible
+9. If there's conversation history, use it to provide contextually relevant answers
+
+FORMATTING:
+- Use clear headers and bullet points
+- Every factual claim should have an inline citation
+- Keep the answer comprehensive but well-organized
+- At the end, you can also mention [Document: Title] for general reference
+
+Remember: The inline citation format is [[cite:N:fact]] where N is the document number and fact is the specific claim."""
 
             user_prompt = f"""User Question: {context.query}{history_context}
 
@@ -168,8 +289,8 @@ Location: Colorado
 Relevant Documents:
 {documents_context}
 
-Provide a comprehensive answer with citations. If the documents don't fully answer the question, 
-be honest about what information is available and what is not."""
+Provide a comprehensive answer with INLINE CITATIONS using [[cite:N:fact]] format for every specific fact, number, or requirement.
+If the documents don't fully answer the question, be honest about what information is available and what is not."""
 
             messages = [
                 LLMMessage(role="system", content=system_prompt),
@@ -181,7 +302,20 @@ be honest about what information is available and what is not."""
                 temperature=0.3,  # Low temperature for accuracy
                 max_tokens=2000
             )
-            
+
+            # Extract inline citations from the response
+            processed_answer, inline_citations = extract_inline_citations(
+                response.content,
+                documents[:5]
+            )
+
+            # Build retrieval flow for knowledge graph
+            retrieval_flow = build_retrieval_flow(
+                context.query,
+                documents[:5],
+                processed_answer
+            )
+
             # Extract citations from documents used
             citations = []
             for doc in documents[:5]:  # Top 5 documents
@@ -193,22 +327,25 @@ be honest about what information is available and what is not."""
                     "source": doc.get("source", "Unknown"),
                     "published_date": doc.get("published_date")
                 })
-            
-            # Determine confidence
-            confidence = "high" if len(citations) >= 2 else "medium" if len(citations) == 1 else "low"
-            
+
+            # Determine confidence based on citations and inline citations
+            confidence = "high" if len(inline_citations) >= 3 else "medium" if len(inline_citations) >= 1 else "low"
+
             return AgentResult(
                 success=True,
                 data={
-                    "answer": response.content,
+                    "answer": processed_answer,
                     "citations": citations,
+                    "inline_citations": inline_citations,
+                    "retrieval_flow": retrieval_flow,
                     "confidence": confidence,
                     "documents_used": len(citations)
                 },
                 metadata={
                     "model": response.model,
                     "tokens": response.usage.get("total_tokens", 0) if response.usage else 0,
-                    "documents_available": len(documents)
+                    "documents_available": len(documents),
+                    "inline_citations_count": len(inline_citations)
                 }
             )
             

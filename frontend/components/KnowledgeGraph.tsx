@@ -16,10 +16,30 @@ import {
   Position,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import { X, FileText, MessageSquare, CheckCircle, ExternalLink } from 'lucide-react';
+import { X, FileText, MessageSquare, CheckCircle, ExternalLink, Search, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Types from API
+// Types from API - Retrieval Flow format from backend
+interface RetrievalFlowNode {
+  id: string;
+  type: string;
+  label: string;
+  metadata?: Record<string, any>;
+}
+
+interface RetrievalFlowEdge {
+  source: string;
+  target: string;
+  label?: string;
+  relevance_score?: number;
+}
+
+interface RetrievalFlow {
+  nodes: RetrievalFlowNode[];
+  edges: RetrievalFlowEdge[];
+}
+
+// Legacy graph format (for backwards compatibility)
 interface GraphNode {
   id: string;
   type: string;
@@ -43,7 +63,8 @@ interface SourceGraph {
 }
 
 interface KnowledgeGraphProps {
-  graph: SourceGraph;
+  graph?: SourceGraph;
+  retrievalFlow?: RetrievalFlow;
   onClose: () => void;
 }
 
@@ -83,6 +104,27 @@ const authorityColors: Record<string, { bg: string; text: string; border: string
   '4': { bg: '#ea580c', text: '#ffffff', border: '#c2410c' },
 };
 
+// Custom Query Node (for retrieval flow)
+function QueryNode({ data }: { data: any }) {
+  return (
+    <div
+      className="px-4 py-3 rounded-xl shadow-lg min-w-[200px] max-w-[300px]"
+      style={{
+        background: 'linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)',
+        color: '#ffffff',
+        border: '2px solid #5b21b6',
+      }}
+    >
+      <Handle type="source" position={Position.Bottom} className="!bg-purple-300" />
+      <div className="flex items-center gap-2 mb-2">
+        <Search className="w-5 h-5" />
+        <span className="font-semibold">Query</span>
+      </div>
+      <p className="text-sm opacity-90 line-clamp-3">{data.label || data.full_text}</p>
+    </div>
+  );
+}
+
 // Custom Answer Node
 function AnswerNode({ data }: { data: any }) {
   return (
@@ -90,10 +132,11 @@ function AnswerNode({ data }: { data: any }) {
       className="px-4 py-3 rounded-xl shadow-lg min-w-[200px] max-w-[300px]"
       style={nodeStyles.answer}
     >
+      <Handle type="target" position={Position.Top} className="!bg-blue-300" />
       <Handle type="source" position={Position.Bottom} className="!bg-blue-300" />
       <div className="flex items-center gap-2 mb-2">
-        <MessageSquare className="w-5 h-5" />
-        <span className="font-semibold">Answer</span>
+        <Sparkles className="w-5 h-5" />
+        <span className="font-semibold">Generated Answer</span>
       </div>
       <p className="text-sm opacity-90 line-clamp-3">{data.preview || data.label}</p>
     </div>
@@ -171,9 +214,56 @@ function SectionNode({ data }: { data: any }) {
   );
 }
 
+// Custom Document Node (for retrieval flow - documents used in answer generation)
+function DocumentNode({ data, selected }: { data: any; selected: boolean }) {
+  const relevanceScore = data.relevance_score || data.metadata?.relevance_score;
+  const isHighRelevance = relevanceScore && relevanceScore > 0.7;
+
+  return (
+    <div
+      className={`px-4 py-3 rounded-lg shadow-md min-w-[180px] max-w-[280px] transition-all ${
+        selected ? 'ring-2 ring-green-500 ring-offset-2' : ''
+      }`}
+      style={{
+        background: isHighRelevance
+          ? 'linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)'
+          : 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
+        color: '#166534',
+        border: isHighRelevance ? '2px solid #22c55e' : '2px solid #86efac',
+      }}
+    >
+      <Handle type="target" position={Position.Top} className="!bg-green-400" />
+      <Handle type="source" position={Position.Bottom} className="!bg-green-400" />
+      <div className="flex items-center gap-2 mb-2">
+        <FileText className="w-4 h-4" />
+        <span className="font-medium text-sm truncate">{data.label}</span>
+      </div>
+      {data.metadata?.source && (
+        <p className="text-xs opacity-80 mb-1">{data.metadata.source}</p>
+      )}
+      {data.metadata?.excerpt && (
+        <p className="text-xs opacity-70 line-clamp-2">{data.metadata.excerpt}</p>
+      )}
+      {relevanceScore && (
+        <div className="mt-2 flex items-center gap-2">
+          <div className="flex-1 h-1.5 bg-green-200 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-green-600 rounded-full transition-all"
+              style={{ width: `${relevanceScore * 100}%` }}
+            />
+          </div>
+          <span className="text-xs font-medium">{Math.round(relevanceScore * 100)}%</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // Node types mapping
 const nodeTypes: NodeTypes = {
+  query: QueryNode,
   answer: AnswerNode,
+  document: DocumentNode,
   claim: ClaimNode,
   source: SourceNode,
   section: SectionNode,
@@ -276,24 +366,110 @@ function NodeDetailPanel({
   );
 }
 
-export default function KnowledgeGraph({ graph, onClose }: KnowledgeGraphProps) {
+// Auto-layout function for retrieval flow
+function autoLayoutRetrievalFlow(flow: RetrievalFlow): { nodes: Node[]; edges: Edge[] } {
+  const nodes: Node[] = [];
+  const edges: Edge[] = [];
+
+  // Find query, document, and answer nodes
+  const queryNodes = flow.nodes.filter(n => n.type === 'query');
+  const docNodes = flow.nodes.filter(n => n.type === 'document');
+  const answerNodes = flow.nodes.filter(n => n.type === 'answer');
+
+  // Layout: Query at top, documents in middle (spread horizontally), answer at bottom
+  const centerX = 400;
+  const docSpacing = 280;
+  const totalDocWidth = (docNodes.length - 1) * docSpacing;
+  const startX = centerX - totalDocWidth / 2;
+
+  // Position query node(s) at top
+  queryNodes.forEach((node, i) => {
+    nodes.push({
+      id: node.id,
+      type: node.type,
+      position: { x: centerX - 100, y: 50 },
+      data: {
+        label: node.label,
+        ...node.metadata,
+      },
+    });
+  });
+
+  // Position document nodes in middle row
+  docNodes.forEach((node, i) => {
+    nodes.push({
+      id: node.id,
+      type: node.type,
+      position: { x: startX + i * docSpacing, y: 200 },
+      data: {
+        label: node.label,
+        ...node.metadata,
+      },
+    });
+  });
+
+  // Position answer node(s) at bottom
+  answerNodes.forEach((node, i) => {
+    nodes.push({
+      id: node.id,
+      type: node.type,
+      position: { x: centerX - 100, y: 400 },
+      data: {
+        label: node.label,
+        ...node.metadata,
+      },
+    });
+  });
+
+  // Create edges with animated styling for the "flow"
+  flow.edges.forEach((edge, i) => {
+    const isQueryToDoc = edge.source.startsWith('query');
+    const isDocToAnswer = edge.target.startsWith('answer');
+
+    edges.push({
+      id: `edge-${i}`,
+      source: edge.source,
+      target: edge.target,
+      type: 'smoothstep',
+      animated: true,
+      label: edge.label,
+      markerEnd: {
+        type: MarkerType.ArrowClosed,
+        color: isDocToAnswer ? '#22c55e' : '#8b5cf6',
+      },
+      style: {
+        stroke: isDocToAnswer ? '#22c55e' : isQueryToDoc ? '#8b5cf6' : '#94a3b8',
+        strokeWidth: 2,
+      },
+      labelStyle: { fontSize: 10, fill: '#64748b' },
+      labelBgStyle: { fill: '#f8fafc', fillOpacity: 0.9 },
+    });
+  });
+
+  return { nodes, edges };
+}
+
+export default function KnowledgeGraph({ graph, retrievalFlow, onClose }: KnowledgeGraphProps) {
   const [selectedNode, setSelectedNode] = useState<Node | null>(null);
 
-  // Convert API graph to React Flow format
-  const initialNodes: Node[] = useMemo(
-    () =>
-      graph.nodes.map((node) => ({
+  // Convert API graph/retrieval flow to React Flow format
+  const { initialNodes, initialEdges } = useMemo(() => {
+    // If we have a retrieval flow, use that (new format)
+    if (retrievalFlow && retrievalFlow.nodes.length > 0) {
+      const { nodes, edges } = autoLayoutRetrievalFlow(retrievalFlow);
+      return { initialNodes: nodes, initialEdges: edges };
+    }
+
+    // Otherwise, use legacy graph format
+    if (graph && graph.nodes.length > 0) {
+      const nodes: Node[] = graph.nodes.map((node) => ({
         id: node.id,
         type: node.type,
         position: node.position,
         data: { ...node.data, label: node.data.label || node.id },
-      })),
-    [graph.nodes]
-  );
+      }));
 
-  const initialEdges: Edge[] = useMemo(
-    () =>
-      graph.edges.map((edge) => ({
+      const edges: Edge[] = graph.edges.map((edge) => ({
         id: edge.id,
         source: edge.source,
         target: edge.target,
@@ -307,9 +483,13 @@ export default function KnowledgeGraph({ graph, onClose }: KnowledgeGraphProps) 
         style: { stroke: '#94a3b8', strokeWidth: 2 },
         labelStyle: { fontSize: 10, fill: '#64748b' },
         labelBgStyle: { fill: '#f8fafc', fillOpacity: 0.9 },
-      })),
-    [graph.edges]
-  );
+      }));
+
+      return { initialNodes: nodes, initialEdges: edges };
+    }
+
+    return { initialNodes: [], initialEdges: [] };
+  }, [graph, retrievalFlow]);
 
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -336,43 +516,46 @@ export default function KnowledgeGraph({ graph, onClose }: KnowledgeGraphProps) 
         className="bg-white rounded-2xl shadow-2xl w-full max-w-6xl h-[80vh] overflow-hidden flex flex-col"
       >
         {/* Header */}
-        <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between bg-gray-50">
+        <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between bg-gradient-to-r from-purple-50 to-green-50">
           <div>
-            <h2 className="text-lg font-semibold text-gray-900">Source Lineage</h2>
+            <h2 className="text-lg font-semibold text-gray-900">Knowledge Graph</h2>
             <p className="text-sm text-gray-500">
-              Interactive visualization of how sources support the answer
+              See how your query flows through our knowledge base to generate the answer
             </p>
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-200 rounded-lg transition-colors"
+            className="p-2 hover:bg-white/50 rounded-lg transition-colors"
           >
             <X className="w-5 h-5 text-gray-500" />
           </button>
         </div>
 
         {/* Legend */}
-        <div className="px-6 py-2 border-b border-gray-100 flex items-center gap-6 text-xs">
+        <div className="px-6 py-2 border-b border-gray-100 flex items-center gap-6 text-xs flex-wrap">
           <span className="text-gray-500">Legend:</span>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded bg-purple-600" />
+            <span>Query</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded bg-green-500" />
+            <span>Document</span>
+          </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded bg-blue-600" />
             <span>Answer</span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded bg-slate-300" />
-            <span>Claim</span>
+          <div className="flex items-center gap-1.5 ml-4 text-gray-400">
+            <span>|</span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded bg-green-600" />
-            <span>Source (State)</span>
+          <div className="flex items-center gap-2 text-gray-400">
+            <div className="w-8 h-0.5 bg-purple-400" />
+            <span>Retrieval</span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded bg-blue-800" />
-            <span>Source (Federal)</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded bg-amber-400" />
-            <span>Section</span>
+          <div className="flex items-center gap-2 text-gray-400">
+            <div className="w-8 h-0.5 bg-green-500" />
+            <span>Used in Answer</span>
           </div>
         </div>
 
@@ -399,8 +582,12 @@ export default function KnowledgeGraph({ graph, onClose }: KnowledgeGraphProps) 
             <MiniMap
               nodeColor={(node) => {
                 switch (node.type) {
+                  case 'query':
+                    return '#8b5cf6';
                   case 'answer':
                     return '#3b82f6';
+                  case 'document':
+                    return '#22c55e';
                   case 'claim':
                     return '#94a3b8';
                   case 'source':
