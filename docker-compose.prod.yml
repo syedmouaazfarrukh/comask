@@ -1,0 +1,99 @@
+version: '3.8'
+
+# Production Docker Compose for Colorado Energy Compliance Assistant
+# Use: docker-compose -f docker-compose.prod.yml up -d
+
+services:
+  # PostgreSQL with pgvector extension
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: comask-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-comask}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Database password required}
+      POSTGRES_DB: ${POSTGRES_DB:-comask}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/scripts/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-comask} -d ${POSTGRES_DB:-comask}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - comask-internal
+
+  # Redis for caching and session management
+  redis:
+    image: redis:7-alpine
+    container_name: comask-redis
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - comask-internal
+
+  # Backend API (production)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: comask-backend:latest
+    container_name: comask-backend
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://${POSTGRES_USER:-comask}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-comask}
+      - REDIS_URL=redis://redis:6379
+      - APP_ENV=production
+      - DEBUG=false
+      - SECRET_KEY=${SECRET_KEY:?Secret key required}
+      - CLAUDE_API_KEY=${CLAUDE_API_KEY:?Claude API key required}
+      - VOYAGE_API_KEY=${VOYAGE_API_KEY:?Voyage API key required}
+      - FRONTEND_URL=${FRONTEND_URL:-http://localhost:3000}
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - comask-internal
+      - comask-external
+
+  # Frontend (production)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: comask-frontend:latest
+    container_name: comask-frontend
+    environment:
+      - NEXT_PUBLIC_API_URL=${BACKEND_URL:-http://localhost:8000}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - comask-external
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  comask-internal:
+    driver: bridge
+    internal: true
+  comask-external:
+    driver: bridge
