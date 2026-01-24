@@ -258,7 +258,7 @@ export default function ChatInterface({ location }: ChatInterfaceProps) {
           <img
             src={isDark ? '/logow.png' : '/logob.png'}
             alt="Comask"
-            className="h-8 w-auto"
+            className="h-10 w-auto"
           />
 
           <div className="ml-auto flex items-center gap-2">

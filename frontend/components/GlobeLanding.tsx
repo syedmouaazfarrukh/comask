@@ -232,7 +232,7 @@ export default function GlobeLanding({ onLocationSelect }: GlobeLandingProps) {
             <img
               src="/logow.png"
               alt="Comask"
-              className="h-10 w-auto"
+              className="h-14 md:h-16 w-auto"
             />
           </div>
           <div className="hidden md:flex items-center gap-2 text-cyan-400/70 text-sm">
