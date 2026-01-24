@@ -62,6 +62,7 @@ interface MapVisualizationProps {
   totalProcessingTime?: number;
   onClose?: () => void;
   isComplete?: boolean;
+  isDark?: boolean;
 }
 
 export default function MapVisualization({
@@ -73,23 +74,32 @@ export default function MapVisualization({
   totalProcessingTime,
   onClose,
   isComplete = false,
+  isDark = false,
 }: MapVisualizationProps) {
 
   return (
-    <div className="h-full flex flex-col bg-white/95 backdrop-blur-sm">
+    <div className={`h-full flex flex-col backdrop-blur-sm transition-colors duration-300 ${
+      isDark ? 'bg-slate-900/95' : 'bg-white/95'
+    }`}>
       {/* Header */}
-      <div className="border-b border-gray-200 px-4 py-3 flex items-center justify-between bg-gradient-to-r from-purple-50/50 to-cyan-50/50">
+      <div className={`border-b px-4 py-3 flex items-center justify-between ${
+        isDark
+          ? 'border-slate-700 bg-gradient-to-r from-purple-900/30 to-cyan-900/30'
+          : 'bg-gradient-to-r from-purple-50/50 to-cyan-50/50 border-gray-200'
+      }`}>
         <div>
-          <h3 className="text-sm font-semibold text-gray-900">Processing Insights</h3>
-          <p className="text-xs text-gray-500">Detailed view of how we found your answer</p>
+          <h3 className={`text-sm font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>Processing Insights</h3>
+          <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-gray-500'}`}>Detailed view of how we found your answer</p>
         </div>
         {onClose && (
           <button
             onClick={onClose}
-            className="p-1.5 hover:bg-white/50 rounded-lg transition-colors"
+            className={`p-1.5 rounded-lg transition-colors ${
+              isDark ? 'hover:bg-slate-800 text-slate-400' : 'hover:bg-white/50 text-gray-400'
+            }`}
             aria-label="Close"
           >
-            <X className="w-4 h-4 text-gray-400" />
+            <X className="w-4 h-4" />
           </button>
         )}
       </div>
@@ -101,9 +111,9 @@ export default function MapVisualization({
           currentStep={processingStep}
           processingMetadata={processingMetadata}
           totalProcessingTime={totalProcessingTime}
+          isDark={isDark}
         />
       </div>
     </div>
   );
 }
-

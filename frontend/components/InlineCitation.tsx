@@ -16,9 +16,10 @@ export interface InlineCitationData {
 interface InlineCitationProps {
   citation: InlineCitationData;
   citationNumber: number;
+  isDark?: boolean;
 }
 
-export function InlineCitationTooltip({ citation, citationNumber }: InlineCitationProps) {
+export function InlineCitationTooltip({ citation, citationNumber, isDark = false }: InlineCitationProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState<'top' | 'bottom'>('bottom');
   const triggerRef = useRef<HTMLSpanElement>(null);
@@ -48,10 +49,18 @@ export function InlineCitationTooltip({ citation, citationNumber }: InlineCitati
         onMouseLeave={() => setIsOpen(false)}
         className="inline-flex items-center cursor-pointer group"
       >
-        <span className="bg-blue-50 text-blue-800 border-b-2 border-blue-400 border-dotted px-0.5 rounded hover:bg-blue-100 hover:border-blue-600 transition-all duration-200">
+        <span className={`border-b-2 border-dotted px-0.5 rounded transition-all duration-200 ${
+          isDark
+            ? 'bg-cyan-900/50 text-cyan-300 border-cyan-500 hover:bg-cyan-900/70 hover:border-cyan-400'
+            : 'bg-blue-50 text-blue-800 border-blue-400 hover:bg-blue-100 hover:border-blue-600'
+        }`}>
           {citation.fact}
         </span>
-        <span className="inline-flex items-center justify-center w-4 h-4 ml-0.5 text-[10px] font-semibold bg-blue-600 text-white rounded-full align-super group-hover:bg-blue-700 transition-colors">
+        <span className={`inline-flex items-center justify-center w-4 h-4 ml-0.5 text-[10px] font-semibold rounded-full align-super transition-colors ${
+          isDark
+            ? 'bg-cyan-600 text-white group-hover:bg-cyan-500'
+            : 'bg-blue-600 text-white group-hover:bg-blue-700'
+        }`}>
           {citationNumber}
         </span>
       </span>
@@ -68,9 +77,15 @@ export function InlineCitationTooltip({ citation, citationNumber }: InlineCitati
             onMouseEnter={() => setIsOpen(true)}
             onMouseLeave={() => setIsOpen(false)}
           >
-            <div className="bg-white rounded-lg shadow-xl border border-gray-200 overflow-hidden">
+            <div className={`rounded-lg shadow-xl border overflow-hidden ${
+              isDark ? 'bg-slate-800 border-slate-700' : 'bg-white border-gray-200'
+            }`}>
               {/* Header */}
-              <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-4 py-2 flex items-center justify-between">
+              <div className={`px-4 py-2 flex items-center justify-between ${
+                isDark
+                  ? 'bg-gradient-to-r from-cyan-700 to-cyan-800'
+                  : 'bg-gradient-to-r from-blue-600 to-blue-700'
+              }`}>
                 <div className="flex items-center gap-2 text-white">
                   <FileText className="w-4 h-4" />
                   <span className="text-sm font-medium">Source #{citationNumber}</span>
@@ -86,13 +101,21 @@ export function InlineCitationTooltip({ citation, citationNumber }: InlineCitati
               {/* Content */}
               <div className="p-4 space-y-3">
                 <div>
-                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Document</p>
-                  <p className="text-sm font-medium text-gray-900">{citation.source_title}</p>
+                  <p className={`text-xs font-semibold uppercase tracking-wider mb-1 ${
+                    isDark ? 'text-slate-400' : 'text-gray-500'
+                  }`}>Document</p>
+                  <p className={`text-sm font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>{citation.source_title}</p>
                 </div>
 
                 <div>
-                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Relevant Excerpt</p>
-                  <p className="text-sm text-gray-700 bg-gray-50 p-2 rounded border-l-3 border-blue-500 italic">
+                  <p className={`text-xs font-semibold uppercase tracking-wider mb-1 ${
+                    isDark ? 'text-slate-400' : 'text-gray-500'
+                  }`}>Relevant Excerpt</p>
+                  <p className={`text-sm p-2 rounded border-l-3 italic ${
+                    isDark
+                      ? 'text-slate-300 bg-slate-700/50 border-cyan-500'
+                      : 'text-gray-700 bg-gray-50 border-blue-500'
+                  }`}>
                     &ldquo;{citation.source_excerpt.slice(0, 200)}...&rdquo;
                   </p>
                 </div>
@@ -102,7 +125,11 @@ export function InlineCitationTooltip({ citation, citationNumber }: InlineCitati
                     href={citation.source_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-800 font-medium transition-colors"
+                    className={`inline-flex items-center gap-1.5 text-sm font-medium transition-colors ${
+                      isDark
+                        ? 'text-cyan-400 hover:text-cyan-300'
+                        : 'text-blue-600 hover:text-blue-800'
+                    }`}
                     onClick={(e) => e.stopPropagation()}
                   >
                     View full document
@@ -113,7 +140,9 @@ export function InlineCitationTooltip({ citation, citationNumber }: InlineCitati
 
               {/* Arrow */}
               <div
-                className={`absolute left-6 w-3 h-3 bg-white border-gray-200 transform rotate-45 ${
+                className={`absolute left-6 w-3 h-3 transform rotate-45 ${
+                  isDark ? 'bg-slate-800 border-slate-700' : 'bg-white border-gray-200'
+                } ${
                   tooltipPosition === 'bottom'
                     ? '-top-1.5 border-l border-t'
                     : '-bottom-1.5 border-r border-b'
@@ -130,9 +159,10 @@ export function InlineCitationTooltip({ citation, citationNumber }: InlineCitati
 interface ParsedTextProps {
   text: string;
   inlineCitations: InlineCitationData[];
+  isDark?: boolean;
 }
 
-export function ParsedTextWithCitations({ text, inlineCitations }: ParsedTextProps) {
+export function ParsedTextWithCitations({ text, inlineCitations, isDark = false }: ParsedTextProps) {
   // Parse the text to find [[cite-N:fact]] patterns and replace with components
   const citationPattern = /\[\[cite-(\d+):([^\]]+)\]\]/g;
   const parts: React.ReactNode[] = [];
@@ -160,12 +190,15 @@ export function ParsedTextWithCitations({ text, inlineCitations }: ParsedTextPro
           key={`${citationId}-${match.index}`}
           citation={citation}
           citationNumber={citationCounter}
+          isDark={isDark}
         />
       );
     } else {
       // If no matching citation found, just show the fact text
       parts.push(
-        <span key={`fallback-${match.index}`} className="bg-yellow-50 text-yellow-800 px-0.5 rounded">
+        <span key={`fallback-${match.index}`} className={`px-0.5 rounded ${
+          isDark ? 'bg-amber-900/50 text-amber-300' : 'bg-yellow-50 text-yellow-800'
+        }`}>
           {factText}
         </span>
       );

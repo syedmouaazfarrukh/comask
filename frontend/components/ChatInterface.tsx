@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, Loader2, MapPin, Menu, PanelRight, RefreshCw } from 'lucide-react';
+import { Send, Loader2, MapPin, Menu, PanelRight, RefreshCw, Sun, Moon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ChatMessage from './ChatMessage';
 import ThinkingIndicator from './ThinkingIndicator';
@@ -10,6 +10,7 @@ import LeftSidebar from './LeftSidebar';
 import KnowledgeGraph from './KnowledgeGraph';
 import { ProcessingStep } from './ProcessingPipeline';
 import { submitQuery, createConversation, deleteConversation, type QueryResponse } from '@/lib/api';
+import { useTheme } from '@/contexts/ThemeContext';
 
 // Inline citation data structure
 interface InlineCitationData {
@@ -66,6 +67,9 @@ const coloradoDataSources = [
 ];
 
 export default function ChatInterface({ location }: ChatInterfaceProps) {
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === 'dark';
+
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
@@ -79,7 +83,7 @@ export default function ChatInterface({ location }: ChatInterfaceProps) {
   const [activeSources, setActiveSources] = useState<string[]>([]);
   const [showRightSidebar, setShowRightSidebar] = useState(false);
   const [leftSidebarOpen, setLeftSidebarOpen] = useState(false);
-  const [hasActiveQuery, setHasActiveQuery] = useState(false); // Track if there's an active query
+  const [hasActiveQuery, setHasActiveQuery] = useState(false);
   const [processingStep, setProcessingStep] = useState<ProcessingStep>('intent_analysis');
   const [processingMetadata, setProcessingMetadata] = useState<any>(null);
   const [showKnowledgeGraph, setShowKnowledgeGraph] = useState(false);
@@ -116,40 +120,31 @@ export default function ChatInterface({ location }: ChatInterfaceProps) {
     setProcessingMetadata(null);
 
     try {
-      // Update processing step as we go
       setProcessingStep('intent_analysis');
-      
-      // Create conversation if needed
+
       let currentConversationId = conversationId;
       if (!currentConversationId) {
         const convResponse = await createConversation(location.toLowerCase());
         currentConversationId = convResponse.conversation_id;
         setConversationId(currentConversationId);
       }
-      
-      // Simulate step progression
+
       setTimeout(() => setProcessingStep('source_search'), 500);
       setTimeout(() => setProcessingStep('answer_generation'), 1500);
-      
-      // Call the real backend API
+
       const response: QueryResponse = await submitQuery({
         question,
         location: location.toLowerCase(),
         conversation_id: currentConversationId,
       });
-      
-      // Update conversation ID from response if provided
+
       if (response.conversation_id) {
         setConversationId(response.conversation_id);
       }
 
-      // Update processing metadata from response
       const metadata = response.metadata || {};
-      
-      // Extract processing steps metadata
       const processingSteps = metadata.processing_steps || {};
-      
-      // Set processing metadata with all the detailed info
+
       setProcessingMetadata({
         intent_analysis: processingSteps.intent_analysis,
         source_search: processingSteps.source_search,
@@ -157,16 +152,13 @@ export default function ChatInterface({ location }: ChatInterfaceProps) {
         validation: processingSteps.validation,
         totalProcessingTime: metadata.total_processing_time_ms || response.processing_time_ms,
       });
-      
-      // Update active sources from actual sources searched
+
       if (metadata.sources_searched && Array.isArray(metadata.sources_searched)) {
         setActiveSources(metadata.sources_searched);
       }
-      
-      // Update processing step to complete
+
       setProcessingStep('complete');
 
-      // Convert backend response to frontend message format
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
@@ -184,8 +176,7 @@ export default function ChatInterface({ location }: ChatInterfaceProps) {
       setIsThinking(false);
     } catch (error) {
       console.error('Error submitting query:', error);
-      
-      // Show error message to user
+
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
@@ -200,11 +191,10 @@ export default function ChatInterface({ location }: ChatInterfaceProps) {
 
   const handleCloseRightSidebar = () => {
     setShowRightSidebar(false);
-    setHasActiveQuery(false); // Once closed, can't reopen until new question
+    setHasActiveQuery(false);
   };
 
   const handleNewChat = async () => {
-    // Delete current conversation if exists
     if (conversationId) {
       try {
         await deleteConversation(conversationId);
@@ -212,8 +202,7 @@ export default function ChatInterface({ location }: ChatInterfaceProps) {
         console.error('Failed to delete conversation:', error);
       }
     }
-    
-    // Reset state
+
     setMessages([
       {
         id: '1',
@@ -233,50 +222,110 @@ export default function ChatInterface({ location }: ChatInterfaceProps) {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-teal-50 relative z-20">
+    <div className={`flex flex-col h-screen relative z-20 transition-colors duration-300 ${
+      isDark
+        ? 'bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950'
+        : 'bg-gradient-to-br from-blue-50 via-cyan-50 to-teal-50'
+    }`}>
       {/* Left Sidebar */}
-      <LeftSidebar 
-        isOpen={leftSidebarOpen} 
+      <LeftSidebar
+        isOpen={leftSidebarOpen}
         onClose={() => setLeftSidebarOpen(false)}
         onNewChat={handleNewChat}
+        isDark={isDark}
       />
 
       {/* Header */}
-      <div className="border-b border-gray-200 bg-white/80 backdrop-blur-sm px-6 py-4">
+      <div className={`border-b px-6 py-4 transition-colors duration-300 ${
+        isDark
+          ? 'border-slate-700 bg-slate-900/80 backdrop-blur-sm'
+          : 'border-gray-200 bg-white/80 backdrop-blur-sm'
+      }`}>
         <div className="max-w-4xl mx-auto flex items-center gap-3">
           {/* Left Sidebar Toggle */}
           <button
             onClick={() => setLeftSidebarOpen(!leftSidebarOpen)}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className={`p-2 rounded-lg transition-colors ${
+              isDark
+                ? 'hover:bg-slate-800 text-slate-400 hover:text-slate-200'
+                : 'hover:bg-gray-100 text-gray-600'
+            }`}
             aria-label="Toggle sidebar"
           >
-            <Menu className="w-5 h-5 text-gray-600" />
+            <Menu className="w-5 h-5" />
           </button>
-          
-          <MapPin className="w-5 h-5 text-blue-600" />
-          <h1 className="text-xl font-light text-gray-900">Colorado Energy Regulations</h1>
-          
+
+          <MapPin className={`w-5 h-5 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`} />
+          <h1 className={`text-xl font-light ${isDark ? 'text-white' : 'text-gray-900'}`}>
+            Colorado Energy Regulations
+          </h1>
+
           <div className="ml-auto flex items-center gap-2">
+            {/* Theme Toggle */}
+            <motion.button
+              onClick={toggleTheme}
+              className={`p-2 rounded-lg transition-colors ${
+                isDark
+                  ? 'hover:bg-slate-800 text-slate-400 hover:text-yellow-400'
+                  : 'hover:bg-gray-100 text-gray-600 hover:text-slate-800'
+              }`}
+              aria-label="Toggle theme"
+              title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+              whileTap={{ scale: 0.95 }}
+            >
+              <AnimatePresence mode="wait">
+                {isDark ? (
+                  <motion.div
+                    key="sun"
+                    initial={{ rotate: -90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Sun className="w-5 h-5" />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="moon"
+                    initial={{ rotate: 90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: -90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Moon className="w-5 h-5" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.button>
+
             {/* Refresh/New Chat Button */}
             {conversationId && (
               <button
                 onClick={handleNewChat}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                className={`p-2 rounded-lg transition-colors ${
+                  isDark
+                    ? 'hover:bg-slate-800 text-slate-400 hover:text-slate-200'
+                    : 'hover:bg-gray-100 text-gray-600'
+                }`}
                 aria-label="Start new conversation"
                 title="Start new conversation"
               >
-                <RefreshCw className="w-5 h-5 text-gray-600" />
+                <RefreshCw className="w-5 h-5" />
               </button>
             )}
-            
-            {/* Right Sidebar Toggle - Only show if there's an active query */}
+
+            {/* Right Sidebar Toggle */}
             {hasActiveQuery && (
               <button
                 onClick={() => setShowRightSidebar(!showRightSidebar)}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                className={`p-2 rounded-lg transition-colors ${
+                  isDark
+                    ? 'hover:bg-slate-800 text-slate-400 hover:text-slate-200'
+                    : 'hover:bg-gray-100 text-gray-600'
+                } ${showRightSidebar ? (isDark ? 'text-cyan-400' : 'text-blue-600') : ''}`}
                 aria-label="Toggle processing sidebar"
               >
-                <PanelRight className={`w-5 h-5 text-gray-600 ${showRightSidebar ? 'text-blue-600' : ''}`} />
+                <PanelRight className="w-5 h-5" />
               </button>
             )}
           </div>
@@ -295,13 +344,14 @@ export default function ChatInterface({ location }: ChatInterfaceProps) {
                     key={message.id}
                     message={message}
                     onShowKnowledgeGraph={handleShowKnowledgeGraph}
+                    isDark={isDark}
                   />
                 ))}
               </AnimatePresence>
 
               {isThinking && (
                 <div className="space-y-4">
-                  <ThinkingIndicator />
+                  <ThinkingIndicator isDark={isDark} />
                 </div>
               )}
 
@@ -310,7 +360,11 @@ export default function ChatInterface({ location }: ChatInterfaceProps) {
           </div>
 
           {/* Input Area */}
-          <div className="border-t border-gray-200 bg-white/80 backdrop-blur-sm px-4 py-4">
+          <div className={`border-t px-4 py-4 transition-colors duration-300 ${
+            isDark
+              ? 'border-slate-700 bg-slate-900/80 backdrop-blur-sm'
+              : 'border-gray-200 bg-white/80 backdrop-blur-sm'
+          }`}>
             <form onSubmit={handleSubmit} className="max-w-4xl mx-auto">
               <div className="flex items-end gap-3">
                 <div className="flex-1 relative">
@@ -326,7 +380,11 @@ export default function ChatInterface({ location }: ChatInterfaceProps) {
                     }}
                     placeholder="Ask about Colorado energy regulations..."
                     rows={1}
-                    className="w-full px-4 py-3 pr-12 bg-white border border-gray-200 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-400"
+                    className={`w-full px-4 py-3 pr-12 rounded-xl resize-none focus:outline-none focus:ring-2 transition-colors duration-300 ${
+                      isDark
+                        ? 'bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:ring-cyan-500 focus:border-transparent'
+                        : 'bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:ring-blue-500 focus:border-transparent'
+                    }`}
                     style={{
                       maxHeight: '200px',
                       minHeight: '48px',
@@ -336,7 +394,11 @@ export default function ChatInterface({ location }: ChatInterfaceProps) {
                 <button
                   type="submit"
                   disabled={!input.trim() || isThinking}
-                  className="p-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center"
+                  className={`p-3 rounded-xl transition-colors duration-200 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed ${
+                    isDark
+                      ? 'bg-cyan-600 text-white hover:bg-cyan-500'
+                      : 'bg-blue-600 text-white hover:bg-blue-700'
+                  }`}
                 >
                   {isThinking ? (
                     <Loader2 className="w-5 h-5 animate-spin" />
@@ -357,7 +419,9 @@ export default function ChatInterface({ location }: ChatInterfaceProps) {
               animate={{ width: 384, opacity: 1 }}
               exit={{ width: 0, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="border-l border-gray-200 overflow-hidden"
+              className={`border-l overflow-hidden ${
+                isDark ? 'border-slate-700' : 'border-gray-200'
+              }`}
             >
               <MapVisualization
                 location={location}
@@ -368,6 +432,7 @@ export default function ChatInterface({ location }: ChatInterfaceProps) {
                 totalProcessingTime={processingMetadata?.totalProcessingTime}
                 onClose={handleCloseRightSidebar}
                 isComplete={processingStep === 'complete'}
+                isDark={isDark}
               />
             </motion.div>
           )}
@@ -380,10 +445,10 @@ export default function ChatInterface({ location }: ChatInterfaceProps) {
           <KnowledgeGraph
             retrievalFlow={currentRetrievalFlow}
             onClose={() => setShowKnowledgeGraph(false)}
+            isDark={isDark}
           />
         )}
       </AnimatePresence>
     </div>
   );
 }
-

@@ -66,6 +66,7 @@ interface KnowledgeGraphProps {
   graph?: SourceGraph;
   retrievalFlow?: RetrievalFlow;
   onClose: () => void;
+  isDark?: boolean;
 }
 
 // Custom node styles based on type
@@ -449,7 +450,7 @@ function autoLayoutRetrievalFlow(flow: RetrievalFlow): { nodes: Node[]; edges: E
   return { nodes, edges };
 }
 
-export default function KnowledgeGraph({ graph, retrievalFlow, onClose }: KnowledgeGraphProps) {
+export default function KnowledgeGraph({ graph, retrievalFlow, onClose, isDark = false }: KnowledgeGraphProps) {
   const [selectedNode, setSelectedNode] = useState<Node | null>(null);
 
   // Convert API graph/retrieval flow to React Flow format
@@ -513,27 +514,37 @@ export default function KnowledgeGraph({ graph, retrievalFlow, onClose }: Knowle
         initial={{ scale: 0.95 }}
         animate={{ scale: 1 }}
         exit={{ scale: 0.95 }}
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-6xl h-[80vh] overflow-hidden flex flex-col"
+        className={`rounded-2xl shadow-2xl w-full max-w-6xl h-[80vh] overflow-hidden flex flex-col ${
+          isDark ? 'bg-slate-900' : 'bg-white'
+        }`}
       >
         {/* Header */}
-        <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between bg-gradient-to-r from-purple-50 to-green-50">
+        <div className={`px-6 py-4 border-b flex items-center justify-between ${
+          isDark
+            ? 'border-slate-700 bg-gradient-to-r from-purple-900/30 to-green-900/30'
+            : 'border-gray-200 bg-gradient-to-r from-purple-50 to-green-50'
+        }`}>
           <div>
-            <h2 className="text-lg font-semibold text-gray-900">Knowledge Graph</h2>
-            <p className="text-sm text-gray-500">
+            <h2 className={`text-lg font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>Knowledge Graph</h2>
+            <p className={`text-sm ${isDark ? 'text-slate-400' : 'text-gray-500'}`}>
               See how your query flows through our knowledge base to generate the answer
             </p>
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-white/50 rounded-lg transition-colors"
+            className={`p-2 rounded-lg transition-colors ${
+              isDark ? 'hover:bg-slate-800 text-slate-400' : 'hover:bg-white/50 text-gray-500'
+            }`}
           >
-            <X className="w-5 h-5 text-gray-500" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Legend */}
-        <div className="px-6 py-2 border-b border-gray-100 flex items-center gap-6 text-xs flex-wrap">
-          <span className="text-gray-500">Legend:</span>
+        <div className={`px-6 py-2 border-b flex items-center gap-6 text-xs flex-wrap ${
+          isDark ? 'border-slate-700 text-slate-300' : 'border-gray-100'
+        }`}>
+          <span className={isDark ? 'text-slate-400' : 'text-gray-500'}>Legend:</span>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded bg-purple-600" />
             <span>Query</span>
@@ -546,14 +557,14 @@ export default function KnowledgeGraph({ graph, retrievalFlow, onClose }: Knowle
             <div className="w-3 h-3 rounded bg-blue-600" />
             <span>Answer</span>
           </div>
-          <div className="flex items-center gap-1.5 ml-4 text-gray-400">
+          <div className={`flex items-center gap-1.5 ml-4 ${isDark ? 'text-slate-500' : 'text-gray-400'}`}>
             <span>|</span>
           </div>
-          <div className="flex items-center gap-2 text-gray-400">
+          <div className={`flex items-center gap-2 ${isDark ? 'text-slate-400' : 'text-gray-400'}`}>
             <div className="w-8 h-0.5 bg-purple-400" />
             <span>Retrieval</span>
           </div>
-          <div className="flex items-center gap-2 text-gray-400">
+          <div className={`flex items-center gap-2 ${isDark ? 'text-slate-400' : 'text-gray-400'}`}>
             <div className="w-8 h-0.5 bg-green-500" />
             <span>Used in Answer</span>
           </div>
@@ -576,9 +587,12 @@ export default function KnowledgeGraph({ graph, retrievalFlow, onClose }: Knowle
             defaultEdgeOptions={{
               type: 'smoothstep',
             }}
+            style={{ background: isDark ? '#0f172a' : '#f8fafc' }}
           >
-            <Background color="#e2e8f0" gap={20} />
-            <Controls className="!bg-white !shadow-lg !border !border-gray-200 !rounded-lg" />
+            <Background color={isDark ? '#334155' : '#e2e8f0'} gap={20} />
+            <Controls className={`!shadow-lg !rounded-lg ${
+              isDark ? '!bg-slate-800 !border !border-slate-700' : '!bg-white !border !border-gray-200'
+            }`} />
             <MiniMap
               nodeColor={(node) => {
                 switch (node.type) {
@@ -598,7 +612,9 @@ export default function KnowledgeGraph({ graph, retrievalFlow, onClose }: Knowle
                     return '#6b7280';
                 }
               }}
-              className="!bg-white !shadow-lg !border !border-gray-200 !rounded-lg"
+              className={`!shadow-lg !rounded-lg ${
+                isDark ? '!bg-slate-800 !border !border-slate-700' : '!bg-white !border !border-gray-200'
+              }`}
             />
           </ReactFlow>
 
@@ -614,7 +630,11 @@ export default function KnowledgeGraph({ graph, retrievalFlow, onClose }: Knowle
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-3 border-t border-gray-200 bg-gray-50 text-xs text-gray-500">
+        <div className={`px-6 py-3 border-t text-xs ${
+          isDark
+            ? 'border-slate-700 bg-slate-800 text-slate-400'
+            : 'border-gray-200 bg-gray-50 text-gray-500'
+        }`}>
           Click on a node to see details. Drag to pan, scroll to zoom.
         </div>
       </motion.div>
