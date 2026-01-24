@@ -1,202 +1,345 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import dynamic from 'next/dynamic';
-import { Zap, Database, ChevronRight, Loader2 } from 'lucide-react';
-
-// Dynamically import Globe to avoid SSR issues
-const Globe = dynamic(() => import('react-globe.gl'), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full h-full flex items-center justify-center">
-      <Loader2 className="w-12 h-12 text-cyan-400 animate-spin" />
-    </div>
-  ),
-});
+import { Zap, Database, ChevronRight, Loader2, Globe2 } from 'lucide-react';
 
 interface GlobeLandingProps {
   onLocationSelect: (location: string) => void;
 }
 
-// Colorado coordinates
-const COLORADO = {
-  lat: 39.5501,
-  lng: -105.7821,
-  name: 'Colorado',
-  code: 'CO',
-};
-
-// Energy data center locations for arcs
+// Energy connection points
 const energyNodes = [
-  { lat: 39.5501, lng: -105.7821, name: 'Colorado', type: 'primary' }, // Colorado (main)
-  { lat: 38.9072, lng: -77.0369, name: 'Washington DC', type: 'federal' }, // Federal regulations
-  { lat: 40.7128, lng: -74.006, name: 'New York', type: 'exchange' }, // Energy exchange
-  { lat: 37.7749, lng: -122.4194, name: 'California', type: 'renewable' }, // Renewable energy hub
-  { lat: 29.7604, lng: -95.3698, name: 'Texas', type: 'energy' }, // Energy capital
-  { lat: 41.8781, lng: -87.6298, name: 'Chicago', type: 'grid' }, // Grid management
-  { lat: 47.6062, lng: -122.3321, name: 'Seattle', type: 'tech' }, // Tech/hydro
-  { lat: 33.749, lng: -84.388, name: 'Atlanta', type: 'southeast' }, // Southeast hub
-  { lat: 51.5074, lng: -0.1278, name: 'London', type: 'international' }, // International
-  { lat: 35.6762, lng: 139.6503, name: 'Tokyo', type: 'international' }, // International
-  { lat: 52.52, lng: 13.405, name: 'Berlin', type: 'international' }, // International (renewable leader)
+  { id: 'colorado', name: 'Colorado', x: 25, y: 42, primary: true },
+  { id: 'dc', name: 'Washington DC', x: 32, y: 40, type: 'federal' },
+  { id: 'california', name: 'California', x: 15, y: 43, type: 'renewable' },
+  { id: 'texas', name: 'Texas', x: 23, y: 50, type: 'energy' },
+  { id: 'chicago', name: 'Chicago', x: 28, y: 38, type: 'grid' },
+  { id: 'newyork', name: 'New York', x: 34, y: 39, type: 'exchange' },
+  { id: 'seattle', name: 'Seattle', x: 14, y: 32, type: 'hydro' },
+  { id: 'london', name: 'London', x: 48, y: 30, type: 'international' },
+  { id: 'berlin', name: 'Berlin', x: 52, y: 28, type: 'international' },
+  { id: 'tokyo', name: 'Tokyo', x: 82, y: 38, type: 'international' },
 ];
 
-// Generate arcs connecting to Colorado
-const generateArcs = () => {
-  const arcs: any[] = [];
-  const coloradoNode = energyNodes[0];
-
-  // Create arcs from Colorado to other US nodes
-  energyNodes.slice(1).forEach((node, index) => {
-    arcs.push({
-      startLat: coloradoNode.lat,
-      startLng: coloradoNode.lng,
-      endLat: node.lat,
-      endLng: node.lng,
-      color: node.type === 'federal'
-        ? ['rgba(59, 130, 246, 0.8)', 'rgba(59, 130, 246, 0.2)'] // Blue for federal
-        : node.type === 'international'
-        ? ['rgba(168, 85, 247, 0.6)', 'rgba(168, 85, 247, 0.1)'] // Purple for international
-        : ['rgba(34, 211, 238, 0.8)', 'rgba(34, 211, 238, 0.2)'], // Cyan for energy
-      stroke: node.type === 'primary' ? 3 : node.type === 'international' ? 1 : 2,
-      dashLength: 0.5,
-      dashGap: 0.3,
-      dashAnimateTime: 2000 + index * 500,
-    });
-  });
-
-  return arcs;
-};
-
-// Generate point markers
-const generatePoints = () => {
-  return energyNodes.map((node) => ({
-    lat: node.lat,
-    lng: node.lng,
-    name: node.name,
+// Generate connection lines from Colorado
+const connections = energyNodes
+  .filter(n => !n.primary)
+  .map(node => ({
+    from: energyNodes[0],
+    to: node,
     type: node.type,
-    size: node.type === 'primary' ? 1.5 : node.type === 'federal' ? 0.8 : 0.5,
-    color: node.type === 'primary'
-      ? '#22d3ee'
-      : node.type === 'federal'
-      ? '#3b82f6'
-      : node.type === 'international'
-      ? '#a855f7'
-      : '#06b6d4',
   }));
-};
 
 export default function GlobeLanding({ onLocationSelect }: GlobeLandingProps) {
-  const globeRef = useRef<any>(null);
-  const [isGlobeReady, setIsGlobeReady] = useState(false);
   const [isZooming, setIsZooming] = useState(false);
-  const [hoveredPoint, setHoveredPoint] = useState<string | null>(null);
-  const [arcs] = useState(generateArcs);
-  const [points] = useState(generatePoints);
+  const [hoveredNode, setHoveredNode] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
 
-  // Set initial globe position and rotation
   useEffect(() => {
-    if (globeRef.current && isGlobeReady) {
-      // Start with view of Americas
-      globeRef.current.pointOfView({ lat: 30, lng: -95, altitude: 2.5 }, 0);
+    setMounted(true);
+  }, []);
 
-      // Enable auto-rotation
-      globeRef.current.controls().autoRotate = true;
-      globeRef.current.controls().autoRotateSpeed = 0.3;
-      globeRef.current.controls().enableZoom = false;
-    }
-  }, [isGlobeReady]);
-
-  // Handle Colorado click - zoom in and transition
-  const handleColoradoClick = useCallback(() => {
-    if (globeRef.current && !isZooming) {
+  const handleColoradoClick = () => {
+    if (!isZooming) {
       setIsZooming(true);
-
-      // Stop auto-rotation
-      globeRef.current.controls().autoRotate = false;
-
-      // Zoom to Colorado
-      globeRef.current.pointOfView(
-        { lat: COLORADO.lat, lng: COLORADO.lng, altitude: 0.5 },
-        2000
-      );
-
-      // Transition to chat after zoom completes
       setTimeout(() => {
         onLocationSelect('colorado');
-      }, 2500);
+      }, 2000);
     }
-  }, [isZooming, onLocationSelect]);
+  };
 
-  // Custom point click handler
-  const handlePointClick = useCallback(
-    (point: any) => {
-      if (point.type === 'primary') {
-        handleColoradoClick();
-      }
-    },
-    [handleColoradoClick]
-  );
+  const getLineColor = (type: string) => {
+    switch (type) {
+      case 'federal': return '#3b82f6';
+      case 'international': return '#a855f7';
+      default: return '#22d3ee';
+    }
+  };
+
+  if (!mounted) return null;
 
   return (
     <div className="fixed inset-0 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 overflow-hidden">
-      {/* Starfield background */}
+      {/* Animated starfield */}
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(100)].map((_, i) => (
-          <div
+        {[...Array(150)].map((_, i) => (
+          <motion.div
             key={i}
-            className="absolute w-0.5 h-0.5 bg-white rounded-full animate-pulse"
+            className="absolute w-0.5 h-0.5 bg-white rounded-full"
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: [0.2, 0.8, 0.2],
+              scale: [1, 1.2, 1],
+            }}
+            transition={{
+              duration: 2 + Math.random() * 3,
+              repeat: Infinity,
+              delay: Math.random() * 2,
+            }}
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              opacity: Math.random() * 0.7 + 0.3,
             }}
           />
         ))}
       </div>
 
-      {/* Globe container */}
-      <div className="absolute inset-0">
-        <Globe
-          ref={globeRef}
-          onGlobeReady={() => setIsGlobeReady(true)}
-          globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
-          bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
-          backgroundImageUrl=""
-          backgroundColor="rgba(0,0,0,0)"
-          // Arcs (energy flow lines)
-          arcsData={arcs}
-          arcColor="color"
-          arcStroke="stroke"
-          arcDashLength="dashLength"
-          arcDashGap="dashGap"
-          arcDashAnimateTime="dashAnimateTime"
-          arcAltitudeAutoScale={0.3}
-          // Points (markers)
-          pointsData={points}
-          pointLat="lat"
-          pointLng="lng"
-          pointColor="color"
-          pointAltitude={0.01}
-          pointRadius="size"
-          pointLabel={(d: any) => `<div class="text-white text-sm bg-slate-800/90 px-3 py-2 rounded-lg shadow-xl border border-cyan-500/30">${d.name}</div>`}
-          onPointClick={handlePointClick}
-          onPointHover={(point: any) => setHoveredPoint(point?.name || null)}
-          // Atmosphere
-          atmosphereColor="#22d3ee"
-          atmosphereAltitude={0.15}
-          // Rendering
-          animateIn={true}
-        />
+      {/* Globe visualization */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <motion.div
+          className="relative"
+          animate={isZooming ? { scale: 3, opacity: 0 } : { scale: 1, opacity: 1 }}
+          transition={{ duration: 2, ease: 'easeInOut' }}
+        >
+          {/* Globe container */}
+          <div className="relative w-[600px] h-[600px]">
+            {/* Rotating globe with world map */}
+            <motion.div
+              className="absolute inset-0 rounded-full overflow-hidden"
+              animate={{ rotateY: isZooming ? 0 : 360 }}
+              transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
+              style={{ transformStyle: 'preserve-3d', perspective: 1000 }}
+            >
+              {/* Globe base */}
+              <div
+                className="absolute inset-0 rounded-full"
+                style={{
+                  background: 'radial-gradient(circle at 30% 30%, #1e3a5f 0%, #0f172a 50%, #020617 100%)',
+                  boxShadow: 'inset -30px -30px 60px rgba(0,0,0,0.5), inset 20px 20px 40px rgba(34, 211, 238, 0.1)',
+                }}
+              />
+
+              {/* Continental outlines - simplified SVG */}
+              <svg
+                className="absolute inset-0 w-full h-full opacity-30"
+                viewBox="0 0 100 100"
+              >
+                {/* North America */}
+                <path
+                  d="M15,25 Q20,20 30,22 L35,28 Q38,35 35,42 L28,48 Q22,52 18,48 L12,40 Q10,32 15,25"
+                  fill="none"
+                  stroke="#22d3ee"
+                  strokeWidth="0.5"
+                />
+                {/* South America */}
+                <path
+                  d="M28,55 Q32,52 34,58 L32,70 Q28,78 25,75 L23,65 Q24,58 28,55"
+                  fill="none"
+                  stroke="#22d3ee"
+                  strokeWidth="0.5"
+                />
+                {/* Europe */}
+                <path
+                  d="M45,22 Q52,20 55,25 L58,30 Q55,35 50,33 L45,28 Q43,25 45,22"
+                  fill="none"
+                  stroke="#22d3ee"
+                  strokeWidth="0.5"
+                />
+                {/* Africa */}
+                <path
+                  d="M48,38 Q55,35 58,42 L56,55 Q52,62 48,58 L45,48 Q44,42 48,38"
+                  fill="none"
+                  stroke="#22d3ee"
+                  strokeWidth="0.5"
+                />
+                {/* Asia */}
+                <path
+                  d="M60,22 Q75,18 85,25 L88,35 Q85,42 78,40 L68,38 Q62,35 60,28 L60,22"
+                  fill="none"
+                  stroke="#22d3ee"
+                  strokeWidth="0.5"
+                />
+                {/* Australia */}
+                <path
+                  d="M78,55 Q85,52 88,58 L86,65 Q82,68 78,65 L76,60 Q76,56 78,55"
+                  fill="none"
+                  stroke="#22d3ee"
+                  strokeWidth="0.5"
+                />
+              </svg>
+
+              {/* Grid lines */}
+              <svg className="absolute inset-0 w-full h-full opacity-10" viewBox="0 0 100 100">
+                {/* Latitude lines */}
+                {[20, 35, 50, 65, 80].map((y) => (
+                  <ellipse
+                    key={`lat-${y}`}
+                    cx="50"
+                    cy={y}
+                    rx={45 - Math.abs(y - 50) * 0.5}
+                    ry="3"
+                    fill="none"
+                    stroke="#22d3ee"
+                    strokeWidth="0.3"
+                  />
+                ))}
+                {/* Longitude lines */}
+                {[0, 30, 60, 90, 120, 150].map((angle) => (
+                  <ellipse
+                    key={`lng-${angle}`}
+                    cx="50"
+                    cy="50"
+                    rx="3"
+                    ry="45"
+                    fill="none"
+                    stroke="#22d3ee"
+                    strokeWidth="0.3"
+                    transform={`rotate(${angle} 50 50)`}
+                  />
+                ))}
+              </svg>
+            </motion.div>
+
+            {/* Atmosphere glow */}
+            <div
+              className="absolute inset-[-20px] rounded-full pointer-events-none"
+              style={{
+                background: 'radial-gradient(circle, transparent 60%, rgba(34, 211, 238, 0.15) 70%, rgba(34, 211, 238, 0.05) 80%, transparent 90%)',
+              }}
+            />
+
+            {/* Energy flow connections */}
+            <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
+              <defs>
+                {/* Animated dash pattern */}
+                <linearGradient id="lineGradientCyan" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.8" />
+                  <stop offset="100%" stopColor="#22d3ee" stopOpacity="0.1" />
+                </linearGradient>
+                <linearGradient id="lineGradientBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.8" />
+                  <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.1" />
+                </linearGradient>
+                <linearGradient id="lineGradientPurple" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#a855f7" stopOpacity="0.6" />
+                  <stop offset="100%" stopColor="#a855f7" stopOpacity="0.1" />
+                </linearGradient>
+              </defs>
+
+              {connections.map((conn, i) => {
+                const color = getLineColor(conn.type || '');
+                const gradientId = conn.type === 'federal' ? 'lineGradientBlue' :
+                                   conn.type === 'international' ? 'lineGradientPurple' : 'lineGradientCyan';
+
+                // Calculate curved path
+                const midX = (conn.from.x + conn.to.x) / 2;
+                const midY = (conn.from.y + conn.to.y) / 2 - 10;
+
+                return (
+                  <motion.path
+                    key={i}
+                    d={`M ${conn.from.x} ${conn.from.y} Q ${midX} ${midY} ${conn.to.x} ${conn.to.y}`}
+                    fill="none"
+                    stroke={`url(#${gradientId})`}
+                    strokeWidth="0.4"
+                    strokeLinecap="round"
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ pathLength: 1, opacity: 1 }}
+                    transition={{
+                      duration: 2,
+                      delay: i * 0.2,
+                      repeat: Infinity,
+                      repeatType: 'loop',
+                      repeatDelay: 3,
+                    }}
+                  />
+                );
+              })}
+            </svg>
+
+            {/* Energy nodes/markers */}
+            {energyNodes.map((node, i) => (
+              <motion.div
+                key={node.id}
+                className="absolute"
+                style={{
+                  left: `${node.x}%`,
+                  top: `${node.y}%`,
+                  transform: 'translate(-50%, -50%)',
+                }}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.5 + i * 0.1 }}
+              >
+                {node.primary ? (
+                  // Colorado - main marker
+                  <motion.button
+                    onClick={handleColoradoClick}
+                    onMouseEnter={() => setHoveredNode(node.id)}
+                    onMouseLeave={() => setHoveredNode(null)}
+                    className="relative cursor-pointer group"
+                    whileHover={{ scale: 1.2 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    {/* Pulse rings */}
+                    <motion.div
+                      className="absolute inset-0 rounded-full bg-cyan-400"
+                      animate={{ scale: [1, 2.5], opacity: [0.5, 0] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                      style={{ width: 20, height: 20, margin: -4 }}
+                    />
+                    <motion.div
+                      className="absolute inset-0 rounded-full bg-cyan-400"
+                      animate={{ scale: [1, 2], opacity: [0.3, 0] }}
+                      transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+                      style={{ width: 20, height: 20, margin: -4 }}
+                    />
+
+                    {/* Main dot */}
+                    <div className="w-3 h-3 rounded-full bg-cyan-400 shadow-lg shadow-cyan-400/50 group-hover:bg-cyan-300 transition-colors" />
+
+                    {/* Label */}
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 whitespace-nowrap">
+                      <span className="text-xs font-medium text-cyan-400 bg-slate-900/80 px-2 py-1 rounded">
+                        Colorado
+                      </span>
+                    </div>
+                  </motion.button>
+                ) : (
+                  // Other nodes
+                  <motion.div
+                    className="relative"
+                    onMouseEnter={() => setHoveredNode(node.id)}
+                    onMouseLeave={() => setHoveredNode(null)}
+                    whileHover={{ scale: 1.5 }}
+                  >
+                    <div
+                      className="w-1.5 h-1.5 rounded-full"
+                      style={{
+                        backgroundColor: getLineColor(node.type || ''),
+                        boxShadow: `0 0 8px ${getLineColor(node.type || '')}`,
+                      }}
+                    />
+
+                    {/* Tooltip on hover */}
+                    <AnimatePresence>
+                      {hoveredNode === node.id && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 5 }}
+                          className="absolute top-full left-1/2 -translate-x-1/2 mt-1 whitespace-nowrap z-10"
+                        >
+                          <span className="text-[10px] text-slate-300 bg-slate-800/90 px-2 py-0.5 rounded">
+                            {node.name}
+                          </span>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                )}
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
       </div>
 
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5, duration: 0.8 }}
+        transition={{ delay: 0.3, duration: 0.8 }}
         className="absolute top-0 left-0 right-0 z-20 p-8"
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -213,14 +356,14 @@ export default function GlobeLanding({ onLocationSelect }: GlobeLandingProps) {
         </div>
       </motion.div>
 
-      {/* Main content overlay */}
+      {/* Main content */}
       <AnimatePresence>
         {!isZooming && (
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -30 }}
-            transition={{ delay: 1, duration: 0.8 }}
+            transition={{ delay: 0.8, duration: 0.8 }}
             className="absolute bottom-0 left-0 right-0 z-20 p-8 pb-16"
           >
             <div className="max-w-4xl mx-auto text-center space-y-8">
@@ -238,16 +381,16 @@ export default function GlobeLanding({ onLocationSelect }: GlobeLandingProps) {
                 </p>
               </div>
 
-              {/* Colorado CTA button */}
+              {/* CTA Button */}
               <motion.button
                 onClick={handleColoradoClick}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl text-white font-medium text-lg shadow-2xl shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all duration-300"
               >
+                <Globe2 className="w-5 h-5" />
                 <span className="relative z-10">Explore Colorado Regulations</span>
                 <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                {/* Glow effect */}
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-400 blur-xl opacity-50 group-hover:opacity-75 transition-opacity" />
               </motion.button>
 
@@ -278,7 +421,7 @@ export default function GlobeLanding({ onLocationSelect }: GlobeLandingProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 z-30 flex items-center justify-center bg-slate-950/50 backdrop-blur-sm"
+            className="absolute inset-0 z-30 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm"
           >
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
@@ -297,25 +440,7 @@ export default function GlobeLanding({ onLocationSelect }: GlobeLandingProps) {
         )}
       </AnimatePresence>
 
-      {/* Hover tooltip for points */}
-      <AnimatePresence>
-        {hoveredPoint && !isZooming && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none"
-          >
-            {hoveredPoint === 'Colorado' && (
-              <div className="bg-slate-800/90 border border-cyan-500/50 rounded-xl px-4 py-2 text-cyan-400 text-sm shadow-xl">
-                Click to explore Colorado regulations
-              </div>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Energy flow legend */}
+      {/* Legend */}
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
