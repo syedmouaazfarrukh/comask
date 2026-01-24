@@ -23,23 +23,43 @@ class IntentAnalysisAgent(BaseAgent):
     async def execute(self, context: AgentContext) -> AgentResult:
         """Analyze query intent."""
         try:
-            system_prompt = """You are an expert at analyzing energy regulation queries. 
+            # Build conversation context for follow-up detection
+            history_context = ""
+            if context.conversation_history:
+                history_context = f"""
+
+CONVERSATION HISTORY (use this to understand context for follow-up questions):
+{context.conversation_history}
+
+IMPORTANT: If this is a follow-up question (references "it", "that", "this", "the same", "more", "also", etc.),
+include the relevant context from previous messages in your analysis. Set is_followup to true."""
+
+            system_prompt = f"""You are an expert at analyzing energy regulation queries.
 Analyze the user's question and extract:
-1. Primary intent (compliance_check, regulation_lookup, policy_question, etc.)
+1. Primary intent (compliance_check, regulation_lookup, policy_question, clarification, etc.)
 2. Key topics (solar, net_metering, permits, etc.)
 3. Specific entities mentioned (utilities, agencies, etc.)
 4. Question type (yes/no, how_to, what_is, etc.)
 5. Jurisdiction level needed (state, federal, local)
+6. Whether this is a follow-up question to a previous query
+7. If it's a follow-up, what context from previous messages is relevant
+{history_context}
 
 Respond ONLY with valid JSON in this format:
-{
+{{
     "intent": "compliance_check",
     "topics": ["solar", "residential"],
     "entities": ["CPUC"],
     "question_type": "yes_no",
     "jurisdiction": "state",
-    "keywords": ["install", "solar panels", "residential"]
-}"""
+    "keywords": ["install", "solar panels", "residential"],
+    "is_followup": false,
+    "context_from_history": null,
+    "confidence": "high"
+}}
+
+For follow-up questions, set is_followup to true and include relevant context in context_from_history.
+Also expand the keywords to include important terms from the conversation history that are relevant to this query."""
 
             user_prompt = f"Analyze this query about Colorado energy regulations: {context.query}"
             
@@ -57,6 +77,10 @@ Respond ONLY with valid JSON in this format:
             # Parse JSON response
             try:
                 intent_data = json.loads(response.content)
+                # Ensure all required fields exist
+                intent_data.setdefault("is_followup", False)
+                intent_data.setdefault("context_from_history", None)
+                intent_data.setdefault("confidence", "medium")
             except json.JSONDecodeError:
                 # Fallback if JSON parsing fails
                 logger.warning("Failed to parse intent JSON, using fallback")
@@ -66,7 +90,10 @@ Respond ONLY with valid JSON in this format:
                     "entities": [],
                     "question_type": "general",
                     "jurisdiction": "state",
-                    "keywords": context.query.lower().split()
+                    "keywords": context.query.lower().split(),
+                    "is_followup": False,
+                    "context_from_history": None,
+                    "confidence": "medium"
                 }
             
             return AgentResult(

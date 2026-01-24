@@ -29,12 +29,21 @@ class ExtractionAgent(BaseAgent):
             intent_data = context.metadata.get("intent_analysis", {})
             keywords = intent_data.get("keywords", [])
             intent = intent_data.get("intent", "")
-            
+            is_followup = intent_data.get("is_followup", False)
+            context_from_history = intent_data.get("context_from_history")
+
             # Build search query - combine original query with keywords
             search_query = context.query
             if keywords:
                 # Add keywords to improve search
-                search_query = f"{context.query} {' '.join(keywords[:3])}"
+                search_query = f"{context.query} {' '.join(keywords[:5])}"
+
+            # For follow-up questions, enhance search with context from history
+            if is_followup and context_from_history:
+                search_query = f"{search_query} {context_from_history}"
+                logger.info("Enhanced search query with conversation context",
+                           is_followup=is_followup,
+                           context_added=context_from_history[:50] if context_from_history else None)
             
             # Determine jurisdiction from location
             jurisdiction = context.user_location.lower() if context.user_location else "colorado"
@@ -110,7 +119,9 @@ class ExtractionAgent(BaseAgent):
                     "intent": intent,
                     "embeddings_available": use_vector_search,
                     "jurisdiction": jurisdiction,
-                    "search_method": "vector" if use_vector_search else "keyword"
+                    "search_method": "vector" if use_vector_search else "keyword",
+                    "is_followup": is_followup,
+                    "context_enhanced": bool(is_followup and context_from_history)
                 }
             )
             
