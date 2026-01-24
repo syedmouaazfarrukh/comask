@@ -229,10 +229,11 @@ export default function GlobeLanding({ onLocationSelect }: GlobeLandingProps) {
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center">
-              <Zap className="w-6 h-6 text-white" />
-            </div>
-            <span className="text-2xl font-light text-white tracking-wide">Comask</span>
+            <img
+              src="/logow.png"
+              alt="Comask"
+              className="h-10 w-auto"
+            />
           </div>
           <div className="hidden md:flex items-center gap-2 text-cyan-400/70 text-sm">
             <Database className="w-4 h-4" />
@@ -259,7 +260,7 @@ export default function GlobeLanding({ onLocationSelect }: GlobeLandingProps) {
         )}
       </AnimatePresence>
 
-      {/* Bottom content */}
+      {/* Bottom content - positioned higher */}
       <AnimatePresence>
         {!isZooming && (
           <motion.div
@@ -267,7 +268,7 @@ export default function GlobeLanding({ onLocationSelect }: GlobeLandingProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -30 }}
             transition={{ delay: 0.5, duration: 0.8 }}
-            className="absolute bottom-0 left-0 right-0 z-20 p-6 md:p-8 pb-12 md:pb-16"
+            className="absolute bottom-0 left-0 right-0 z-20 p-6 md:p-8 pb-20 md:pb-28"
           >
             <div className="max-w-4xl mx-auto text-center space-y-6 md:space-y-8">
               {/* Title */}

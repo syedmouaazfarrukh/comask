@@ -255,10 +255,11 @@ export default function ChatInterface({ location }: ChatInterfaceProps) {
             <Menu className="w-5 h-5" />
           </button>
 
-          <MapPin className={`w-5 h-5 ${isDark ? 'text-cyan-400' : 'text-blue-600'}`} />
-          <h1 className={`text-xl font-light ${isDark ? 'text-white' : 'text-gray-900'}`}>
-            Colorado Energy Regulations
-          </h1>
+          <img
+            src={isDark ? '/logow.png' : '/logob.png'}
+            alt="Comask"
+            className="h-8 w-auto"
+          />
 
           <div className="ml-auto flex items-center gap-2">
             {/* Theme Toggle */}
