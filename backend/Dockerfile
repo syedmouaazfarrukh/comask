@@ -4,7 +4,7 @@
 # ============================================
 # Stage 1: Builder
 # ============================================
-FROM python:3.11-slim as builder
+FROM python:3.11-slim AS builder
 
 WORKDIR /app
 
@@ -27,7 +27,7 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # ============================================
 # Stage 2: Production
 # ============================================
-FROM python:3.11-slim as production
+FROM python:3.11-slim AS production
 
 # Labels
 LABEL org.opencontainers.image.title="Comask Backend" \
@@ -53,8 +53,6 @@ ENV PATH="/opt/venv/bin:$PATH"
 
 # Copy application code
 COPY --chown=appuser:appgroup ./app ./app
-COPY --chown=appuser:appgroup ./alembic ./alembic
-COPY --chown=appuser:appgroup ./alembic.ini ./alembic.ini
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
