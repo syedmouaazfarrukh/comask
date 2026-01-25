@@ -57,7 +57,6 @@ if settings.app_env == "production":
     # In production, specify exact origins
     allowed_origins = [
         "https://comask-frontend-app.azurewebsites.net",
-        "https://your-production-domain.com",  # Custom domain if added later
     ]
 else:
     # In development, allow localhost
@@ -78,8 +77,8 @@ app.add_middleware(
     allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allow_headers=["*"],
-    expose_headers=["*"],
+    allow_headers=["Authorization", "Content-Type", "Accept", "Origin", "X-Requested-With"],
+    expose_headers=["X-Request-ID", "X-Processing-Time"],
 )
 
 # Include routers

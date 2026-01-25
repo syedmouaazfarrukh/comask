@@ -167,7 +167,8 @@ class APIClient {
   private async request<T>(
     endpoint: string,
     options: RequestInit = {},
-    skipAuth: boolean = false
+    skipAuth: boolean = false,
+    timeoutMs: number = 30000
   ): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`;
 
@@ -175,38 +176,63 @@ class APIClient {
       'Content-Type': 'application/json',
     };
 
-    const response = await fetch(url, {
-      ...options,
-      headers: {
-        ...defaultHeaders,
-        ...options.headers,
-      },
-      // Note: credentials removed for cross-origin Azure deployment
-      // Auth will use Bearer tokens in headers instead of cookies
-    });
+    // Add timeout via AbortController
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
 
-    if (!response.ok) {
-      // Handle 401 - try to refresh token (but only once, not for auth endpoints)
-      if (response.status === 401 && !skipAuth && !this.isRefreshing) {
-        this.isRefreshing = true;
-        try {
-          const refreshed = await this.refreshToken();
-          this.isRefreshing = false;
-          if (refreshed) {
-            // Retry the request once
-            return this.request(endpoint, options, true);
+    try {
+      const response = await fetch(url, {
+        ...options,
+        headers: {
+          ...defaultHeaders,
+          ...options.headers,
+        },
+        signal: controller.signal,
+        // Note: credentials removed for cross-origin Azure deployment
+        // Auth will use Bearer tokens in headers instead of cookies
+      });
+
+      if (!response.ok) {
+        // Handle 401 - try to refresh token (but only once, not for auth endpoints)
+        if (response.status === 401 && !skipAuth && !this.isRefreshing) {
+          this.isRefreshing = true;
+          try {
+            const refreshed = await this.refreshToken();
+            this.isRefreshing = false;
+            if (refreshed) {
+              // Retry the request once
+              return this.request(endpoint, options, true);
+            }
+          } catch (refreshError) {
+            console.error('[API] Token refresh failed:', refreshError);
+            this.isRefreshing = false;
           }
-        } catch {
-          this.isRefreshing = false;
+          // If refresh failed, throw error (don't loop)
         }
-        // If refresh failed, throw error (don't loop)
+
+        // Try to get error details from response body
+        let errorMessage = `HTTP ${response.status}: ${response.statusText}`;
+        try {
+          const errorBody = await response.json();
+          errorMessage = errorBody.detail || errorBody.message || errorMessage;
+        } catch {
+          // If JSON parse fails, try text
+          try {
+            const textBody = await response.text();
+            if (textBody && textBody.length < 200) {
+              errorMessage = textBody;
+            }
+          } catch {
+            // Keep default error message
+          }
+        }
+        throw new Error(errorMessage);
       }
 
-      const error = await response.json().catch(() => ({ detail: 'Unknown error' }));
-      throw new Error(error.detail || `HTTP error! status: ${response.status}`);
+      return response.json();
+    } finally {
+      clearTimeout(timeout);
     }
-
-    return response.json();
   }
 
   // ==========================================================================
@@ -234,21 +260,31 @@ class APIClient {
   async logout(): Promise<void> {
     try {
       await this.request('/auth/logout', { method: 'POST' }, true);
-    } catch {
-      // Ignore logout errors
+    } catch (error) {
+      // Log but don't throw - logout should always "succeed" from user perspective
+      console.warn('[API] Logout request failed:', error);
     }
   }
 
   async refreshToken(): Promise<boolean> {
     try {
-      const response = await fetch(`${this.baseUrl}/auth/refresh`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      return response.ok;
-    } catch {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 10000);
+
+      try {
+        const response = await fetch(`${this.baseUrl}/auth/refresh`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          signal: controller.signal,
+        });
+        return response.ok;
+      } finally {
+        clearTimeout(timeout);
+      }
+    } catch (error) {
+      console.error('[API] Token refresh failed:', error);
       return false;
     }
   }
@@ -256,7 +292,11 @@ class APIClient {
   async getCurrentUser(): Promise<User | null> {
     try {
       return await this.request<User>('/auth/me', {}, true);
-    } catch {
+    } catch (error) {
+      // 401 is expected when not logged in, only log other errors
+      if (error instanceof Error && !error.message.includes('401')) {
+        console.error('[API] getCurrentUser failed:', error);
+      }
       return null;
     }
   }

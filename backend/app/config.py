@@ -1,8 +1,9 @@
 """Application configuration using Pydantic Settings."""
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pydantic import Field
+from pydantic import Field, model_validator
 from typing import Literal
+import warnings
 
 
 class Settings(BaseSettings):
@@ -14,6 +15,23 @@ class Settings(BaseSettings):
         case_sensitive=False,
         extra="ignore"
     )
+
+    @model_validator(mode='after')
+    def validate_production_settings(self) -> 'Settings':
+        """Validate critical settings in production environment."""
+        if self.app_env == 'production':
+            if self.secret_key == 'change-me-in-production':
+                raise ValueError(
+                    'SECRET_KEY must be set to a secure value in production. '
+                    'Generate one with: openssl rand -hex 32'
+                )
+            if len(self.secret_key) < 32:
+                warnings.warn(
+                    'SECRET_KEY is shorter than recommended (32+ chars). '
+                    'Consider using a longer key for better security.',
+                    UserWarning
+                )
+        return self
 
     # Application
     app_name: str = Field(default="Colorado Energy Compliance Assistant", description="Application name")
