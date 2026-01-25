@@ -181,7 +181,8 @@ class APIClient {
         ...defaultHeaders,
         ...options.headers,
       },
-      credentials: 'include', // Include cookies for auth
+      // Note: credentials removed for cross-origin Azure deployment
+      // Auth will use Bearer tokens in headers instead of cookies
     });
 
     if (!response.ok) {
@@ -242,7 +243,6 @@ class APIClient {
     try {
       const response = await fetch(`${this.baseUrl}/auth/refresh`, {
         method: 'POST',
-        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },

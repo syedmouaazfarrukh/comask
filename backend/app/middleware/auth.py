@@ -73,6 +73,10 @@ class AuthMiddleware(BaseHTTPMiddleware):
     ) -> Response:
         """Process request and attach user info if authenticated."""
 
+        # Skip OPTIONS requests (CORS preflight) - let CORSMiddleware handle them
+        if request.method == "OPTIONS":
+            return await call_next(request)
+
         # Skip auth for public paths
         if self._is_public_path(request.url.path):
             return await call_next(request)

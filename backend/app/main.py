@@ -8,6 +8,7 @@ import structlog
 from app.config import settings
 from app.api import queries, data_collection, conversations, auth
 from app.db.database import init_db, close_db, check_db_health
+from app.db import models  # Import models to register them with Base.metadata
 from app.middleware.auth import AuthMiddleware
 
 # Configure logging
@@ -55,7 +56,8 @@ app = FastAPI(
 if settings.app_env == "production":
     # In production, specify exact origins
     allowed_origins = [
-        "https://your-production-domain.com",  # Update with actual domain
+        "https://comask-frontend-app.azurewebsites.net",
+        "https://your-production-domain.com",  # Custom domain if added later
     ]
 else:
     # In development, allow localhost
@@ -67,6 +69,10 @@ else:
         "http://localhost:8000",
     ]
 
+# Auth middleware first (runs second due to middleware ordering)
+app.add_middleware(AuthMiddleware)
+
+# CORS middleware last (runs first - handles preflight requests)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
@@ -75,9 +81,6 @@ app.add_middleware(
     allow_headers=["*"],
     expose_headers=["*"],
 )
-
-# Auth middleware (after CORS)
-app.add_middleware(AuthMiddleware)
 
 # Include routers
 app.include_router(auth.router)  # Auth endpoints

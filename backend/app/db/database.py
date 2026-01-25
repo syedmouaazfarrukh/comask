@@ -59,9 +59,8 @@ async def get_db_session() -> AsyncGenerator[AsyncSession, None]:
 async def init_db():
     """Initialize database (create tables and extensions)."""
     async with engine.begin() as conn:
-        # Enable pgvector extension
+        # Enable pgvector extension (uuid-ossp not needed - using Python uuid4)
         await conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
-        await conn.execute(text("CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\""))
 
         # Create all tables
         await conn.run_sync(Base.metadata.create_all)
