@@ -86,6 +86,69 @@ async def get_stats(jurisdiction: str = "colorado"):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@router.post("/fix-urls")
+async def fix_urls():
+    """
+    Fix broken URLs in the database.
+    Changes direct PDF links to landing pages that work.
+    """
+    try:
+        from sqlalchemy import select
+        from app.db.database import get_db_session
+        from app.db.models import Document
+
+        # URL replacements: old_url -> new_url
+        URL_FIXES = {
+            # Colorado Legislature PDFs -> Landing pages
+            "https://leg.colorado.gov/sites/default/files/images/olls/crs2021-title-40.pdf":
+                "https://leg.colorado.gov/colorado-revised-statutes",
+            "https://leg.colorado.gov/sites/default/files/images/olls/crs2023-title-40.pdf":
+                "https://leg.colorado.gov/colorado-revised-statutes",
+            # Colorado PUC E-Filing -> Search page
+            "https://www.dora.state.co.us/pls/efi/EFI.Show_Filing?p_fil=G_930344":
+                "https://www.dora.state.co.us/pls/efi/EFI_Search_UI.search",
+            # FERC Order 2222 -> Federal Register (eLibrary times out)
+            "https://www.ferc.gov/media/ferc-order-no-2222-fact-sheet":
+                "https://www.federalregister.gov/documents/2020/09/22/2020-19858/participation-of-distributed-energy-resource-aggregations-in-markets-operated-by-regional",
+            "https://elibrary.ferc.gov/eLibrary/search?q=order%202222":
+                "https://www.federalregister.gov/documents/2020/09/22/2020-19858/participation-of-distributed-energy-resource-aggregations-in-markets-operated-by-regional",
+            # NERC -> Main standards page (AllReliabilityStandards.aspx returns 404)
+            "https://www.nerc.com/pa/Stand/Pages/ReliabilityStandards.aspx":
+                "https://www.nerc.com/pa/Stand/Pages/default.aspx",
+            "https://www.nerc.com/pa/Stand/Pages/AllReliabilityStandards.aspx":
+                "https://www.nerc.com/pa/Stand/Pages/default.aspx",
+        }
+
+        async with get_db_session() as session:
+            result = await session.execute(select(Document))
+            documents = result.scalars().all()
+
+            fixed = []
+            for doc in documents:
+                if doc.source_url in URL_FIXES:
+                    old_url = doc.source_url
+                    new_url = URL_FIXES[old_url]
+                    doc.source_url = new_url
+                    fixed.append({
+                        "title": doc.title[:60],
+                        "old_url": old_url,
+                        "new_url": new_url
+                    })
+
+            if fixed:
+                await session.commit()
+
+            return {
+                "status": "success",
+                "fixed_count": len(fixed),
+                "fixed_documents": fixed
+            }
+
+    except Exception as e:
+        logger.error("Error fixing URLs", error=str(e))
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @router.get("/audit")
 async def audit_data():
     """
