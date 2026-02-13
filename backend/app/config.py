@@ -34,7 +34,7 @@ class Settings(BaseSettings):
         return self
 
     # Application
-    app_name: str = Field(default="Colorado Energy Compliance Assistant", description="Application name")
+    app_name: str = Field(default="Energy Compliance Assistant", description="Application name")
     app_env: str = Field(default="development", description="Environment")
     debug: bool = Field(default=False, description="Debug mode")
     secret_key: str = Field(default="change-me-in-production", description="Secret key for JWT")
@@ -150,7 +150,7 @@ class Settings(BaseSettings):
 
     # Scraping
     scraper_user_agent: str = Field(
-        default="Mozilla/5.0 (Colorado Energy Compliance Assistant)",
+        default="Mozilla/5.0 (Energy Compliance Assistant)",
         description="User agent for scrapers"
     )
     scraper_delay_seconds: float = Field(
@@ -196,6 +196,28 @@ class Settings(BaseSettings):
     ceo_base_url: str = Field(
         default="https://energyoffice.colorado.gov",
         description="Colorado Energy Office base URL"
+    )
+
+    # Texas Sources
+    puct_base_url: str = Field(
+        default="https://www.puc.texas.gov",
+        description="Public Utility Commission of Texas base URL"
+    )
+    texas_statutes_base_url: str = Field(
+        default="https://statutes.capitol.texas.gov",
+        description="Texas Statutes base URL"
+    )
+    texas_tac_base_url: str = Field(
+        default="https://texreg.sos.state.tx.us",
+        description="Texas Administrative Code base URL"
+    )
+    ercot_base_url: str = Field(
+        default="https://www.ercot.com",
+        description="ERCOT base URL"
+    )
+    rrc_base_url: str = Field(
+        default="https://www.rrc.texas.gov",
+        description="Railroad Commission of Texas base URL"
     )
 
     # Regional Sources

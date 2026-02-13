@@ -58,9 +58,11 @@ class DocumentService:
                 jurisdiction_map = {
                     "federal": JurisdictionType.FEDERAL,
                     "colorado": JurisdictionType.COLORADO,
+                    "texas": JurisdictionType.TEXAS,
                     "nerc": JurisdictionType.NERC,
                     "wecc": JurisdictionType.WECC,
                     "spp": JurisdictionType.SPP,
+                    "ercot": JurisdictionType.ERCOT,
                 }
                 jurisdiction_type = jurisdiction_map.get(jurisdiction.lower(), JurisdictionType.COLORADO)
 
@@ -176,8 +178,10 @@ class DocumentService:
                     jurisdiction_map = {
                         "federal": [JurisdictionType.FEDERAL],
                         "colorado": [JurisdictionType.COLORADO],
+                        "texas": [JurisdictionType.TEXAS],
                         "state": [JurisdictionType.COLORADO],
-                        "regional": [JurisdictionType.NERC, JurisdictionType.WECC, JurisdictionType.SPP],
+                        "regional": [JurisdictionType.NERC, JurisdictionType.WECC, JurisdictionType.SPP, JurisdictionType.ERCOT],
+                        "ercot": [JurisdictionType.ERCOT],
                     }
                     jurisdiction_types = jurisdiction_map.get(jurisdiction.lower())
 
@@ -249,7 +253,9 @@ class DocumentService:
                     jurisdiction_map = {
                         "federal": JurisdictionType.FEDERAL,
                         "colorado": JurisdictionType.COLORADO,
+                        "texas": JurisdictionType.TEXAS,
                         "state": JurisdictionType.COLORADO,
+                        "ercot": JurisdictionType.ERCOT,
                     }
                     jur_type = jurisdiction_map.get(jurisdiction.lower())
                     if jur_type:

@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Colorado Energy Compliance Assistant",
-  description: "Ask questions about Colorado energy regulations and get accurate, cited answers with full source lineage",
+  title: "Energy Compliance Assistant",
+  description: "Ask questions about energy regulations and get accurate, cited answers with full source lineage",
 };
 
 export default function RootLayout({

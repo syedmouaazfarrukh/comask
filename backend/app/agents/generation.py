@@ -6,6 +6,7 @@ from typing import List, Dict, Any, Tuple
 from app.agents.base import BaseAgent, AgentContext, AgentResult
 from app.llm import get_llm
 from app.llm.base import LLMMessage
+from app.jurisdiction_config import get_jurisdiction_config
 import structlog
 
 logger = structlog.get_logger()
@@ -134,22 +135,34 @@ class GenerationAgent(BaseAgent):
     async def execute(self, context: AgentContext) -> AgentResult:
         """Generate answer with citations."""
         try:
+            # Get jurisdiction config for dynamic prompts
+            jurisdiction = context.user_location or "colorado"
+            jconfig = get_jurisdiction_config(jurisdiction)
+            location_name = jconfig["display_name"]
+
             # Get relevant documents from context
             relevance_result = context.metadata.get("relevance", {})
             documents = relevance_result.get("ranked_documents", [])
-            
+
             if not documents:
-                # Fallback: Use Azure OpenAI to get latest information
-                logger.info("No documents found, using Azure OpenAI fallback")
-                
+                # Fallback: Use LLM general knowledge
+                logger.info("No documents found, using LLM fallback", jurisdiction=jurisdiction)
+
                 # Build prompt with conversation history if available
                 history_context = ""
                 if context.conversation_history:
                     history_context = f"\n\nPrevious conversation context:\n{context.conversation_history}\n\nPlease use this context to provide a relevant answer that continues the conversation naturally."
-                
-                fallback_prompt = f"""You are an expert on Colorado energy regulations. A user is asking about: {context.query}{history_context}
 
-I couldn't find specific information in our database, but I've gathered information from public sources and the internet. Please provide the most current and accurate information you know about this topic related to Colorado energy regulations.
+                # Build disclaimer URLs dynamically
+                disclaimer_lines = "\n".join(
+                    f"- {name}: {url}" for name, url in jconfig["disclaimer_urls"].items()
+                )
+
+                fallback_prompt = f"""You are an expert on {location_name} energy regulations. A user is asking about: {context.query}{history_context}
+
+I couldn't find specific information in our database, but I've gathered information from public sources and the internet. Please provide the most current and accurate information you know about this topic related to {location_name} energy regulations.
+
+IMPORTANT CONTEXT: {jconfig['prompt_context']}
 
 FORMATTING REQUIREMENTS:
 - Use clean, professional formatting
@@ -161,32 +174,32 @@ FORMATTING REQUIREMENTS:
 
 CONTENT REQUIREMENTS:
 - Start with: "I couldn't find specific information in our database, but based on public sources and internet research, here's what I found:"
-- Be specific to Colorado
+- Be specific to {location_name}
 - Provide helpful, accurate information based on your knowledge
 - Structure the answer clearly with main points
 - End with a brief note about verifying with official sources
 - Keep the answer comprehensive but well-organized
 
-Location: Colorado
+Location: {location_name}
 Question: {context.query}
 
 Provide a professional, well-formatted answer that's easy to read in a chat interface."""
 
                 fallback_messages = [
-                    LLMMessage(role="system", content="You are an expert on Colorado energy regulations. Provide accurate, helpful information with appropriate disclaimers when information is not from verified documents."),
+                    LLMMessage(role="system", content=f"You are an expert on {location_name} energy regulations. Provide accurate, helpful information with appropriate disclaimers when information is not from verified documents."),
                     LLMMessage(role="user", content=fallback_prompt)
                 ]
-                
+
                 try:
                     fallback_response = await self.llm.chat_completion(
                         messages=fallback_messages,
                         temperature=0.3,
                         max_tokens=2000
                     )
-                    
+
                     # Clean up the answer - remove any duplicate disclaimers and format nicely
                     answer_content = fallback_response.content.strip()
-                    
+
                     # Remove duplicate disclaimer if LLM already added one
                     disclaimer_patterns = [
                         "**Note:**",
@@ -195,27 +208,26 @@ Provide a professional, well-formatted answer that's easy to read in a chat inte
                         "For the most current",
                         "verify with official sources"
                     ]
-                    
+
                     # Check if answer already contains a disclaimer section
                     has_disclaimer = any(pattern.lower() in answer_content.lower() for pattern in disclaimer_patterns)
-                    
+
                     if not has_disclaimer:
-                        # Add a clean disclaimer if not present
-                        disclaimer_text = "\n\nNote: This information was gathered from public sources and internet research since we don't have specific documents in our database yet. For the most current and official information, please verify with:\n- Colorado Public Utilities Commission: https://puc.colorado.gov\n- Colorado Energy Office: https://energyoffice.colorado.gov\n\nOur database is being updated regularly. Once we have the relevant documents, we'll be able to provide answers with specific citations."
+                        disclaimer_text = f"\n\nNote: This information was gathered from public sources and internet research since we don't have specific documents in our database yet. For the most current and official information, please verify with:\n{disclaimer_lines}\n\nOur database is being updated regularly. Once we have the relevant documents, we'll be able to provide answers with specific citations."
                         answer_content = answer_content + disclaimer_text
                     else:
-                        # Just ensure it ends cleanly
                         if not answer_content.endswith('.'):
                             answer_content += "."
-                    
+
+                    primary_body = list(jconfig["disclaimer_urls"].keys())[0]
                     return AgentResult(
                         success=True,
                         data={
                             "answer": answer_content,
                             "citations": [],
                             "confidence": "medium",
-                            "source": "azure_openai_fallback",
-                            "suggestion": "This information is from general knowledge. Please verify with official Colorado sources for the most current regulations."
+                            "source": "llm_fallback",
+                            "suggestion": f"This information is from general knowledge. Please verify with official {location_name} sources for the most current regulations."
                         },
                         metadata={
                             "model": fallback_response.model,
@@ -225,14 +237,15 @@ Provide a professional, well-formatted answer that's easy to read in a chat inte
                         }
                     )
                 except Exception as e:
-                    logger.error("Fallback Azure OpenAI call failed", error=str(e))
+                    logger.error("Fallback LLM call failed", error=str(e))
+                    primary_body = list(jconfig["regulatory_bodies"])[0]
                     return AgentResult(
                         success=True,
                         data={
-                            "answer": "I don't have specific information on this topic in the current Colorado energy regulations database. This may be a newer regulation or a topic not yet covered in our system. Please contact the Colorado Public Utilities Commission directly for the most current information.",
+                            "answer": f"I don't have specific information on this topic in the current {location_name} energy regulations database. This may be a newer regulation or a topic not yet covered in our system. Please contact {primary_body} directly for the most current information.",
                             "citations": [],
                             "confidence": "low",
-                            "suggestion": "You may want to contact the Colorado Public Utilities Commission directly for the most current information."
+                            "suggestion": f"You may want to contact {primary_body} directly for the most current information."
                         }
                     )
             
@@ -253,8 +266,10 @@ Provide a professional, well-formatted answer that's easy to read in a chat inte
             if context.conversation_history:
                 history_context = f"\n\nPrevious conversation context:\n{context.conversation_history}\n\nPlease use this context to provide a relevant answer that continues the conversation naturally and references previous topics when relevant."
 
-            system_prompt = """You are an expert on Colorado energy regulations. Your role is to provide accurate,
+            system_prompt = f"""You are an expert on {location_name} energy regulations. Your role is to provide accurate,
 cited answers based ONLY on the provided documents.
+
+IMPORTANT CONTEXT: {jconfig['prompt_context']}
 
 CRITICAL CITATION RULES:
 1. ONLY use information from the provided documents
@@ -284,7 +299,7 @@ Remember: The inline citation format is [[cite:N:fact]] where N is the document 
 
             user_prompt = f"""User Question: {context.query}{history_context}
 
-Location: Colorado
+Location: {location_name}
 
 Relevant Documents:
 {documents_context}

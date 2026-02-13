@@ -27,7 +27,7 @@ logger = structlog.get_logger()
 async def lifespan(app: FastAPI):
     """Application lifespan manager."""
     # Startup
-    logger.info("Starting Colorado Energy Compliance Assistant", environment=settings.app_env)
+    logger.info("Starting Energy Compliance Assistant", environment=settings.app_env)
     try:
         await init_db()
         logger.info("Database initialized successfully with pgvector")
@@ -47,7 +47,7 @@ async def lifespan(app: FastAPI):
 # Create FastAPI app
 app = FastAPI(
     title=settings.app_name,
-    description="Colorado Energy Compliance Assistant API - Providing defensible answers with exact sources for energy compliance attorneys.",
+    description="Energy Compliance Assistant API - Providing defensible answers with exact sources for energy compliance attorneys.",
     version="1.0.0",
     lifespan=lifespan,
 )
@@ -94,7 +94,7 @@ async def root():
     return {
         "name": settings.app_name,
         "version": "1.0.0",
-        "description": "Colorado Energy Compliance Assistant API",
+        "description": "Energy Compliance Assistant API",
         "status": "running",
         "llm_provider": settings.llm_provider,
         "docs": "/docs",

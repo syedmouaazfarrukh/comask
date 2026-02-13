@@ -9,7 +9,7 @@ interface LocationSelectorProps {
 
 const locations = [
   { value: 'colorado', label: 'Colorado', code: 'CO' },
-  // Add more states later
+  { value: 'texas', label: 'Texas', code: 'TX' },
 ];
 
 export default function LocationSelector({ onSelect }: LocationSelectorProps) {

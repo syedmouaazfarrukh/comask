@@ -16,13 +16,23 @@ logger = structlog.get_logger()
 class DataCollectionService:
     """Service for collecting and storing regulatory data."""
 
-    def __init__(self):
+    def __init__(self, jurisdiction: str = "colorado"):
         self.document_service = DocumentService()
-        self.scrapers = [
-            CPUCScraper(),       # Colorado PUC regulations
-            ECFRScraper(),       # Federal eCFR regulations
-            ColoradoCRSScraper() # Colorado state statutes
-        ]
+        self.jurisdiction = jurisdiction
+        self.scrapers = self._get_scrapers_for_jurisdiction(jurisdiction)
+
+    def _get_scrapers_for_jurisdiction(self, jurisdiction: str):
+        """Get scrapers appropriate for the given jurisdiction."""
+        common_scrapers = [ECFRScraper()]  # Federal regs apply everywhere
+
+        if jurisdiction == "texas":
+            from app.scrapers.texas_statutes import TexasStatutesScraper
+            from app.scrapers.puct import PUCTScraper
+            from app.scrapers.ercot import ERCOTScraper
+            return [PUCTScraper(), TexasStatutesScraper(), ERCOTScraper()] + common_scrapers
+        else:
+            # Default: Colorado
+            return [CPUCScraper(), ColoradoCRSScraper()] + common_scrapers
     
     async def collect_all_sources(self, jurisdiction: str = "colorado") -> Dict[str, Any]:
         """
@@ -56,6 +66,9 @@ class DataCollectionService:
                     "eCFR": AuthorityLevel.FEDERAL,
                     "CPUC": AuthorityLevel.STATE,
                     "Colorado CRS": AuthorityLevel.STATE,
+                    "PUCT": AuthorityLevel.STATE,
+                    "Texas Statutes": AuthorityLevel.STATE,
+                    "ERCOT": AuthorityLevel.REGIONAL,
                 }
                 authority = authority_level_map.get(source_name, AuthorityLevel.STATE)
 

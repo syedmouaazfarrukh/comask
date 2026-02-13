@@ -27,9 +27,11 @@ class JurisdictionType(enum.Enum):
     """Jurisdiction type for documents."""
     FEDERAL = "federal"
     COLORADO = "colorado"
+    TEXAS = "texas"
     NERC = "nerc"
     WECC = "wecc"
     SPP = "spp"
+    ERCOT = "ercot"
     UTILITY = "utility"
 
 

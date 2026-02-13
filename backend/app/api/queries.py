@@ -9,6 +9,7 @@ from app.agents.relevance import RelevanceAgent
 from app.agents.generation import GenerationAgent
 from app.agents.validation import ValidationAgent
 from app.services.conversation_service import ConversationService
+from app.jurisdiction_config import get_jurisdiction_config
 from app.config import settings
 import time
 import structlog
@@ -185,7 +186,7 @@ async def submit_query(
             metadata={
                 "intent": intent_result.data,
                 "intent_keywords": intent_result.data.get("keywords", []),
-                "sources_searched": sources_used if sources_used else ["Colorado Public Utilities Commission", "Colorado Energy Office", "Colorado State Legislature"],
+                "sources_searched": sources_used if sources_used else get_jurisdiction_config(request.location)["regulatory_bodies"],
                 "sources_found": sources_found_count,
                 "sources_used": generation_data.get("documents_used", 0),
                 "used_gpt_fallback": used_gpt_fallback,
@@ -207,7 +208,7 @@ async def submit_query(
                         "completed": True,
                         "search_method": extraction_result.metadata.get("search_method", "keyword"),
                         "embeddings_used": extraction_result.metadata.get("embeddings_available", False),
-                        "sources_searched": sources_used if sources_used else ["Colorado Public Utilities Commission", "Colorado Energy Office", "Colorado State Legislature"],
+                        "sources_searched": sources_used if sources_used else get_jurisdiction_config(request.location)["regulatory_bodies"],
                         "sources_found": sources_found_count,
                         "top_documents": [
                             {

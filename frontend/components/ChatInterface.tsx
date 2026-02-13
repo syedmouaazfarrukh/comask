@@ -11,6 +11,7 @@ import KnowledgeGraph from './KnowledgeGraph';
 import { ProcessingStep } from './ProcessingPipeline';
 import { submitQuery, createConversation, deleteConversation, type QueryResponse } from '@/lib/api';
 import { useTheme } from '@/contexts/ThemeContext';
+import { getJurisdiction } from '@/lib/jurisdictions';
 
 // Inline citation data structure
 interface InlineCitationData {
@@ -59,22 +60,16 @@ interface ChatInterfaceProps {
   location: string;
 }
 
-// Mock data sources for Colorado
-const coloradoDataSources = [
-  { name: 'Colorado Public Utilities Commission', location: { lat: 39.7392, lng: -104.9903 }, color: '#0ea5e9' },
-  { name: 'Colorado Energy Office', location: { lat: 39.7392, lng: -104.9903 }, color: '#0284c7' },
-  { name: 'Colorado State Legislature', location: { lat: 39.7392, lng: -104.9903 }, color: '#0369a1' },
-];
-
 export default function ChatInterface({ location }: ChatInterfaceProps) {
   const { theme, toggleTheme } = useTheme();
   const isDark = theme === 'dark';
+  const jurisdictionConfig = getJurisdiction(location);
 
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
       role: 'assistant',
-      content: `Hello! I'm here to help you with Colorado energy regulations. Ask me anything about compliance, rules, or policies.`,
+      content: jurisdictionConfig.welcomeMessage,
     },
   ]);
   const [input, setInput] = useState('');
@@ -207,7 +202,7 @@ export default function ChatInterface({ location }: ChatInterfaceProps) {
       {
         id: '1',
         role: 'assistant',
-        content: `Hello! I'm here to help you with Colorado energy regulations. Ask me anything about compliance, rules, or policies.`,
+        content: jurisdictionConfig.welcomeMessage,
       },
     ]);
     setConversationId(null);
@@ -379,7 +374,7 @@ export default function ChatInterface({ location }: ChatInterfaceProps) {
                         handleSubmit(e);
                       }
                     }}
-                    placeholder="Ask about Colorado energy regulations..."
+                    placeholder={jurisdictionConfig.placeholder}
                     rows={1}
                     className={`w-full px-4 py-3 pr-12 rounded-xl resize-none focus:outline-none focus:ring-2 transition-colors duration-300 ${
                       isDark
@@ -427,7 +422,7 @@ export default function ChatInterface({ location }: ChatInterfaceProps) {
               <MapVisualization
                 location={location}
                 activeSources={activeSources}
-                dataSources={coloradoDataSources}
+                dataSources={jurisdictionConfig.dataSources}
                 processingStep={processingStep}
                 processingMetadata={processingMetadata}
                 totalProcessingTime={processingMetadata?.totalProcessingTime}

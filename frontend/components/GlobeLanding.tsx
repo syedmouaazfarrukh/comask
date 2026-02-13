@@ -10,6 +10,7 @@ import {
   Line,
   Marker,
 } from 'react-simple-maps';
+import { getSupportedJurisdictions, getJurisdiction } from '@/lib/jurisdictions';
 
 interface GlobeLandingProps {
   onLocationSelect: (location: string) => void;
@@ -18,12 +19,15 @@ interface GlobeLandingProps {
 // World map TopoJSON URL
 const geoUrl = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
 
+// Selectable jurisdictions (these get the primary marker treatment)
+const selectableIds = new Set(getSupportedJurisdictions().map(j => j.key));
+
 // Energy connection points with actual coordinates [longitude, latitude]
 const energyNodes = [
   { id: 'colorado', name: 'Colorado', coordinates: [-105.5, 39.0] as [number, number], primary: true },
   { id: 'dc', name: 'Washington DC', coordinates: [-77.0, 38.9] as [number, number], type: 'federal' },
   { id: 'california', name: 'California', coordinates: [-119.4, 36.8] as [number, number], type: 'renewable' },
-  { id: 'texas', name: 'Texas', coordinates: [-99.9, 31.5] as [number, number], type: 'energy' },
+  { id: 'texas', name: 'Texas', coordinates: [-99.9, 31.5] as [number, number], primary: true },
   { id: 'chicago', name: 'Chicago', coordinates: [-87.6, 41.9] as [number, number], type: 'grid' },
   { id: 'newyork', name: 'New York', coordinates: [-74.0, 40.7] as [number, number], type: 'exchange' },
   { id: 'seattle', name: 'Seattle', coordinates: [-122.3, 47.6] as [number, number], type: 'hydro' },
@@ -34,7 +38,7 @@ const energyNodes = [
   { id: 'dubai', name: 'Dubai', coordinates: [55.3, 25.3] as [number, number], type: 'international' },
 ];
 
-// Generate connection lines from Colorado
+// Generate connection lines from primary nodes
 const connections = energyNodes
   .filter(n => !n.primary)
   .map(node => ({
@@ -52,15 +56,19 @@ const getLineColor = (type: string) => {
   }
 };
 
+const getPrimaryColor = (id: string) => {
+  return id === 'texas' ? '#f97316' : '#22d3ee';
+};
+
 // Memoized map component for performance
 const WorldMap = memo(function WorldMap({
   hoveredNode,
   setHoveredNode,
-  onColoradoClick
+  onLocationClick
 }: {
   hoveredNode: string | null;
   setHoveredNode: (id: string | null) => void;
-  onColoradoClick: () => void;
+  onLocationClick: (id: string) => void;
 }) {
   return (
     <ComposableMap
@@ -108,40 +116,44 @@ const WorldMap = memo(function WorldMap({
       ))}
 
       {/* Energy node markers */}
-      {energyNodes.map((node) => (
-        <Marker
-          key={node.id}
-          coordinates={node.coordinates}
-          onMouseEnter={() => setHoveredNode(node.id)}
-          onMouseLeave={() => setHoveredNode(null)}
-          onClick={node.primary ? onColoradoClick : undefined}
-          style={{ cursor: node.primary ? 'pointer' : 'default' }}
-        >
-          {node.primary ? (
-            // Colorado marker
-            <g>
-              <circle r={12} fill="#22d3ee" opacity={0.2} />
-              <circle r={8} fill="#22d3ee" opacity={0.3} />
-              <circle r={5} fill="#22d3ee" />
-            </g>
-          ) : (
-            // Other markers
-            <circle
-              r={4}
-              fill={getLineColor(node.type || '')}
-              style={{
-                filter: 'drop-shadow(0 0 4px ' + getLineColor(node.type || '') + ')',
-              }}
-            />
-          )}
-        </Marker>
-      ))}
+      {energyNodes.map((node) => {
+        const isSelectable = selectableIds.has(node.id);
+        const color = isSelectable ? getPrimaryColor(node.id) : getLineColor(node.type || '');
+
+        return (
+          <Marker
+            key={node.id}
+            coordinates={node.coordinates}
+            onMouseEnter={() => setHoveredNode(node.id)}
+            onMouseLeave={() => setHoveredNode(null)}
+            onClick={isSelectable ? () => onLocationClick(node.id) : undefined}
+            style={{ cursor: isSelectable ? 'pointer' : 'default' }}
+          >
+            {isSelectable ? (
+              <g>
+                <circle r={12} fill={color} opacity={0.2} />
+                <circle r={8} fill={color} opacity={0.3} />
+                <circle r={5} fill={color} />
+              </g>
+            ) : (
+              <circle
+                r={4}
+                fill={color}
+                style={{
+                  filter: 'drop-shadow(0 0 4px ' + color + ')',
+                }}
+              />
+            )}
+          </Marker>
+        );
+      })}
     </ComposableMap>
   );
 });
 
 export default function GlobeLanding({ onLocationSelect }: GlobeLandingProps) {
   const [isZooming, setIsZooming] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
 
@@ -149,14 +161,19 @@ export default function GlobeLanding({ onLocationSelect }: GlobeLandingProps) {
     setMounted(true);
   }, []);
 
-  const handleColoradoClick = () => {
+  const handleLocationClick = (locationId: string) => {
     if (!isZooming) {
+      setSelectedLocation(locationId);
       setIsZooming(true);
       setTimeout(() => {
-        onLocationSelect('colorado');
+        onLocationSelect(locationId);
       }, 1500);
     }
   };
+
+  const selectedName = selectedLocation
+    ? getJurisdiction(selectedLocation).displayName
+    : '';
 
   if (!mounted) return null;
 
@@ -185,25 +202,29 @@ export default function GlobeLanding({ onLocationSelect }: GlobeLandingProps) {
         <WorldMap
           hoveredNode={hoveredNode}
           setHoveredNode={setHoveredNode}
-          onColoradoClick={handleColoradoClick}
+          onLocationClick={handleLocationClick}
         />
       </motion.div>
 
-      {/* Animated pulse rings for Colorado (overlay) */}
+      {/* Animated pulse rings for selectable jurisdictions (overlay) */}
       {!isZooming && (
         <div className="absolute inset-0 pointer-events-none z-5">
           <svg className="w-full h-full" style={{ position: 'absolute' }}>
             <defs>
-              <radialGradient id="pulseGrad">
+              <radialGradient id="pulseGradCyan">
                 <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.4" />
                 <stop offset="100%" stopColor="#22d3ee" stopOpacity="0" />
               </radialGradient>
+              <radialGradient id="pulseGradOrange">
+                <stop offset="0%" stopColor="#f97316" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#f97316" stopOpacity="0" />
+              </radialGradient>
             </defs>
-            {/* Pulse animation positioned roughly where Colorado is */}
+            {/* Colorado pulse */}
             <motion.circle
               cx="32%"
               cy="42%"
-              fill="url(#pulseGrad)"
+              fill="url(#pulseGradCyan)"
               initial={{ r: 10 }}
               animate={{ r: 40, opacity: [0.6, 0] }}
               transition={{ duration: 2, repeat: Infinity }}
@@ -211,10 +232,27 @@ export default function GlobeLanding({ onLocationSelect }: GlobeLandingProps) {
             <motion.circle
               cx="32%"
               cy="42%"
-              fill="url(#pulseGrad)"
+              fill="url(#pulseGradCyan)"
               initial={{ r: 10 }}
               animate={{ r: 30, opacity: [0.4, 0] }}
               transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+            />
+            {/* Texas pulse */}
+            <motion.circle
+              cx="34%"
+              cy="50%"
+              fill="url(#pulseGradOrange)"
+              initial={{ r: 10 }}
+              animate={{ r: 40, opacity: [0.6, 0] }}
+              transition={{ duration: 2, repeat: Infinity, delay: 0.3 }}
+            />
+            <motion.circle
+              cx="34%"
+              cy="50%"
+              fill="url(#pulseGradOrange)"
+              initial={{ r: 10 }}
+              animate={{ r: 30, opacity: [0.4, 0] }}
+              transition={{ duration: 2, repeat: Infinity, delay: 0.8 }}
             />
           </svg>
         </div>
@@ -254,6 +292,9 @@ export default function GlobeLanding({ onLocationSelect }: GlobeLandingProps) {
             <div className="bg-slate-800/90 backdrop-blur-sm px-4 py-2 rounded-lg border border-slate-700">
               <span className="text-white text-sm font-medium">
                 {energyNodes.find(n => n.id === hoveredNode)?.name}
+                {selectableIds.has(hoveredNode) && (
+                  <span className="text-cyan-400 ml-2 text-xs">(Click to explore)</span>
+                )}
               </span>
             </div>
           </motion.div>
@@ -281,22 +322,36 @@ export default function GlobeLanding({ onLocationSelect }: GlobeLandingProps) {
                 </h1>
                 <p className="text-lg md:text-xl text-slate-400 font-light max-w-2xl mx-auto">
                   Navigate complex energy compliance with AI-powered insights.
-                  Ask questions, get cited answers from official sources.
+                  Select a jurisdiction to get started.
                 </p>
               </div>
 
-              {/* CTA Button */}
-              <motion.button
-                onClick={handleColoradoClick}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="group relative inline-flex items-center gap-3 px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl text-white font-medium text-base md:text-lg shadow-2xl shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all duration-300"
-              >
-                <MapPin className="w-5 h-5" />
-                <span className="relative z-10">Explore Colorado Regulations</span>
-                <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-400 blur-xl opacity-50 group-hover:opacity-75 transition-opacity" />
-              </motion.button>
+              {/* Jurisdiction Selection Buttons */}
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <motion.button
+                  onClick={() => handleLocationClick('colorado')}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="group relative inline-flex items-center gap-3 px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl text-white font-medium text-base md:text-lg shadow-2xl shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all duration-300"
+                >
+                  <MapPin className="w-5 h-5" />
+                  <span className="relative z-10">Colorado</span>
+                  <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-400 to-blue-400 blur-xl opacity-50 group-hover:opacity-75 transition-opacity" />
+                </motion.button>
+
+                <motion.button
+                  onClick={() => handleLocationClick('texas')}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="group relative inline-flex items-center gap-3 px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl text-white font-medium text-base md:text-lg shadow-2xl shadow-orange-500/25 hover:shadow-orange-500/40 transition-all duration-300"
+                >
+                  <MapPin className="w-5 h-5" />
+                  <span className="relative z-10">Texas</span>
+                  <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-orange-400 to-red-400 blur-xl opacity-50 group-hover:opacity-75 transition-opacity" />
+                </motion.button>
+              </div>
 
               {/* Stats */}
               <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 text-slate-500 text-xs md:text-sm">
@@ -310,7 +365,7 @@ export default function GlobeLanding({ onLocationSelect }: GlobeLandingProps) {
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
-                  <span>International Standards</span>
+                  <span>State & Regional Standards</span>
                 </div>
               </div>
             </div>
@@ -334,7 +389,7 @@ export default function GlobeLanding({ onLocationSelect }: GlobeLandingProps) {
             >
               <Loader2 className="w-12 h-12 text-cyan-400 animate-spin mx-auto" />
               <p className="text-xl text-white font-light">
-                Loading Colorado Energy Regulations...
+                Loading {selectedName} Energy Regulations...
               </p>
               <p className="text-slate-400 text-sm">
                 Connecting to official sources
@@ -353,7 +408,11 @@ export default function GlobeLanding({ onLocationSelect }: GlobeLandingProps) {
       >
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-cyan-400" />
-          <span>Energy Grid Connections</span>
+          <span>Colorado</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-3 h-3 rounded-full bg-orange-400" />
+          <span>Texas</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-blue-500" />

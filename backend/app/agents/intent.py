@@ -4,6 +4,7 @@ from typing import Dict, Any
 from app.agents.base import BaseAgent, AgentContext, AgentResult
 from app.llm import get_llm
 from app.llm.base import LLMMessage
+from app.jurisdiction_config import get_jurisdiction_config
 import json
 import structlog
 
@@ -61,7 +62,9 @@ Respond ONLY with valid JSON in this format:
 For follow-up questions, set is_followup to true and include relevant context in context_from_history.
 Also expand the keywords to include important terms from the conversation history that are relevant to this query."""
 
-            user_prompt = f"Analyze this query about Colorado energy regulations: {context.query}"
+            jurisdiction = context.user_location or "colorado"
+            jconfig = get_jurisdiction_config(jurisdiction)
+            user_prompt = f"Analyze this query about {jconfig['display_name']} energy regulations: {context.query}"
             
             messages = [
                 LLMMessage(role="system", content=system_prompt),

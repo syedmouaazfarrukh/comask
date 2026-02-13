@@ -65,6 +65,13 @@ async def init_db():
         # Create all tables
         await conn.run_sync(Base.metadata.create_all)
 
+        # Ensure new jurisdiction enum values exist (for upgrades)
+        try:
+            await conn.execute(text("ALTER TYPE jurisdictiontype ADD VALUE IF NOT EXISTS 'texas'"))
+            await conn.execute(text("ALTER TYPE jurisdictiontype ADD VALUE IF NOT EXISTS 'ercot'"))
+        except Exception:
+            pass  # Values already exist or fresh database
+
     logger.info("Database initialized with pgvector extension")
 
 
