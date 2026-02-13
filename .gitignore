@@ -59,6 +59,9 @@ htmlcov/
 .coverage
 .pytest_cache/
 
+# Claude Code
+.claude/sessions/
+
 # Misc
 *.bak
 *.tmp
