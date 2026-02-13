@@ -66,9 +66,10 @@ async def init_db():
         await conn.run_sync(Base.metadata.create_all)
 
         # Ensure new jurisdiction enum values exist (for upgrades)
+        # SQLAlchemy uses enum member NAMES (uppercase) for PostgreSQL enum values
         try:
-            await conn.execute(text("ALTER TYPE jurisdictiontype ADD VALUE IF NOT EXISTS 'texas'"))
-            await conn.execute(text("ALTER TYPE jurisdictiontype ADD VALUE IF NOT EXISTS 'ercot'"))
+            await conn.execute(text("ALTER TYPE jurisdictiontype ADD VALUE IF NOT EXISTS 'TEXAS'"))
+            await conn.execute(text("ALTER TYPE jurisdictiontype ADD VALUE IF NOT EXISTS 'ERCOT'"))
         except Exception:
             pass  # Values already exist or fresh database
 

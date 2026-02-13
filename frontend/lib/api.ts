@@ -290,13 +290,21 @@ class APIClient {
   }
 
   async getCurrentUser(): Promise<User | null> {
+    // Use direct fetch to avoid throwing on expected 401 (not logged in)
     try {
-      return await this.request<User>('/auth/me', {}, true);
-    } catch (error) {
-      // 401 is expected when not logged in, only log other errors
-      if (error instanceof Error && !error.message.includes('401')) {
-        console.error('[API] getCurrentUser failed:', error);
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 10000);
+      try {
+        const response = await fetch(`${this.baseUrl}/auth/me`, {
+          headers: { 'Content-Type': 'application/json' },
+          signal: controller.signal,
+        });
+        if (!response.ok) return null;
+        return await response.json();
+      } finally {
+        clearTimeout(timeout);
       }
+    } catch {
       return null;
     }
   }

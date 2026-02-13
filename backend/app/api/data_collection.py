@@ -20,11 +20,11 @@ async def collect_data(
     This runs in the background to avoid blocking the API.
     """
     try:
-        service = DataCollectionService()
-        
+        service = DataCollectionService(jurisdiction=jurisdiction)
+
         # Run in background
         background_tasks.add_task(service.collect_all_sources, jurisdiction)
-        
+
         return {
             "status": "started",
             "message": "Data collection started in background",
@@ -43,13 +43,13 @@ async def collect_source(
 ):
     """
     Collect data from a specific source.
-    
+
     Args:
         source: Source name (e.g., "CPUC")
         jurisdiction: Jurisdiction (default: "colorado")
     """
     try:
-        service = DataCollectionService()
+        service = DataCollectionService(jurisdiction=jurisdiction)
         
         # Run in background
         background_tasks.add_task(service.collect_source, source, jurisdiction)

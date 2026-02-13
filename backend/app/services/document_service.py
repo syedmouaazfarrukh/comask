@@ -6,7 +6,7 @@ from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.database import get_db_session
-from app.db.models import Document, DocumentChunk, AuthorityLevel, JurisdictionType
+from app.db.models import Document, DocumentChunk, AuthorityLevel, JurisdictionType, DocumentType
 from app.services.vector_search_service import VectorSearchService
 from app.llm.embeddings import get_embeddings, embeddings_available
 from app.scrapers.base import ScrapedDocument
@@ -66,19 +66,29 @@ class DocumentService:
                 }
                 jurisdiction_type = jurisdiction_map.get(jurisdiction.lower(), JurisdictionType.COLORADO)
 
+                # Convert document_type string value to enum member
+                # Scrapers pass DocumentType.RULE.value = "rule" but PostgreSQL
+                # expects the enum member name "RULE" (uppercase)
+                doc_type = None
+                if scraped_doc.document_type:
+                    try:
+                        doc_type = DocumentType(scraped_doc.document_type)
+                    except ValueError:
+                        doc_type = DocumentType.OTHER
+
                 # Create document
                 document = Document(
                     title=scraped_doc.title,
                     content=scraped_doc.content,
                     source_url=scraped_doc.source_url,
-                    document_type=scraped_doc.document_type,
-                    source=scraped_doc.source,
+                    document_type=doc_type,
+                    source_name=scraped_doc.source,
                     published_date=scraped_doc.published_date,
                     effective_date=scraped_doc.effective_date,
                     checksum=doc_checksum,
-                    jurisdiction=jurisdiction_type,
+                    jurisdiction_type=jurisdiction_type,
                     authority_level=authority_level,
-                    metadata=scraped_doc.metadata or {},
+                    document_metadata=scraped_doc.metadata or {},
                 )
 
                 session.add(document)
@@ -102,7 +112,7 @@ class DocumentService:
                             content=chunk_text,
                             chunk_index=i,
                             embedding=embedding,
-                            metadata={"chunk_index": i, "total_chunks": len(chunks)}
+                            chunk_metadata={"chunk_index": i, "total_chunks": len(chunks)}
                         )
                         session.add(chunk)
 
