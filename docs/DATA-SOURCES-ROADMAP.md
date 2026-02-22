@@ -1,189 +1,229 @@
 # Comask Data Sources Roadmap
 
-## Current State & Future Direction
+> Last updated: Feb 2026 | 506 documents across 2 jurisdictions
 
-This diagram shows our current data sources, what we can add next, and where we need customer direction.
+---
+
+## What We Have Today
 
 ```mermaid
 flowchart TB
-    subgraph CURRENT["✅ CURRENT SOURCES (66 Documents)"]
+    subgraph LIVE["LIVE SOURCES  -  506 Documents"]
         direction TB
 
-        subgraph FED_CURRENT["Federal Sources"]
-            FR_DOE["Federal Register - DOE<br/>13 documents"]
-            FR_EPA["Federal Register - EPA<br/>17 documents"]
-            FR_FERC["Federal Register - FERC<br/>16 documents"]
+        subgraph FED["FEDERAL  (54 docs)"]
+            direction LR
+            FR_DOE["Federal Register - DOE\n13 docs"]
+            FR_EPA["Federal Register - EPA\n20 docs"]
+            FR_FERC["Federal Register - FERC\n21 docs"]
         end
 
-        subgraph STATE_CURRENT["Colorado State Sources"]
-            CRS["Colorado Revised Statutes<br/>Title 40 - Utilities<br/>7 documents"]
-            CCR["Colorado Code of Regulations<br/>4 CCR 723 - PUC Rules<br/>4 documents"]
-            CO_BILLS["Colorado Legislature Bills<br/>HB22-1362, SB19-077<br/>2 documents"]
-            CO_PUC["Colorado PUC Decisions<br/>1 document"]
+        subgraph CO["COLORADO  (15 docs)"]
+            direction LR
+            CRS["Revised Statutes\nTitle 40\n12 docs"]
+            CCR["Code of Regulations\n4 CCR 723\n1 doc"]
+            CO_PUC["PUC Decision\nXcel CEP\n1 doc"]
+            CO_BILLS["Legislature Bills\n2 docs"]
         end
+
+        subgraph TX["TEXAS  (437 docs)"]
+            direction LR
+            PUCT["PUCT Rules\n16 TAC Ch. 25\n130 docs"]
+            PURA["Utilities Code\nPURA Title 2\n307 docs"]
+        end
+
+        NERC_LIVE["NERC Standards\n1 doc"]
     end
 
-    subgraph NEXT["🔜 NEXT PHASE (Easy to Add)"]
-        direction TB
-
-        subgraph FED_NEXT["Federal - API Available"]
-            ECFR["eCFR API<br/>Title 18 (Energy)<br/>Title 40 (Environment)"]
-            FERC_ORDERS["FERC Orders<br/>Major rulemakings"]
-        end
-
-        subgraph STATE_NEXT["Colorado - Scrapable"]
-            PUC_DECISIONS["PUC Recent Decisions<br/>Last 5 years of orders"]
-            CEO["Colorado Energy Office<br/>Policy documents"]
-        end
-    end
-
-    subgraph FUTURE["🎯 FUTURE EXPANSION (Need Direction)"]
-        direction TB
-
-        subgraph REGIONAL["Regional Organizations"]
-            NERC["NERC Standards<br/>Reliability requirements"]
-            WECC["WECC Standards<br/>Western interconnection"]
-            SPP["SPP Market Rules<br/>If applicable"]
-        end
-
-        subgraph UTILITY["Utility-Specific"]
-            XCEL["Xcel Energy Tariffs<br/>Rate schedules"]
-            BLACKHILLS["Black Hills Energy<br/>Tariffs & filings"]
-            COOPS["Rural Electric Co-ops<br/>Various"]
-        end
-
-        subgraph EXTERNAL["External References"]
-            NEC["National Electrical Code<br/>Referenced in rules"]
-            IEEE["IEEE Standards<br/>Technical requirements"]
-            NFPA["NFPA Standards<br/>Safety codes"]
-        end
-    end
-
-    subgraph DECISION["❓ CUSTOMER DECISION NEEDED"]
-        Q1["Which utilities to prioritize?<br/>Xcel vs Black Hills vs Co-ops"]
-        Q2["Regional scope?<br/>WECC only or include SPP?"]
-        Q3["External standards?<br/>NEC/IEEE - licensed content"]
-        Q4["Historical depth?<br/>How far back for decisions?"]
-    end
-
-    CURRENT --> NEXT
-    NEXT --> FUTURE
-    FUTURE --> DECISION
-
-    style CURRENT fill:#d4edda,stroke:#28a745
-    style NEXT fill:#fff3cd,stroke:#ffc107
-    style FUTURE fill:#cce5ff,stroke:#007bff
-    style DECISION fill:#f8d7da,stroke:#dc3545
+    style LIVE fill:#d4edda,stroke:#28a745,stroke-width:2px
+    style FED fill:#e8f4fd,stroke:#007bff
+    style CO fill:#fff8e1,stroke:#ff9800
+    style TX fill:#fce4ec,stroke:#e91e63
 ```
 
-## Source Details
+### Source Breakdown
 
-### ✅ Currently Available (66 Documents)
+| Jurisdiction | Source | Docs | Scraped From | Method |
+|---|---|---|---|---|
+| Federal | Federal Register (DOE/EPA/FERC) | 54 | federalregister.gov | API |
+| Colorado | Revised Statutes (Title 40) | 12 | colorado.public.law | HTTP |
+| Colorado | Code of Regulations | 1 | sos.state.co.us | HTTP |
+| Colorado | PUC Decision | 1 | xcelenergy.com | HTTP |
+| Colorado | Legislature Bills | 2 | leg.colorado.gov | HTTP |
+| NERC | Reliability Standards | 1 | nerc.com | HTTP |
+| **Texas** | **PUCT Substantive Rules** | **130** | **law.cornell.edu** (TAC mirror) | HTTP + BS4 |
+| **Texas** | **Utilities Code (PURA)** | **307** | **statutes.capitol.texas.gov** | Playwright |
 
-| Source | Type | Count | Coverage |
-|--------|------|-------|----------|
-| Federal Register - DOE | Federal Regulations | 13 | Energy policy, efficiency |
-| Federal Register - EPA | Federal Regulations | 17 | Environmental, air quality |
-| Federal Register - FERC | Federal Regulations | 16 | Transmission, markets |
-| Colorado Revised Statutes | State Law | 7 | Title 40 utilities law |
-| Colorado Code of Regulations | State Rules | 4 | PUC implementation rules |
-| Colorado Legislature | State Bills | 2 | Recent energy legislation |
-| Colorado PUC | State Decisions | 1 | Commission orders |
+### URL Validation Status
 
-### 🔜 Next Phase (2-3 weeks to implement)
+| Domain | URLs | Status |
+|---|---|---|
+| www.law.cornell.edu | 130 | All OK |
+| statutes.capitol.texas.gov | 8 | All OK |
+| www.federalregister.gov | 53 | All OK (some slow) |
+| colorado.public.law | 1 | OK |
+| leg.colorado.gov | 2 | OK |
+| www.sos.state.co.us | 2 | OK |
+| www.nerc.com | 1 | OK |
+| drive.google.com | 1 | OK |
+| www.xcelenergy.com | 1 | OK |
+| **Total** | **200** | **200/200 verified** |
 
-| Source | Effort | Value | Notes |
-|--------|--------|-------|-------|
-| eCFR API | Low | High | Full federal energy regulations |
-| FERC Major Orders | Medium | High | Key market/transmission rules |
-| PUC Decisions (5yr) | Medium | High | ~500+ relevant decisions |
-| Colorado Energy Office | Low | Medium | Policy guidance docs |
+---
 
-### 🎯 Future Expansion (Need customer input)
+## What We Don't Have (and Why)
 
-| Source | Effort | Value | Blocker |
-|--------|--------|-------|---------|
-| NERC Standards | Medium | High | Which standards apply? |
-| WECC Standards | Medium | Medium | Regional scope decision |
-| Xcel Tariffs | High | High | PDF parsing complexity |
-| Black Hills Tariffs | High | Medium | Lower priority? |
-| NEC/IEEE | High | Medium | Licensed content - cost |
+```mermaid
+flowchart LR
+    subgraph BLOCKED["BLOCKED - Can't Scrape"]
+        direction TB
+        ERCOT_SITE["ercot.com\nCloudflare blocks\nall automated access"]
+        PUC_TX["puc.texas.gov\nCloudflare WAF\n403 on all requests"]
+        FERC_SITE["ferc.gov\nBlocks non-browser\nrequests"]
+        PUC_CO["puc.colorado.gov\nBlocks automated\naccess"]
+    end
 
-## Questions for Sasha
+    subgraph AVAILABLE["AVAILABLE - Not Yet Built"]
+        direction TB
+        PUCT_IX["PUCT Interchange\nDocket filings & orders\npuc.texas.gov/interchange"]
+        TX_REG["Texas Register\nProposed rule changes\nsos.state.tx.us/texreg"]
+        CO_EFIL["CO PUC E-Filings\ndora.state.co.us\nOracle PL/SQL app"]
+        CO_RULE["CO Rulemaking Portal\nrulemaking.colorado.gov\nModern web app"]
+    end
 
-1. **Utility Priority**: Which utility's tariffs matter most?
-   - Xcel Energy (largest in Colorado)
-   - Black Hills Energy
-   - Rural co-ops
-   - All of the above?
+    subgraph API_READY["HAS API - Easy to Add"]
+        direction TB
+        ERCOT_API["ERCOT Data Portal\napi.ercot.com\nREST API"]
+        EIA["EIA Open Data v2\neia.gov/opendata\nREST API, free key"]
+        LEGISCAN["LegiScan\nlegiscan.com\nBill tracking API"]
+    end
 
-2. **Regional Scope**: How important are regional standards?
-   - NERC (national reliability)
-   - WECC (western region)
-   - SPP (if any Colorado overlap)
+    style BLOCKED fill:#f8d7da,stroke:#dc3545,stroke-width:2px
+    style AVAILABLE fill:#fff3cd,stroke:#ffc107,stroke-width:2px
+    style API_READY fill:#d4edda,stroke:#28a745,stroke-width:2px
+```
 
-3. **Historical Depth**: For PUC decisions, how far back?
-   - Last 2 years (recent precedent)
-   - Last 5 years (standard practice)
-   - Last 10 years (comprehensive)
+### Detailed Gap Analysis
 
-4. **External Standards**: Worth the investment?
-   - NEC (National Electrical Code) - referenced often
-   - IEEE standards - technical specs
-   - These are licensed/paid content
+#### BLOCKED (Requires Workaround)
 
-## Data Flow Architecture
+| Source | What It Has | Why Blocked | Workaround |
+|---|---|---|---|
+| ercot.com | Market rules, protocols, operating guides | Cloudflare WAF blocks all non-browser requests, even Playwright | Use ERCOT Data Portal API instead (api.ercot.com) |
+| puc.texas.gov | PUCT decisions, filings, docket search | Cloudflare WAF, 403 on all automated requests | PUCT Interchange (interchange.puc.texas.gov) is less protected |
+| ferc.gov | FERC orders, fact sheets, guidance | 403 on all programmatic access | Federal Register has the same orders; FERC eLibrary is an alternative |
+| puc.colorado.gov | CO PUC proceedings, orders, filings | Blocks bots with 403 | CO PUC E-Filings system at dora.state.co.us is accessible |
+
+#### AVAILABLE BUT NOT YET BUILT
+
+| Source | What It Adds | Effort | Priority | Notes |
+|---|---|---|---|---|
+| **PUCT Interchange** | Active dockets, commission orders, enforcement | Medium | **HIGH** | ASP.NET app, scrapable with Playwright. Daily filings search is the easiest entry point. This is where you see what PUCT is *deciding right now*. |
+| **Texas Register** | Proposed rules, adopted rules, rule amendments | Medium | **HIGH** | Weekly publication. This is the early warning system - know about rule changes *before* they take effect. |
+| **TX SOS Official TAC** | Authoritative 16 TAC text (we use Cornell Law mirror) | Low | **HIGH** | texreg.sos.state.tx.us - upgrade from secondary source to official source. Oracle PL/SQL, predictable URLs, no bot blocking. |
+| **CO PUC E-Filings** | Active proceedings, commission decisions | Medium | **HIGH** | Oracle PL/SQL web app. Form-based POST search. No login required. |
+| **CO Rulemaking Portal** | Proposed rules across all CO agencies | Medium | **HIGH** | rulemaking.colorado.gov - modern web app, likely has JSON endpoints. |
+| **Railroad Commission (RRC)** | Natural gas, pipeline rules (16 TAC Ch. 1-20) | Medium | **HIGH** | Already in jurisdiction_config.py but no scraper built. Data downloads available in CSV/ASCII. |
+| **CO SOS - CCR eDocket** | Official Code of Colorado Regulations | Low | **MEDIUM** | Downloadable PDFs via predictable URLs. Complements our CRS data. |
+| **FERC eLibrary** | 2M+ FERC orders, filings, proceedings | Medium | **MEDIUM** | elibrary.ferc.gov - community scraper exists on GitHub. |
+| **CDPHE/AQCC** | CO greenhouse gas rules, clean heat standards | Medium | **MEDIUM** | Increasingly important as CO climate laws expand. |
+| **NERC/Texas RE/WECC** | Reliability standards, enforcement records | Medium | **MEDIUM** | Standards are PDFs on public sites. Critical for bulk electric system operators. |
+
+#### HAS API (Easiest to Integrate)
+
+| Source | API | What It Adds | Free? |
+|---|---|---|---|
+| **ERCOT Data Portal** | api.ercot.com (REST) | Market data, grid operations, pricing | Yes (public data) |
+| **EIA Open Data v2** | eia.gov/opendata (REST) | Generation, capacity, emissions by state | Yes (free API key) |
+| **LegiScan** | legiscan.com (REST) | Pending TX/CO energy legislation | Yes (30k queries/mo) |
+| **eCFR** | ecfr.gov/api (REST) | Already built - federal regs Titles 18 & 40 | Yes |
+
+---
+
+## Architecture
 
 ```mermaid
 flowchart LR
     subgraph SOURCES["Data Sources"]
-        FED["Federal<br/>APIs & Registers"]
-        STATE["State<br/>CRS, CCR, PUC"]
-        REG["Regional<br/>NERC, WECC"]
-        UTIL["Utility<br/>Tariffs"]
+        API_SRC["APIs\neCFR, Fed Register\nERCOT Portal, EIA"]
+        WEB_SRC["Web Scraping\nCornell Law, TX Legislature\nCO SOS, PUCT Interchange"]
+        PLAY_SRC["Playwright\nAngular/JS sites\nBot-protected sites"]
     end
 
-    subgraph PIPELINE["Processing Pipeline"]
-        SCRAPE["Scraper<br/>Collect docs"]
-        CHUNK["Chunker<br/>Split text"]
-        EMBED["Embedder<br/>Voyage AI"]
-        STORE["Storage<br/>pgvector"]
+    subgraph PIPELINE["Processing"]
+        SCRAPE["Collect"]
+        DEDUP["Deduplicate\n(checksum)"]
+        CHUNK["Chunk\n(1000 chars)"]
+        EMBED["Embed\n(Voyage AI)"]
+        STORE["Store\n(pgvector)"]
     end
 
     subgraph APP["Application"]
         QUERY["User Query"]
-        SEARCH["Vector Search"]
+        VSEARCH["Vector Search\n+ Text Search"]
         LLM["Claude LLM"]
-        ANSWER["Cited Answer"]
+        CITE["Answer\n+ Citations"]
     end
 
-    FED --> SCRAPE
-    STATE --> SCRAPE
-    REG --> SCRAPE
-    UTIL --> SCRAPE
-
-    SCRAPE --> CHUNK --> EMBED --> STORE
-
-    QUERY --> SEARCH
-    STORE --> SEARCH
-    SEARCH --> LLM --> ANSWER
+    API_SRC --> SCRAPE
+    WEB_SRC --> SCRAPE
+    PLAY_SRC --> SCRAPE
+    SCRAPE --> DEDUP --> CHUNK --> EMBED --> STORE
+    QUERY --> VSEARCH
+    STORE --> VSEARCH
+    VSEARCH --> LLM --> CITE
 ```
+
+---
 
 ## Recommended Next Steps
 
-Based on attorney use cases, we recommend this priority:
+### Phase 1: Dynamic Regulatory Activity (biggest gap)
 
-1. **Immediate** (before production)
-   - eCFR Title 18 (federal energy regulations)
-   - Colorado PUC decisions (last 5 years)
+Right now we have **static rule text** but no **live regulatory activity**. Adding these closes the gap:
 
-2. **Short-term** (first month)
-   - NERC reliability standards
-   - Xcel Energy tariffs (if prioritized)
+| Build This | Because |
+|---|---|
+| PUCT Interchange scraper | See what PUCT is deciding *right now* - orders, enforcement, rate cases |
+| Texas Register scraper | Know about rule changes *before* they take effect |
+| CO PUC E-Filings scraper | Same as PUCT Interchange but for Colorado |
+| CO Rulemaking Portal scraper | Track proposed rules across all CO agencies |
 
-3. **Medium-term** (based on feedback)
-   - Additional utilities
-   - Regional standards (WECC/SPP)
-   - Historical expansion
+### Phase 2: Source Quality Upgrades
 
-**The key question for Sasha**: Which direction adds the most value for your practice?
+| Build This | Because |
+|---|---|
+| TX SOS Official TAC | Upgrade PUCT rules from Cornell Law mirror to official authoritative source |
+| RRC Texas scraper | Natural gas/pipeline regulations - already configured, no scraper built |
+| CO CCR eDocket | Official administrative rules to complement our statutes data |
+
+### Phase 3: API Integrations (low effort, high context)
+
+| Build This | Because |
+|---|---|
+| ERCOT Data Portal API | Replace broken ercot.com scraper with proper API access |
+| EIA v2 API | State-level energy generation, emissions, capacity data for context |
+| LegiScan API | Track pending energy legislation in both TX and CO legislatures |
+
+---
+
+## Quick Reference: What's Live vs What's Possible
+
+```
+TEXAS                              COLORADO                          FEDERAL
+-----------                        -----------                       -----------
+[LIVE] PUCT Rules (130)            [LIVE] CRS Title 40 (12)          [LIVE] Fed Register (54)
+[LIVE] PURA Statutes (307)         [LIVE] CCR (1)                    [LIVE] eCFR scraper (built)
+[    ] PUCT Interchange            [LIVE] PUC Decision (1)           [LIVE] NERC (1)
+[    ] Texas Register              [LIVE] Legislature (2)            [    ] FERC eLibrary
+[    ] TX SOS Official TAC         [    ] PUC E-Filings              [    ] EIA API
+[    ] Railroad Commission         [    ] Rulemaking Portal          [    ] LegiScan
+[    ] TCEQ Environmental          [    ] CCR eDocket
+[BLOCKED] ercot.com                [    ] CDPHE/AQCC
+[    ] ERCOT API (workaround)      [BLOCKED] puc.colorado.gov
+[    ] ERCOT NPRR Tracker
+```
+
+**[LIVE]** = Scraped, stored, searchable
+**[    ]** = Buildable, source is accessible
+**[BLOCKED]** = Site blocks automated access, needs workaround

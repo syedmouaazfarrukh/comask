@@ -1,67 +1,507 @@
 Status,Source,Title,URL
-Working,Colorado Code of Regulations,Colorado PUC Rules Governing Electric Utilities - ,https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=10491
-Working,Colorado PUC,Colorado PUC Decision - Xcel Energy Renewable Ener,https://www.dora.state.co.us/pls/efi/EFI_Search_UI.search
-Working,Colorado Revised Statutes,Colorado Clean Energy Plan Requirements - C.R.S. §,https://leg.colorado.gov/colorado-revised-statutes
-Working,Colorado Revised Statutes,Colorado Renewable Energy Standard - C.R.S. § 40-2,https://leg.colorado.gov/colorado-revised-statutes
-Working,Colorado Revised Statutes / PUC Rules,Colorado Renewable Energy Standard (RES) - C.R.S. ,https://leg.colorado.gov/colorado-revised-statutes
-Working,Colorado Revised Statutes / PUC Rules,Colorado Community Solar Gardens Act - C.R.S. § 40,https://leg.colorado.gov/colorado-revised-statutes
-Working,Colorado Revised Statutes / PUC Rules,Colorado Electric Resource Planning Rules - 4 CCR ,https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=10852
-Working,Colorado Revised Statutes / PUC Rules,Colorado Net Metering Rules - 4 CCR 723-3-3664,https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=10852
-Working,Colorado Revised Statutes / PUC Rules,Colorado Clean Heat Standard - HB22-1362 / C.R.S. ,https://leg.colorado.gov/bills/hb22-1362
-Working,Colorado Revised Statutes / PUC Rules,Colorado Transportation Electrification - SB19-077,https://leg.colorado.gov/bills/sb19-077
-Working,Colorado Revised Statutes / PUC Rules,Colorado Utility Wildfire Mitigation Plans - C.R.S,https://leg.colorado.gov/colorado-revised-statutes
-Working,Colorado Revised Statutes / PUC Rules,Colorado PUC Rate Case Procedures - 4 CCR 723-3-30,https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=10852
-Working,Colorado Revised Statutes / PUC Rules,Colorado Grid Modernization Rules - 4 CCR 723-3-30,https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=10852
-Working,Federal Register - DOE,Petroleum-Equivalent Fuel Economy Calculation,https://www.federalregister.gov/documents/2026/01/08/2026-00154/petroleum-equivalent-fuel-economy-calculation
-Working,Federal Register - DOE,Rescinding New Construction Requirements Related t,https://www.federalregister.gov/documents/2025/12/09/2025-22325/rescinding-new-construction-requirements-related-to-nondiscrimination-in-federally-assisted-programs
-Working,Federal Register - DOE,Rescinding Regulations for Loans for Minority Busi,https://www.federalregister.gov/documents/2025/12/09/2025-22324/rescinding-regulations-for-loans-for-minority-business-enterprises-seeking-doe-contracts-and
-Working,Federal Register - DOE,Rescinding Regulations Related to Nondiscriminatio,https://www.federalregister.gov/documents/2025/12/09/2025-22322/rescinding-regulations-related-to-nondiscrimination-in-federally-assisted-programs-or-activities
-Working,Federal Register - DOE,Rescinding Regulations Related to Nondiscriminatio,https://www.federalregister.gov/documents/2025/12/09/2025-22323/rescinding-regulations-related-to-nondiscrimination-on-the-basis-of-sex-in-education-programs-or
+Working,Federal Register - DOE,Application for Presidential Permit Authorizing the Construc,https://www.federalregister.gov/documents/2025/09/11/2025-17513/application-for-presidential-permit-authorizing-the-construction-connection-operation-and
 Working,Federal Register - DOE,Assistance to Foreign Atomic Energy Activities,https://www.federalregister.gov/documents/2025/11/24/2025-20788/assistance-to-foreign-atomic-energy-activities
 Working,Federal Register - DOE,Energy Dominance Financing Amendments,https://www.federalregister.gov/documents/2025/10/28/2025-19675/energy-dominance-financing-amendments
-Working,Federal Register - DOE,Application for Presidential Permit Authorizing th,https://www.federalregister.gov/documents/2025/09/11/2025-17513/application-for-presidential-permit-authorizing-the-construction-connection-operation-and
-Working,Federal Register - DOE,Rescinding New Construction Requirements Related t,https://www.federalregister.gov/documents/2025/09/11/2025-17517/rescinding-new-construction-requirements-related-to-nondiscrimination-in-federally-assisted-programs
-Working,Federal Register - DOE,Rescinding Regulations Related to Nondiscriminatio,https://www.federalregister.gov/documents/2025/09/10/2025-17427/rescinding-regulations-related-to-nondiscrimination-in-federally-assisted-programs-or-activities
-Working,Federal Register - DOE,Nondiscrimination on the Basis of Sex in Sports Pr,https://www.federalregister.gov/documents/2025/09/10/2025-17426/nondiscrimination-on-the-basis-of-sex-in-sports-programs-arising-out-of-federal-financial-assistance
-Working,Federal Register - DOE,Rescinding Regulations for Loans for Minority Busi,https://www.federalregister.gov/documents/2025/09/10/2025-17429/rescinding-regulations-for-loans-for-minority-business-enterprises-seeking-doe-contracts-and
-Working,Federal Register - DOE,Rescinding Regulations Related to Nondiscriminatio,https://www.federalregister.gov/documents/2025/09/10/2025-17428/rescinding-regulations-related-to-nondiscrimination-on-the-basis-of-sex-in-education-programs-or
-Working,Federal Register - EPA,Air Plan Approval; Ohio; 2015 Ozone Moderate Reaso,https://www.federalregister.gov/documents/2026/01/20/2026-01001/air-plan-approval-ohio-2015-ozone-moderate-reasonably-available-control-technology
-Working,Federal Register - EPA,New Source Performance Standards Review for Statio,https://www.federalregister.gov/documents/2026/01/15/2026-00677/new-source-performance-standards-review-for-stationary-combustion-turbines-and-stationary-gas
+Working,Federal Register - DOE,Nondiscrimination on the Basis of Sex in Sports Programs Ari,https://www.federalregister.gov/documents/2025/09/10/2025-17426/nondiscrimination-on-the-basis-of-sex-in-sports-programs-arising-out-of-federal-financial-assistance
+Working,Federal Register - DOE,Petroleum-Equivalent Fuel Economy Calculation,https://www.federalregister.gov/documents/2026/01/08/2026-00154/petroleum-equivalent-fuel-economy-calculation
+Working,Federal Register - DOE,Rescinding New Construction Requirements Related to Nondiscr,https://www.federalregister.gov/documents/2025/09/11/2025-17517/rescinding-new-construction-requirements-related-to-nondiscrimination-in-federally-assisted-programs
+Working,Federal Register - DOE,Rescinding New Construction Requirements Related to Nondiscr,https://www.federalregister.gov/documents/2025/12/09/2025-22325/rescinding-new-construction-requirements-related-to-nondiscrimination-in-federally-assisted-programs
+Working,Federal Register - DOE,Rescinding Regulations for Loans for Minority Business Enter,https://www.federalregister.gov/documents/2025/12/09/2025-22324/rescinding-regulations-for-loans-for-minority-business-enterprises-seeking-doe-contracts-and
+Working,Federal Register - DOE,Rescinding Regulations for Loans for Minority Business Enter,https://www.federalregister.gov/documents/2025/09/10/2025-17429/rescinding-regulations-for-loans-for-minority-business-enterprises-seeking-doe-contracts-and
+Working,Federal Register - DOE,Rescinding Regulations Related to Nondiscrimination in Feder,https://www.federalregister.gov/documents/2025/12/09/2025-22322/rescinding-regulations-related-to-nondiscrimination-in-federally-assisted-programs-or-activities
+Working,Federal Register - DOE,Rescinding Regulations Related to Nondiscrimination in Feder,https://www.federalregister.gov/documents/2025/09/10/2025-17427/rescinding-regulations-related-to-nondiscrimination-in-federally-assisted-programs-or-activities
+Working,Federal Register - DOE,Rescinding Regulations Related to Nondiscrimination on the B,https://www.federalregister.gov/documents/2025/09/10/2025-17428/rescinding-regulations-related-to-nondiscrimination-on-the-basis-of-sex-in-education-programs-or
+Working,Federal Register - DOE,Rescinding Regulations Related to Nondiscrimination on the B,https://www.federalregister.gov/documents/2025/12/09/2025-22323/rescinding-regulations-related-to-nondiscrimination-on-the-basis-of-sex-in-education-programs-or
+Working,Federal Register - EPA,Air Plan Approval; California; Mojave Desert Air Quality Man,https://www.federalregister.gov/documents/2026/01/08/2026-00194/air-plan-approval-california-mojave-desert-air-quality-management-district-definition-of-terms
+Working,Federal Register - EPA,Air Plan Approval; California; Mojave Desert Air Quality Man,https://www.federalregister.gov/documents/2026/01/08/2026-00208/air-plan-approval-california-mojave-desert-air-quality-management-district-replacing-outdated
+Working,Federal Register - EPA,Air Plan Approval; California; San Joaquin Valley Unified Ai,https://www.federalregister.gov/documents/2026/01/06/2026-00005/air-plan-approval-california-san-joaquin-valley-unified-air-pollution-control-district
+Working,Federal Register - EPA,Air Plan Approval; Colorado; Revisions to Colorado Procedura,https://www.federalregister.gov/documents/2026/01/02/2025-24141/air-plan-approval-colorado-revisions-to-colorado-procedural-rules-and-common-provisions-regulation
+Working,Federal Register - EPA,Air Plan Approval; Indiana; Huntington County 2010 Sulfur Di,https://www.federalregister.gov/documents/2026/01/09/2026-00246/air-plan-approval-indiana-huntington-county-2010-sulfur-dioxide-redesignation-and-maintenance-plan
+Working,Federal Register - EPA,Air Plan Approval; Kentucky; Emissions Inventory and Nonatta,https://www.federalregister.gov/documents/2026/01/08/2026-00201/air-plan-approval-kentucky-emissions-inventory-and-nonattainment-new-source-review-for-the
+Working,Federal Register - EPA,Air Plan Approval; Michigan and Minnesota; Revision to Tacon,https://www.federalregister.gov/documents/2026/01/02/2025-24207/air-plan-approval-michigan-and-minnesota-revision-to-taconite-federal-implementation-plan
+Working,Federal Register - EPA,Air Plan Approval; Michigan; Infrastructure SIP Requirements,https://www.federalregister.gov/documents/2026/01/06/2026-00004/air-plan-approval-michigan-infrastructure-sip-requirements-for-the-2015-ozone-naaqs-michigan-state
+Working,Federal Register - EPA,Air Plan Approval; New Hampshire; Updates to Materials Incor,https://www.federalregister.gov/documents/2026/01/09/2026-00249/air-plan-approval-new-hampshire-updates-to-materials-incorporated-by-reference
+Working,Federal Register - EPA,Air Plan Approval; New York; Ortho Clinical Diagnostics,https://www.federalregister.gov/documents/2026/01/09/2026-00281/air-plan-approval-new-york-ortho-clinical-diagnostics
+Working,Federal Register - EPA,Air Plan Approval; Ohio; 2015 Ozone Moderate Reasonably Avai,https://www.federalregister.gov/documents/2026/01/20/2026-01001/air-plan-approval-ohio-2015-ozone-moderate-reasonably-available-control-technology
+Working,Federal Register - EPA,Air Plan Revision; California; Placer County Air Pollution C,https://www.federalregister.gov/documents/2026/01/06/2026-00006/air-plan-revision-california-placer-county-air-pollution-control-district-new-source-review
+Working,Federal Register - EPA,Approval and Promulgation of Delegation of Authority for Des,https://www.federalregister.gov/documents/2026/01/09/2026-00253/approval-and-promulgation-of-delegation-of-authority-for-designated-facilities-and-pollutants-ohio
+Working,Federal Register - EPA,Extension of the State Implementation Plan Due Date for the ,https://www.federalregister.gov/documents/2026/01/06/2026-00003/extension-of-the-state-implementation-plan-due-date-for-the-regional-haze-third-implementation
+Working,Federal Register - EPA,National Emission Standards for Hazardous Air Pollutants; De,https://www.federalregister.gov/documents/2026/01/02/2025-24149/national-emission-standards-for-hazardous-air-pollutants-delegation-of-authority-to-oklahoma
+Working,Federal Register - EPA,New Source Performance Standards Review for Stationary Combu,https://www.federalregister.gov/documents/2026/01/15/2026-00677/new-source-performance-standards-review-for-stationary-combustion-turbines-and-stationary-gas
 Working,Federal Register - EPA,Permethrin; Pesticide Tolerances,https://www.federalregister.gov/documents/2026/01/14/2026-00545/permethrin-pesticide-tolerances
 Working,Federal Register - EPA,Pyriofenone; Pesticide Tolerances,https://www.federalregister.gov/documents/2026/01/14/2026-00628/pyriofenone-pesticide-tolerances
-Working,Federal Register - EPA,Air Plan Approval; Indiana; Huntington County 2010,https://www.federalregister.gov/documents/2026/01/09/2026-00246/air-plan-approval-indiana-huntington-county-2010-sulfur-dioxide-redesignation-and-maintenance-plan
-Working,Federal Register - EPA,Technical Amendments to the EPCRA Hazardous Chemic,https://www.federalregister.gov/documents/2026/01/09/2026-00259/technical-amendments-to-the-epcra-hazardous-chemical-inventory-reporting-requirements-to-conform-to
-Working,Federal Register - EPA,Air Plan Approval; New Hampshire; Updates to Mater,https://www.federalregister.gov/documents/2026/01/09/2026-00249/air-plan-approval-new-hampshire-updates-to-materials-incorporated-by-reference
-Working,Federal Register - EPA,Approval and Promulgation of Delegation of Authori,https://www.federalregister.gov/documents/2026/01/09/2026-00253/approval-and-promulgation-of-delegation-of-authority-for-designated-facilities-and-pollutants-ohio
-Working,Federal Register - EPA,Air Plan Approval; New York; Ortho Clinical Diagno,https://www.federalregister.gov/documents/2026/01/09/2026-00281/air-plan-approval-new-york-ortho-clinical-diagnostics
-Working,Federal Register - EPA,Air Plan Approval; Kentucky; Emissions Inventory a,https://www.federalregister.gov/documents/2026/01/08/2026-00201/air-plan-approval-kentucky-emissions-inventory-and-nonattainment-new-source-review-for-the
-Working,Federal Register - EPA,Air Plan Approval; California; Mojave Desert Air Q,https://www.federalregister.gov/documents/2026/01/08/2026-00208/air-plan-approval-california-mojave-desert-air-quality-management-district-replacing-outdated
-Working,Federal Register - EPA,Air Plan Approval; California; Mojave Desert Air Q,https://www.federalregister.gov/documents/2026/01/08/2026-00194/air-plan-approval-california-mojave-desert-air-quality-management-district-definition-of-terms
-Working,Federal Register - EPA,Extension of the State Implementation Plan Due Dat,https://www.federalregister.gov/documents/2026/01/06/2026-00003/extension-of-the-state-implementation-plan-due-date-for-the-regional-haze-third-implementation
-Working,Federal Register - EPA,Air Plan Approval; Michigan; Infrastructure SIP Re,https://www.federalregister.gov/documents/2026/01/06/2026-00004/air-plan-approval-michigan-infrastructure-sip-requirements-for-the-2015-ozone-naaqs-michigan-state
-Working,Federal Register - EPA,Utah; Northern Wasatch Front; 2015 8-Hour Ozone No,https://www.federalregister.gov/documents/2026/01/06/2026-00007/utah-northern-wasatch-front-2015-8-hour-ozone-nonattainment-area-boundary-expansion-and
-Working,Federal Register - EPA,Air Plan Approval; California; San Joaquin Valley ,https://www.federalregister.gov/documents/2026/01/06/2026-00005/air-plan-approval-california-san-joaquin-valley-unified-air-pollution-control-district
-Working,Federal Register - EPA,Air Plan Revision; California; Placer County Air P,https://www.federalregister.gov/documents/2026/01/06/2026-00006/air-plan-revision-california-placer-county-air-pollution-control-district-new-source-review
-Working,Federal Register - EPA,Air Plan Approval; Michigan and Minnesota; Revisio,https://www.federalregister.gov/documents/2026/01/02/2025-24207/air-plan-approval-michigan-and-minnesota-revision-to-taconite-federal-implementation-plan
-Working,Federal Register - EPA,Air Plan Approval; Colorado; Revisions to Colorado,https://www.federalregister.gov/documents/2026/01/02/2025-24141/air-plan-approval-colorado-revisions-to-colorado-procedural-rules-and-common-provisions-regulation
-Working,Federal Register - EPA,National Emission Standards for Hazardous Air Poll,https://www.federalregister.gov/documents/2026/01/02/2025-24149/national-emission-standards-for-hazardous-air-pollutants-delegation-of-authority-to-oklahoma
+Working,Federal Register - EPA,Technical Amendments to the EPCRA Hazardous Chemical Invento,https://www.federalregister.gov/documents/2026/01/09/2026-00259/technical-amendments-to-the-epcra-hazardous-chemical-inventory-reporting-requirements-to-conform-to
+Working,Federal Register - EPA,Utah; Northern Wasatch Front; 2015 8-Hour Ozone Nonattainmen,https://www.federalregister.gov/documents/2026/01/06/2026-00007/utah-northern-wasatch-front-2015-8-hour-ozone-nonattainment-area-boundary-expansion-and
 Working,Federal Register - FERC,Annual Update of Filing Fees,https://www.federalregister.gov/documents/2026/01/20/2026-01002/annual-update-of-filing-fees
-Working,Federal Register - FERC,Implementation of the Executive Order Entitled “Ze,https://www.federalregister.gov/documents/2025/12/18/2025-23294/implementation-of-the-executive-order-entitled-zero-based-regulatory-budgeting-to-unleash-american
-Working,Federal Register - FERC,Implementation of the Executive Order Entitled “Ze,https://www.federalregister.gov/documents/2025/10/21/2025-19607/implementation-of-the-executive-order-entitled-zero-based-budgeting-to-unleash-american-energy
-Working,Federal Register - FERC,Removal of Regulations Limiting Authorizations To ,https://www.federalregister.gov/documents/2025/10/10/2025-19533/removal-of-regulations-limiting-authorizations-to-proceed-with-construction-activities-pending
-Working,Federal Register - FERC,Delegation of Authority Regarding Electric Reliabi,https://www.federalregister.gov/documents/2025/09/30/2025-18977/delegation-of-authority-regarding-electric-reliability-organizations-delegation-agreement-and-rules
-Working,Federal Register - FERC,Supply Chain Risk Management Reliability Standards,https://www.federalregister.gov/documents/2025/09/23/2025-18394/supply-chain-risk-management-reliability-standards-revisions-equipment-and-services-produced-or
-Working,Federal Register - FERC,Reliability Standards for Frequency and Voltage Pr,https://www.federalregister.gov/documents/2025/07/29/2025-14304/reliability-standards-for-frequency-and-voltage-protection-settings-and-ride-through-for
-Working,Federal Register - FERC,Removal of References to the Council on Environmen,https://www.federalregister.gov/documents/2025/07/03/2025-12464/removal-of-references-to-the-council-on-environmental-qualitys-rescinded-regulations
-Working,Federal Register - FERC,Critical Infrastructure Protection Reliability Sta,https://www.federalregister.gov/documents/2025/07/02/2025-12309/critical-infrastructure-protection-reliability-standard-cip-015-1-cyber-security-internal-network
-Working,Federal Register - FERC,Building for the Future Through Electric Regional ,https://www.federalregister.gov/documents/2025/04/28/2025-06941/building-for-the-future-through-electric-regional-transmission-planning-and-cost-allocation
-Working,Federal Register - FERC,Standards for Business Practices and Communication,https://www.federalregister.gov/documents/2025/02/27/2025-03085/standards-for-business-practices-and-communication-protocols-for-public-utilities
-Working,Federal Register - FERC,Annual Update to Fee Schedule for the Use of Gover,https://www.federalregister.gov/documents/2025/02/12/2025-02417/annual-update-to-fee-schedule-for-the-use-of-government-lands-by-hydropower-licensees
 Working,Federal Register - FERC,Annual Update of Filing Fees,https://www.federalregister.gov/documents/2025/01/30/2025-01975/annual-update-of-filing-fees
-Working,Federal Register - FERC,Continuity of Operations Plan,https://www.federalregister.gov/documents/2025/01/16/2025-00888/continuity-of-operations-plan
+Working,Federal Register - FERC,Annual Update to Fee Schedule for the Use of Government Land,https://www.federalregister.gov/documents/2025/02/12/2025-02417/annual-update-to-fee-schedule-for-the-use-of-government-lands-by-hydropower-licensees
+Working,Federal Register - FERC,Applications for Permits to Site Interstate Electric Transmi,https://www.federalregister.gov/documents/2024/10/23/2024-24526/applications-for-permits-to-site-interstate-electric-transmission-facilities
+Working,Federal Register - FERC,Building for the Future Through Electric Regional Transmissi,https://www.federalregister.gov/documents/2025/04/28/2025-06941/building-for-the-future-through-electric-regional-transmission-planning-and-cost-allocation
+Working,Federal Register - FERC,Building for the Future Through Electric Regional Transmissi,https://www.federalregister.gov/documents/2024/12/06/2024-27982/building-for-the-future-through-electric-regional-transmission-planning-and-cost-allocation
 Working,Federal Register - FERC,Civil Monetary Penalty Inflation Adjustments,https://www.federalregister.gov/documents/2025/01/14/2025-00516/civil-monetary-penalty-inflation-adjustments
-Working,Federal Register - FERC,Standards for Business Practices of Interstate Nat,https://www.federalregister.gov/documents/2024/12/09/2024-28090/standards-for-business-practices-of-interstate-natural-gas-pipelines
-Working,Federal Register - FERC,Building for the Future Through Electric Regional ,https://www.federalregister.gov/documents/2024/12/06/2024-27982/building-for-the-future-through-electric-regional-transmission-planning-and-cost-allocation
-Working,Federal Register - FERC,Establishing Reasonable Period of Time and Clarifi,https://www.federalregister.gov/documents/2024/12/05/2024-27981/establishing-reasonable-period-of-time-and-clarifications-regarding-clean-water-act-section-401a1
-Working,Federal Register - FERC,Compensation for Reactive Power Within the Standar,https://www.federalregister.gov/documents/2024/11/26/2024-24528/compensation-for-reactive-power-within-the-standard-power-factor-range
-Working,Federal Register - FERC,Applications for Permits to Site Interstate Electr,https://www.federalregister.gov/documents/2024/10/23/2024-24526/applications-for-permits-to-site-interstate-electric-transmission-facilities
+Working,Federal Register - FERC,Compensation for Reactive Power Within the Standard Power Fa,https://www.federalregister.gov/documents/2024/11/26/2024-24528/compensation-for-reactive-power-within-the-standard-power-factor-range
+Working,Federal Register - FERC,Continuity of Operations Plan,https://www.federalregister.gov/documents/2025/01/16/2025-00888/continuity-of-operations-plan
+Working,Federal Register - FERC,Critical Infrastructure Protection Reliability Standard CIP-,https://www.federalregister.gov/documents/2025/07/02/2025-12309/critical-infrastructure-protection-reliability-standard-cip-015-1-cyber-security-internal-network
+Working,Federal Register - FERC,Delegation of Authority Regarding Electric Reliability Organ,https://www.federalregister.gov/documents/2025/09/30/2025-18977/delegation-of-authority-regarding-electric-reliability-organizations-delegation-agreement-and-rules
+Working,Federal Register - FERC,Establishing Reasonable Period of Time and Clarifications Re,https://www.federalregister.gov/documents/2024/12/05/2024-27981/establishing-reasonable-period-of-time-and-clarifications-regarding-clean-water-act-section-401a1
+Working,Federal Register - FERC,Implementation of the Executive Order Entitled “Zero-Based B,https://www.federalregister.gov/documents/2025/10/21/2025-19607/implementation-of-the-executive-order-entitled-zero-based-budgeting-to-unleash-american-energy
+Working,Federal Register - FERC,Implementation of the Executive Order Entitled “Zero-Based R,https://www.federalregister.gov/documents/2025/12/18/2025-23294/implementation-of-the-executive-order-entitled-zero-based-regulatory-budgeting-to-unleash-american
+Working,Federal Register - FERC,Reliability Standards for Frequency and Voltage Protection S,https://www.federalregister.gov/documents/2025/07/29/2025-14304/reliability-standards-for-frequency-and-voltage-protection-settings-and-ride-through-for
+Working,Federal Register - FERC,Removal of References to the Council on Environmental Qualit,https://www.federalregister.gov/documents/2025/07/03/2025-12464/removal-of-references-to-the-council-on-environmental-qualitys-rescinded-regulations
+Working,Federal Register - FERC,Removal of Regulations Limiting Authorizations To Proceed Wi,https://www.federalregister.gov/documents/2025/10/10/2025-19533/removal-of-regulations-limiting-authorizations-to-proceed-with-construction-activities-pending
+Working,Federal Register - FERC,Standards for Business Practices and Communication Protocols,https://www.federalregister.gov/documents/2025/02/27/2025-03085/standards-for-business-practices-and-communication-protocols-for-public-utilities
+Working,Federal Register - FERC,Standards for Business Practices of Interstate Natural Gas P,https://www.federalregister.gov/documents/2024/12/09/2024-28090/standards-for-business-practices-of-interstate-natural-gas-pipelines
+Working,Federal Register - FERC,Supply Chain Risk Management Reliability Standards Revisions,https://www.federalregister.gov/documents/2025/09/23/2025-18394/supply-chain-risk-management-reliability-standards-revisions-equipment-and-services-produced-or
+Working,FERC,FERC Order 2222 - Distributed Energy Resources Participation,https://www.federalregister.gov/documents/2020/09/22/2020-19858/participation-of-distributed-energy-resource-aggregations-in-markets-operated-by-regional
+Working,Colorado Code of Regulations,Colorado PUC Rules Governing Electric Utilities - 4 CCR 723-,https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=10491
+Working,Colorado PUC,Colorado PUC Decision - Xcel Energy Renewable Energy Plan (2,https://www.xcelenergy.com/company/rates_and_regulations/resource_plans/clean_energy_plan
+Working,Colorado Revised Statutes,Colorado Clean Energy Plan Requirements - C.R.S. § 40-2-125.,https://colorado.public.law/statutes/crs_title_40
+Working,Colorado Revised Statutes,Colorado Renewable Energy Standard - C.R.S. § 40-2-124,https://colorado.public.law/statutes/crs_title_40
+Working,Colorado Revised Statutes / PUC Rules,Colorado Clean Heat Standard - HB22-1362 / C.R.S. § 40-3.2-1,https://leg.colorado.gov/bills/hb22-1362
+Working,Colorado Revised Statutes / PUC Rules,Colorado Community Solar Gardens Act - C.R.S. § 40-2-127,https://colorado.public.law/statutes/crs_title_40
+Working,Colorado Revised Statutes / PUC Rules,Colorado Electric Resource Planning Rules - 4 CCR 723-3-3600,https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=10852
+Working,Colorado Revised Statutes / PUC Rules,Colorado Greenhouse Gas Emission Reduction Roadmap,https://drive.google.com/file/d/10yrcT52pedgyoGKpYMOTyNlxvNtIODKQ/view?usp=sharing
+Working,Colorado Revised Statutes / PUC Rules,Colorado Grid Modernization Rules - 4 CCR 723-3-3028,https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=10852
+Working,Colorado Revised Statutes / PUC Rules,Colorado Net Metering Rules - 4 CCR 723-3-3664,https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=10852
+Working,Colorado Revised Statutes / PUC Rules,Colorado PUC Rate Case Procedures - 4 CCR 723-3-3001,https://www.sos.state.co.us/CCR/GenerateRulePdf.do?ruleVersionId=10852
+Working,Colorado Revised Statutes / PUC Rules,Colorado Renewable Energy Standard (RES) - C.R.S. § 40-2-124,https://colorado.public.law/statutes/crs_title_40
+Working,Colorado Revised Statutes / PUC Rules,Colorado Transportation Electrification - SB19-077 / C.R.S. ,https://leg.colorado.gov/bills/sb19-077
+Working,Colorado Revised Statutes / PUC Rules,Colorado Utility Wildfire Mitigation Plans - C.R.S. § 40-3-1,https://colorado.public.law/statutes/crs_title_40
+Working,NERC,NERC Reliability Standards Applicable to Colorado,https://www.nerc.com/pa/Stand/Pages/ReliabilityStandards.aspx
+Working,PUCT Substantive Rules,16 TAC § 25.101 - Certification Criteria,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-101
+Working,PUCT Substantive Rules,16 TAC § 25.102 - Coastal Management Program,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-102
+Working,PUCT Substantive Rules,16 TAC § 25.105 - Registration by Power Marketers,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-105
+Working,PUCT Substantive Rules,16 TAC § 25.107 - Certification and Obligations of Retail El,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-107
+Working,PUCT Substantive Rules,16 TAC § 25.108 - Financial Standards for Retail Electric Pr,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-108
+Working,PUCT Substantive Rules,16 TAC § 25.109 - Registration by Power Generation Companies,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-109
+Working,PUCT Substantive Rules,16 TAC § 25.111 - Registration of Aggregators,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-111
+Working,PUCT Substantive Rules,16 TAC § 25.112 - Registration of Brokers,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-112
+Working,PUCT Substantive Rules,16 TAC § 25.113 - Municipal Registration of Retail Electric ,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-113
+Working,PUCT Substantive Rules,16 TAC § 25.114 - Registration of Virtual Currency Mining Fa,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-114
+Working,PUCT Substantive Rules,16 TAC § 25.121 - Meter Requirements,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-121
+Working,PUCT Substantive Rules,16 TAC § 25.122 - Meter Records,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-122
+Working,PUCT Substantive Rules,16 TAC § 25.123 - Meter Readings,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-123
+Working,PUCT Substantive Rules,16 TAC § 25.124 - Meter Testing,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-124
+Working,PUCT Substantive Rules,16 TAC § 25.125 - Adjustments Due to Non-Compliant Meters an,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-125
+Working,PUCT Substantive Rules,16 TAC § 25.126 - Adjustments Due to Non-Compliant Meters an,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-126
+Working,PUCT Substantive Rules,16 TAC § 25.127 - Generating Station Meters, Instruments, an,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-127
+Working,PUCT Substantive Rules,16 TAC § 25.128 - Interconnection Meters and Circuit Breaker,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-128
+Working,PUCT Substantive Rules,16 TAC § 25.129 - Pulse Metering,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-129
+Working,PUCT Substantive Rules,16 TAC § 25.130 - Advanced Metering,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-130
+Working,PUCT Substantive Rules,16 TAC § 25.131 - Load Profiling and Load Research,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-131
+Working,PUCT Substantive Rules,16 TAC § 25.132 - Definitions,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-132
+Working,PUCT Substantive Rules,16 TAC § 25.133 - Non-Standard Metering Service,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-133
+Working,PUCT Substantive Rules,16 TAC § 25.141 - Central System or Non-Submetered Master Me,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-141
+Working,PUCT Substantive Rules,16 TAC § 25.142 - Submetering for Apartments, Condominiums, ,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-142
+Working,PUCT Substantive Rules,16 TAC § 25.1 - Purpose and Scope of Rules,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-1
+Working,PUCT Substantive Rules,16 TAC § 25.21 - General Provisions of Customer Service and ,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-21
+Working,PUCT Substantive Rules,16 TAC § 25.22 - Request for Service,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-22
+Working,PUCT Substantive Rules,16 TAC § 25.23 - Refusal of Service,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-23
+Working,PUCT Substantive Rules,16 TAC § 25.24 - Credit Requirements and Deposits,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-24
+Working,PUCT Substantive Rules,16 TAC § 25.25 - Issuance and Format of Bills,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-25
+Working,PUCT Substantive Rules,16 TAC § 25.26 - Spanish Language Requirements,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-26
+Working,PUCT Substantive Rules,16 TAC § 25.271 - Foreign Utility Company Ownership by Exemp,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-271
+Working,PUCT Substantive Rules,16 TAC § 25.272 - Code of Conduct for Electric Utilities and,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-272
+Working,PUCT Substantive Rules,16 TAC § 25.273 - Contracts Between Electric Utilities and T,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-273
+Working,PUCT Substantive Rules,16 TAC § 25.275 - Code of Conduct for Municipally Owned Util,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-275
+Working,PUCT Substantive Rules,16 TAC § 25.27 - Retail Electric Service Switchovers,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-27
+Working,PUCT Substantive Rules,16 TAC § 25.28 - Bill Payment and Adjustments,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-28
+Working,PUCT Substantive Rules,16 TAC § 25.29 - Disconnection of Service,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-29
+Working,PUCT Substantive Rules,16 TAC § 25.2 - Cross-Reference Transition Provision,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-2
+Working,PUCT Substantive Rules,16 TAC § 25.301 - Nuclear Decommissioning Trusts,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-301
+Working,PUCT Substantive Rules,16 TAC § 25.303 - Nuclear Decommissioning Following the Tran,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-303
+Working,PUCT Substantive Rules,16 TAC § 25.304 - Nuclear Decommissioning Funding and Requir,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-304
+Working,PUCT Substantive Rules,16 TAC § 25.30 - Complaints,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-30
+Working,PUCT Substantive Rules,16 TAC § 25.311 - Competitive Metering Services,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-311
+Working,PUCT Substantive Rules,16 TAC § 25.31 - Information to Applicants and Customers,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-31
+Working,PUCT Substantive Rules,16 TAC § 25.33 - Prompt Payment Act,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-33
+Working,PUCT Substantive Rules,16 TAC § 25.3 - Severability Clause,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-3
+Working,PUCT Substantive Rules,16 TAC § 25.41 - Price to Beat,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-41
+Working,PUCT Substantive Rules,16 TAC § 25.431 - Retail Competition Pilot Projects,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-431
+Working,PUCT Substantive Rules,16 TAC § 25.43 - Provider of Last Resort (POLR),https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-43
+Working,PUCT Substantive Rules,16 TAC § 25.44 - Privacy of Advanced Metering System Informa,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-44
+Working,PUCT Substantive Rules,16 TAC § 25.45 - Low-Income List Administrator,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-45
+Working,PUCT Substantive Rules,16 TAC § 25.471 - General Provisions of Customer Protection ,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-471
+Working,PUCT Substantive Rules,16 TAC § 25.472 - Privacy of Customer Information,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-472
+Working,PUCT Substantive Rules,16 TAC § 25.473 - Non-English Language Requirements,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-473
+Working,PUCT Substantive Rules,16 TAC § 25.474 - Selection of Retail Electric Provider,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-474
+Working,PUCT Substantive Rules,16 TAC § 25.475 - General Retail Electric Provider Requireme,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-475
+Working,PUCT Substantive Rules,16 TAC § 25.476 - Renewable and Green Energy Verification,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-476
+Working,PUCT Substantive Rules,16 TAC § 25.477 - Refusal of Electric Service,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-477
+Working,PUCT Substantive Rules,16 TAC § 25.478 - Credit Requirements and Deposits,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-478
+Working,PUCT Substantive Rules,16 TAC § 25.479 - Issuance and Format of Bills,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-479
+Working,PUCT Substantive Rules,16 TAC § 25.480 - Bill Payment and Adjustments,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-480
+Working,PUCT Substantive Rules,16 TAC § 25.481 - Unauthorized Charges,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-481
+Working,PUCT Substantive Rules,16 TAC § 25.482 - Prompt Payment Act,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-482
+Working,PUCT Substantive Rules,16 TAC § 25.483 - Disconnection of Service,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-483
+Working,PUCT Substantive Rules,16 TAC § 25.484 - Electric No-Call List,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-484
+Working,PUCT Substantive Rules,16 TAC § 25.485 - Customer Access and Complaint Handling,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-485
+Working,PUCT Substantive Rules,16 TAC § 25.486 - Customer Protections for Brokerage Service,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-486
+Working,PUCT Substantive Rules,16 TAC § 25.487 - Obligations Related to Move-In Transaction,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-487
+Working,PUCT Substantive Rules,16 TAC § 25.488 - Procedures for a Premise with No Service A,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-488
+Working,PUCT Substantive Rules,16 TAC § 25.489 - Treatment of Premises with No Retail Elect,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-489
+Working,PUCT Substantive Rules,16 TAC § 25.490 - Moratorium on Disconnection on Move-Out,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-490
+Working,PUCT Substantive Rules,16 TAC § 25.491 - Record Retention and Reporting Requirement,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-491
+Working,PUCT Substantive Rules,16 TAC § 25.492 - Non-Compliance with Rules or Orders; Enfor,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-492
+Working,PUCT Substantive Rules,16 TAC § 25.493 - Acquisition and Transfer of Customers from,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-493
+Working,PUCT Substantive Rules,16 TAC § 25.495 - Unauthorized Change of Retail Electric Pro,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-495
+Working,PUCT Substantive Rules,16 TAC § 25.497 - Critical Load Industrial Customers, Critic,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-497
+Working,PUCT Substantive Rules,16 TAC § 25.498 - Prepaid Service,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-498
+Working,PUCT Substantive Rules,16 TAC § 25.499 - Acknowledgement of Risk Requirements for C,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-499
+Working,PUCT Substantive Rules,16 TAC § 25.4 - Statement of Nondiscrimination,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-4
+Working,PUCT Substantive Rules,16 TAC § 25.500 - Privacy of Advanced Metering System Inform,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-500
+Working,PUCT Substantive Rules,16 TAC § 25.501 - Wholesale Market Design for the Electric R,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-501
+Working,PUCT Substantive Rules,16 TAC § 25.502 - Pricing Safeguards in Markets Operated by ,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-502
+Working,PUCT Substantive Rules,16 TAC § 25.503 - Oversight of Wholesale Market Participants,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-503
+Working,PUCT Substantive Rules,16 TAC § 25.504 - Wholesale Market Power in the Electric Rel,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-504
+Working,PUCT Substantive Rules,16 TAC § 25.505 - Resource Adequacy Reporting Requirements i,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-505
+Working,PUCT Substantive Rules,16 TAC § 25.506 - Publication of Resource and Load Informati,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-506
+Working,PUCT Substantive Rules,16 TAC § 25.507 - Electric Reliability Council of Texas (ERC,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-507
+Working,PUCT Substantive Rules,16 TAC § 25.508 - Reliability Standard for the Electric Reli,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-508
+Working,PUCT Substantive Rules,16 TAC § 25.509 - Scarcity Pricing Mechanism for the Electri,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-509
+Working,PUCT Substantive Rules,16 TAC § 25.510 - Texas Energy Fund In-ERCOT Generation Loan,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-510
+Working,PUCT Substantive Rules,16 TAC § 25.512 - Texas Energy Fund Grants for Facilities ou,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-512
+Working,PUCT Substantive Rules,16 TAC § 25.515 - Texas Backup Power Package Advisory Commit,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-515
+Working,PUCT Substantive Rules,16 TAC § 25.51 - Power Quality,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-51
+Working,PUCT Substantive Rules,16 TAC § 25.52 - Reliability and Continuity of Service,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-52
+Working,PUCT Substantive Rules,16 TAC § 25.53 - Electric Service Emergency Operations Plans,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-53
+Working,PUCT Substantive Rules,16 TAC § 25.54 - Cease and Desist Orders,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-54
+Working,PUCT Substantive Rules,16 TAC § 25.55 - Weather Emergency Preparedness,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-55
+Working,PUCT Substantive Rules,16 TAC § 25.56 - Temporary Emergency Electric Energy Facilit,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-56
+Working,PUCT Substantive Rules,16 TAC § 25.57 - Power Outage Alert Criteria,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-57
+Working,PUCT Substantive Rules,16 TAC § 25.59 - Long Lead-Time Facilities,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-59
+Working,PUCT Substantive Rules,16 TAC § 25.5 - Definitions,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-5
+Working,PUCT Substantive Rules,16 TAC § 25.62 - Transmission and Distribution System Resili,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-62
+Working,PUCT Substantive Rules,16 TAC § 25.6 - Cost of Copies of Public Information,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-6
+Working,PUCT Substantive Rules,16 TAC § 25.71 - General Procedures, Requirements and Penalt,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-71
+Working,PUCT Substantive Rules,16 TAC § 25.72 - Uniform System of Accounts,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-72
+Working,PUCT Substantive Rules,16 TAC § 25.73 - Financial and Operating Reports,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-73
+Working,PUCT Substantive Rules,16 TAC § 25.74 - Report on Change in Control, Sale of Proper,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-74
+Working,PUCT Substantive Rules,16 TAC § 25.76 - Gross Receipts Assessment Report,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-76
+Working,PUCT Substantive Rules,16 TAC § 25.77 - Payments, Compensation, and Other Expenditu,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-77
+Working,PUCT Substantive Rules,16 TAC § 25.78 - State Agency Utility Account Information,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-78
+Working,PUCT Substantive Rules,16 TAC § 25.79 - Equal Opportunity Reports,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-79
+Working,PUCT Substantive Rules,16 TAC § 25.80 - Annual Report on Historically Underutilized,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-80
+Working,PUCT Substantive Rules,16 TAC § 25.81 - Service Quality Reports,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-81
+Working,PUCT Substantive Rules,16 TAC § 25.82 - Fuel Cost and Use Information,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-82
+Working,PUCT Substantive Rules,16 TAC § 25.83 - Transmission Construction Reports,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-83
+Working,PUCT Substantive Rules,16 TAC § 25.84 - Reporting of Affiliate Transactions for Ele,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-84
+Working,PUCT Substantive Rules,16 TAC § 25.85 - Report of Workforce Diversity and Other Bus,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-85
+Working,PUCT Substantive Rules,16 TAC § 25.88 - Retail Market Performance Measure Reporting,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-88
+Working,PUCT Substantive Rules,16 TAC § 25.89 - Report of Loads and Resources,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-89
+Working,PUCT Substantive Rules,16 TAC § 25.8 - Classification System for Violations of Stat,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-8
+Working,PUCT Substantive Rules,16 TAC § 25.90 - Market Power Mitigation Plans,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-90
+Working,PUCT Substantive Rules,16 TAC § 25.91 - Generating Capacity Reports,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-91
+Working,PUCT Substantive Rules,16 TAC § 25.93 - Wholesale Electricity Transaction Informati,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-93
+Working,PUCT Substantive Rules,16 TAC § 25.94 - Report on Infrastructure Improvement and Ma,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-94
+Working,PUCT Substantive Rules,16 TAC § 25.95 - Electric Utility Infrastructure Storm Harde,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-95
+Working,PUCT Substantive Rules,16 TAC § 25.96 - Vegetation Management,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-96
+Working,PUCT Substantive Rules,16 TAC § 25.97 - Line Inspection and Safety,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-97
+Working,PUCT Substantive Rules,16 TAC § 25.98 - Permian Basin Reliability Plan Reporting Re,https://www.law.cornell.edu/regulations/texas/16-Tex-Admin-Code-SS-25-98
+Working,Texas Utilities Code,Tex. Util. Code § 37.001 - DEFINITIONS.  In this chapter:,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.37.htm
+Working,Texas Utilities Code,Tex. Util. Code § 37.002 - CHARGING SERVICE.  The commission,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.37.htm
+Working,Texas Utilities Code,Tex. Util. Code § 37.051 - CERTIFICATE REQUIRED.  (a)  An el,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.37.htm
+Working,Texas Utilities Code,Tex. Util. Code § 37.0521 - EXCEPTION FOR RETAIL SALES BY CE,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.37.htm
+Working,Texas Utilities Code,Tex. Util. Code § 37.052 - EXCEPTIONS TO CERTIFICATE REQUIRE,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.37.htm
+Working,Texas Utilities Code,Tex. Util. Code § 37.053 - APPLICATION FOR CERTIFICATE.  (a),https://statutes.capitol.texas.gov/Docs/UT/htm/UT.37.htm
+Working,Texas Utilities Code,Tex. Util. Code § 37.0541 - CONSOLIDATION OF CERTAIN PROCEED,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.37.htm
+Working,Texas Utilities Code,Tex. Util. Code § 37.054 - NOTICE AND HEARING ON APPLICATION,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.37.htm
+Working,Texas Utilities Code,Tex. Util. Code § 37.055 - REQUEST FOR PRELIMINARY ORDER.  (,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.37.htm
+Working,Texas Utilities Code,Tex. Util. Code § 37.0561 - PLANNING FOR AND INTERCONNECTION,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.37.htm
+Working,Texas Utilities Code,Tex. Util. Code § 37.056 - GRANT OR DENIAL OF CERTIFICATE.  ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.37.htm
+Working,Texas Utilities Code,Tex. Util. Code § 37.057 - DEADLINE FOR APPLICATION FOR NEW ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.37.htm
+Working,Texas Utilities Code,Tex. Util. Code § 37.058 - CERTIFICATE AND DETERMINATION ISS,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.37.htm
+Working,Texas Utilities Code,Tex. Util. Code § 37.059 - REVOCATION OR AMENDMENT OF CERTIF,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.37.htm
+Working,Texas Utilities Code,Tex. Util. Code § 37.060 - DIVISION OF MULTIPLY CERTIFICATED,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.37.htm
+Working,Texas Utilities Code,Tex. Util. Code § 37.061 - EXISTING SERVICE AREA AGREEMENTS.,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.37.htm
+Working,Texas Utilities Code,Tex. Util. Code § 37.101 - SERVICE IN ANNEXED OR INCORPORATE,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.37.htm
+Working,Texas Utilities Code,Tex. Util. Code § 37.102 - GRANT OF CERTIFICATE FOR CERTAIN ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.37.htm
+Working,Texas Utilities Code,Tex. Util. Code § 37.151 - PROVISION OF SERVICE.  Except as ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.37.htm
+Working,Texas Utilities Code,Tex. Util. Code § 37.152 - GROUNDS FOR REDUCTION OF SERVICE.,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.37.htm
+Working,Texas Utilities Code,Tex. Util. Code § 37.153 - REQUIRED REFUSAL OF SERVICE.  A c,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.37.htm
+Working,Texas Utilities Code,Tex. Util. Code § 37.154 - TRANSFER OF CERTIFICATE.  (a)  An,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.37.htm
+Working,Texas Utilities Code,Tex. Util. Code § 37.155 - APPLICATION OF CONTRACTS.  A cont,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.37.htm
+Working,Texas Utilities Code,Tex. Util. Code § 37.156 - INTERFERENCE WITH ANOTHER UTILITY,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.37.htm
+Working,Texas Utilities Code,Tex. Util. Code § 37.157 - MAPS.  (a)  An electric utility s,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.37.htm
+Working,Texas Utilities Code,Tex. Util. Code § 38.001 - GENERAL STANDARD.  An electric ut,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.38.htm
+Working,Texas Utilities Code,Tex. Util. Code § 38.002 - AUTHORITY OF REGULATORY AUTHORITY,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.38.htm
+Working,Texas Utilities Code,Tex. Util. Code § 38.003 - RULE OR STANDARD.  (a)  An electr,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.38.htm
+Working,Texas Utilities Code,Tex. Util. Code § 38.004 - MINIMUM CLEARANCE STANDARD.  (a) ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.38.htm
+Working,Texas Utilities Code,Tex. Util. Code § 38.005 - ELECTRIC SERVICE RELIABILITY MEAS,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.38.htm
+Working,Texas Utilities Code,Tex. Util. Code § 38.006 - STRUCTURAL INTEGRITY STANDARDS FO,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.38.htm
+Working,Texas Utilities Code,Tex. Util. Code § 38.021 - UNREASONABLE PREFERENCE OR PREJUD,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.38.htm
+Working,Texas Utilities Code,Tex. Util. Code § 38.022 - DISCRIMINATION AND RESTRICTION ON,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.38.htm
+Working,Texas Utilities Code,Tex. Util. Code § 38.051 - EXAMINATION AND TEST OF INSTRUMEN,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.38.htm
+Working,Texas Utilities Code,Tex. Util. Code § 38.052 - INSPECTION FOR CONSUMER.  (a)  A ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.38.htm
+Working,Texas Utilities Code,Tex. Util. Code § 38.071 - IMPROVEMENTS IN SERVICE;  INTERCO,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.38.htm
+Working,Texas Utilities Code,Tex. Util. Code § 38.0725 - LIST OF PRIORITY FACILITIES.  (a,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.38.htm
+Working,Texas Utilities Code,Tex. Util. Code § 38.072 - PRIORITIES FOR POWER RESTORATION ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.38.htm
+Working,Texas Utilities Code,Tex. Util. Code § 38.073 - AUTHORITY OF COMMISSION DURING AN,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.38.htm
+Working,Texas Utilities Code,Tex. Util. Code § 38.074 - CRITICAL NATURAL GAS FACILITIES A,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.38.htm
+Working,Texas Utilities Code,Tex. Util. Code § 38.075 - WEATHER EMERGENCY PREPAREDNESS.  ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.38.htm
+Working,Texas Utilities Code,Tex. Util. Code § 38.076 - INVOLUNTARY AND VOLUNTARY LOAD SH,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.38.htm
+Working,Texas Utilities Code,Tex. Util. Code § 38.077 - RELIABILITY EXERCISES.  (a)  In t,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.38.htm
+Working,Texas Utilities Code,Tex. Util. Code § 38.078 - CIRCUIT SEGMENTATION STUDY AND CO,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.38.htm
+Working,Texas Utilities Code,Tex. Util. Code § 38.079 - TRANSMISSION AND DISTRIBUTION SYS,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.38.htm
+Working,Texas Utilities Code,Tex. Util. Code § 38.080 - WILDFIRE MITIGATION PLAN.  (a)  I,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.38.htm
+Working,Texas Utilities Code,Tex. Util. Code § 38.081 - EVIDENCE IN ACTIONS FOR DAMAGES C,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.38.htm
+Working,Texas Utilities Code,Tex. Util. Code § 38.101 - REPORT ON INFRASTRUCTURE IMPROVEM,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.38.htm
+Working,Texas Utilities Code,Tex. Util. Code § 38.102 - REPORTS ON SAFETY PROCESSES AND I,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.38.htm
+Working,Texas Utilities Code,Tex. Util. Code § 38.103 - DISTRIBUTION POLE PLAN.  (a)  Eac,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.38.htm
+Working,Texas Utilities Code,Tex. Util. Code § 38.201 - TEXAS ELECTRICITY SUPPLY CHAIN SE,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.38.htm
+Working,Texas Utilities Code,Tex. Util. Code § 38.202 - ADMINISTRATION.  (a)  The committ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.38.htm
+Working,Texas Utilities Code,Tex. Util. Code § 38.203 - POWERS AND DUTIES OF COMMITTEE.  ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.38.htm
+Working,Texas Utilities Code,Tex. Util. Code § 38.204 - MAPPING REPORT.  (a)  Not later t,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.38.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.001 - LEGISLATIVE POLICY AND PURPOSE.  ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.002 - APPLICABILITY.  This chapter, oth,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.003 - CONTESTED CASES.  Unless specific,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.004 - HIRING ASSISTANCE FOR REGIONAL PR,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.051 - UNBUNDLING.  (a)  On or before Se,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.052 - FREEZE ON EXISTING RETAIL BASE RA,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.053 - COST RECOVERY ADJUSTMENTS.  This ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.054 - RETAIL ELECTRIC SERVICE DURING FR,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.055 - FORCE MAJEURE.  (a)  An electric ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.101 - CUSTOMER SAFEGUARDS.  (a)  Before,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.1025 - LIMITATIONS ON TELEPHONE SOLICIT,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.102 - RETAIL CUSTOMER CHOICE.  (a)  Eac,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.103 - COMMISSION AUTHORITY TO DELAY COM,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.104 - CUSTOMER CHOICE PILOT PROJECTS.  ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.105 - LIMITATION ON SALE OF ELECTRICITY,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.106 - PROVIDER OF LAST RESORT.  (a)  Th,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.107 - METERING AND BILLING SERVICES.  (,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.108 - CONTRACTUAL OBLIGATIONS.  This ch,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.109 - NEW OWNER OR SUCCESSOR.  (a)  To ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.110 - WHOLESALE INDEXED PRODUCTS PROHIB,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.112 - NOTICE OF EXPIRATION AND PRICE CH,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.113 - RATE TRANSPARENCY.  (a)  A transm,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.1511 - PUBLIC MEETINGS OF THE GOVERNING,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.1512 - DISCLOSURE OF INTEREST IN MATTER,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.1513 - ERCOT BOARD SELECTION COMMITTEE.,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.1514 - COMMISSION DIRECTIVES TO INDEPEN,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.1515 - WHOLESALE ELECTRIC MARKET MONITO,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.1516 - CYBERSECURITY MONITOR.  (a)  In ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.151 - ESSENTIAL ORGANIZATIONS.  (a)  A ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.152 - QUALIFYING POWER REGIONS.  (a)  T,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.153 - CAPACITY AUCTION.  (a)  Each elec,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.154 - LIMITATION OF OWNERSHIP OF INSTAL,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.155 - COMMISSION ASSESSMENT OF MARKET P,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.156 - MARKET POWER MITIGATION PLAN.  (a,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.157 - COMMISSION AUTHORITY TO ADDRESS M,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.158 - MERGERS AND CONSOLIDATIONS.  (a) ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.1591 - REPORT ON DISPATCHABLE AND NON-D,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.1592 - GENERATION RELIABILITY REQUIREME,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.1593 - COST ALLOCATION OF RELIABILITY S,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.1594 - RELIABILITY PROGRAM.  (a)  Under,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.1595 - GRID RELIABILITY LEGISLATIVE OVE,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.159 - POWER REGION RELIABILITY AND DISP,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.160 - Sec. 39.160.  WHOLESALE PRICING P,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.161 - CHARGES FOR CERTAIN MARKET PARTIC,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.162 - DEFAULT OF MARKET PARTICIPANT.  (,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.163 - AMOUNTS OWED TO INDEPENDENT ORGAN,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.164 - AUDIT OF INDEPENDENT ORGANIZATION,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.165 - GRID RELIABILITY ASSESSMENT.  (a),https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.166 - RELIABILITY PLAN FOR REGIONS WITH,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.1675 - ELECTRIC INDUSTRY REPORT.  (a)  ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.1678 - CONFLICTS OF INTEREST REPORT.  T,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.168 - RETAIL SALES REPORT.  (a)  Each r,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.169 - CO-LOCATION OF LARGE LOAD CUSTOME,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.170 - LARGE LOAD DEMAND MANAGEMENT SERV,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.201 - COST OF SERVICE TARIFFS AND CHARG,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.202 - PRICE TO BEAT.  (a)  From January,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.203 - TRANSMISSION AND DISTRIBUTION SER,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.204 - TARIFFS FOR OPEN ACCESS.  Each tr,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.205 - REGULATION OF COSTS FOLLOWING FRE,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.206 - NUCLEAR GENERATING UNIT DECOMMISS,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.251 - DEFINITIONS.  In this subchapter:,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.252 - RIGHT TO RECOVER STRANDED COSTS. ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.253 - ALLOCATION OF STRANDED COSTS.  (a,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.254 - USE OF REVENUES FOR UTILITIES WIT,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.255 - USE OF REVENUES FOR UTILITIES WIT,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.256 - OPTION TO REDIRECT DEPRECIATION. ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.257 - ANNUAL REPORT.  (a)  Beginning wi,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.258 - ANNUAL REPORT:  DETERMINATION OF ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.259 - ANNUAL REPORT:  DETERMINATION OF ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.260 - USE OF GENERALLY ACCEPTED ACCOUNT,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.261 - REVIEW OF ANNUAL REPORT.  (a)  Th,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.262 - TRUE-UP PROCEEDING.  (a)  An elec,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.263 - STRANDED COST RECOVERY OF ENVIRON,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.264 - EMISSIONS REDUCTIONS OF "GRANDFAT,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.265 - RIGHTS NOT AFFECTED.  This chapte,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.301 - PURPOSE.  The purpose of this sub,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.302 - DEFINITIONS.  In this subchapter:,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.303 - FINANCING ORDERS;  TERMS.  (a)  T,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.304 - PROPERTY RIGHTS.  (a)  The rights,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.305 - NO SETOFF.  The interest of an as,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.306 - NO BYPASS.  A financing order sha,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.307 - TRUE-UP.  A financing order shall,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.308 - TRUE SALE.  An agreement by an el,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.309 - SECURITY INTERESTS;  ASSIGNMENT; ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.310 - PLEDGE OF STATE.  Transition bond,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.311 - TAX EXEMPTION.  Transactions invo,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.312 - NOT PUBLIC UTILITY.  An assignee ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.313 - SEVERABILITY.  Effective on the d,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.3515 - AGGREGATE DISTRIBUTED ENERGY RES,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.351 - REGISTRATION OF POWER GENERATION ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.352 - CERTIFICATION OF RETAIL ELECTRIC ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.3535 - MILITARY BASES AGGREGATORS.  (a),https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.353 - REGISTRATION OF AGGREGATORS.  (a),https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.3545 - REGISTRATION OF POLITICAL SUBDIV,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.354 - REGISTRATION OF MUNICIPAL AGGREGA,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.3555 - REGISTRATION OF BROKERS.  (a)  I,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.355 - REGISTRATION OF POWER MARKETERS. ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.356 - REVOCATION OF CERTIFICATION.  (a),https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.357 - ADMINISTRATIVE PENALTY.  In addit,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.358 - LOCAL REGISTRATION OF RETAIL ELEC,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.359 - BILL PAYMENT ASSISTANCE FOR BURNE,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.360 - TRANSACTIONS WITH CERTAIN FOREIGN,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.361 - LARGE FLEXIBLE LOAD REGISTRATION.,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.401 - APPLICABILITY.  This subchapter s,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.402 - REGULATION OF UTILITY AND TRANSIT,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.407 - CUSTOMER CHOICE AND RELEVANT MARK,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.408 - HIRING ASSISTANCE FOR FEDERAL PRO,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.409 - RECOUPMENT OF TRANSITION TO COMPE,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.410 - CONTRACTUAL OBLIGATIONS.  This su,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.451 - APPLICABILITY.  This subchapter a,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.4525 - HIRING ASSISTANCE FOR FEDERAL PR,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.452 - REGULATION OF UTILITY AND TRANSIT,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.453 - CUSTOMER CHOICE AND RELEVANT MARK,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.454 - RECOUPMENT OF TRANSITION TO COMPE,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.455 - RECOVERY OF INCREMENTAL CAPACITY ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.456 - FRANCHISE AGREEMENTS.  A municipa,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.457 - CONTRACTUAL RIGHTS.  In the event,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.458 - RECOVERY AND SECURITIZATION OF HU,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.459 - HURRICANE RECONSTRUCTION COSTS.  ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.460 - STANDARDS AND PROCEDURES GOVERNIN,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.461 - NONBYPASSABLE CHARGES.  The commi,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.462 - DETERMINATION OF HURRICANE RECONS,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.463 - SEVERABILITY.  Effective on the d,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.501 - APPLICABILITY.  (a)  This subchap,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.5021 - METERING.  (a)  Notwithstanding ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.502 - COST-OF-SERVICE REGULATION.  (a) ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.503 - TRANSITION TO COMPETITION.  (a)  ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.504 - HIRING ASSISTANCE FOR FEDERAL PRO,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.551 - APPLICABILITY.  (a)  This subchap,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.5521 - METERING.  (a)  Notwithstanding ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.552 - COST-OF-SERVICE REGULATION.  (a) ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.553 - TRANSITION TO COMPETITION.  (a)  ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.554 - INTERCONNECTION OF DISTRIBUTED RE,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.555 - MARKETING OF ENERGY EFFICIENCY AN,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.601 - PURPOSE.  (a) The purpose of this,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.602 - DEFINITIONS.  In this subchapter:,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.603 - DEBT OBLIGATION ORDER.  (a)  On a,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.604 - COMMISSION-AUTHORIZED FINANCING. ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.605 - DEFAULT CHARGES NONBYPASSABLE.  A,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.606 - TRUE-UP MECHANISM.  An order issu,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.607 - TAX EXEMPTION.  The transfer and ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.608 - PROPERTY RIGHTS.  (a)  The rights,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.609 - PLEDGE OF STATE.  Debt obligation,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.651 - PURPOSE; USE OF PROCEEDS.  (a) Th,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.652 - DEFINITIONS.  In this subchapter:,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.653 - DEBT OBLIGATION ORDER.  (a)  The ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.654 - COMMISSION-AUTHORIZED FINANCING. ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.655 - OTHER FINANCIAL MECHANISM.  The c,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.656 - UPLIFT CHARGES NONBYPASSABLE.  An,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.657 - TRUE-UP.  An order shall include ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.658 - TAX EXEMPTION.  Transactions invo,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.659 - SEVERABILITY.  Effective on the d,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.660 - CUSTOMER CHARGES.  All load-servi,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.661 - ENFORCEMENT.  The commission may ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.662 - PROPERTY RIGHTS.  (a)  The rights,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.663 - PLEDGE OF STATE.  Debt obligation,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.664 - LEGAL ACTIONS INVOLVING PRICING O,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.9016 - NUCLEAR SAFETY FEE.  An electric,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.9025 - HOME ELECTRIC ENERGY REPORTS.  T,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.902 - CUSTOMER EDUCATION.  (a)  On or b,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.903 - SYSTEM BENEFIT FUND.  (a)  The sy,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.9044 - GOAL FOR NATURAL GAS.  (a)  It i,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.9048 - NATURAL GAS FUEL.  It is the int,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.9051 - ENERGY EFFICIENCY FOR MUNICIPALL,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.9052 - ENERGY EFFICIENCY FOR ELECTRIC C,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.9054 - ENERGY EFFICIENCY PLANS AND REPO,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.9055 - EXAMINATION OF DEMAND RESPONSE P,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.905 - GOAL FOR ENERGY EFFICIENCY.  (a) ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.906 - DISPLACED WORKERS.  In order to m,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.908 - EFFECT OF SUNSET PROVISION.   If ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.909 - PLAN AND REPORT OF WORKFORCE DIVE,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.910 - INCENTIVE PROGRAM AND GOAL FOR EN,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.9111 - RULES RELATED TO RENEWABLE POWER,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.9112 - REPORT ON TRANSMISSION AND GENER,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.9113 - RENEWABLE ENERGY CREDITS.  To fa,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.911 - ALTERNATIVE FUNDING FOR ENERGY EF,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.912 - REPORT ON COMBINED HEATING AND PO,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.913 - COMBINING CERTAIN REPORTS.  The c,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.914 - CREDIT FOR SURPLUS SOLAR GENERATI,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.915 - CONSIDERATION AND APPROVAL OF CER,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.9165 - DISTRIBUTED GENERATION FACILITY ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.916 - INTERCONNECTION OF DISTRIBUTED RE,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.917 - TEXAS ELECTRIC GRID SECURITY COUN,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.918 - UTILITY FACILITIES FOR POWER REST,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 39.919 - AVERAGE TOTAL RESIDENTIAL LOAD RE,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.39.htm
+Working,Texas Utilities Code,Tex. Util. Code § 40.001 - APPLICABLE LAW.  (a)  Notwithstan,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.40.htm
+Working,Texas Utilities Code,Tex. Util. Code § 40.002 - DEFINITION.  For purposes of this,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.40.htm
+Working,Texas Utilities Code,Tex. Util. Code § 40.003 - SECURITIZATION.  (a)  Municipally,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.40.htm
+Working,Texas Utilities Code,Tex. Util. Code § 40.004 - JURISDICTION OF COMMISSION.  Exce,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.40.htm
+Working,Texas Utilities Code,Tex. Util. Code § 40.051 - GOVERNING BODY DECISION.  (a)  Th,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.40.htm
+Working,Texas Utilities Code,Tex. Util. Code § 40.052 - UTILITY NOT OFFERING CUSTOMER CHO,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.40.htm
+Working,Texas Utilities Code,Tex. Util. Code § 40.053 - RETAIL CUSTOMER'S RIGHT OF CHOICE,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.40.htm
+Working,Texas Utilities Code,Tex. Util. Code § 40.054 - SERVICE OUTSIDE AREA.  (a)  A mun,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.40.htm
+Working,Texas Utilities Code,Tex. Util. Code § 40.055 - JURISDICTION OF MUNICIPAL GOVERNI,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.40.htm
+Working,Texas Utilities Code,Tex. Util. Code § 40.056 - ANTICOMPETITIVE ACTIONS.  (a)  If,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.40.htm
+Working,Texas Utilities Code,Tex. Util. Code § 40.057 - BILLING.  (a)  A municipally owne,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.40.htm
+Working,Texas Utilities Code,Tex. Util. Code § 40.058 - TARIFFS FOR OPEN ACCESS.  A munic,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.40.htm
+Working,Texas Utilities Code,Tex. Util. Code § 40.059 - MUNICIPAL POWER AGENCY;  RECOVERY,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.40.htm
+Working,Texas Utilities Code,Tex. Util. Code § 40.060 - NO POWER TO AMEND CERTIFICATES.  ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.40.htm
+Working,Texas Utilities Code,Tex. Util. Code § 40.101 - INTERFERENCE WITH CONTRACT.  (a) ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.40.htm
+Working,Texas Utilities Code,Tex. Util. Code § 40.102 - ACCESS TO WHOLESALE MARKET.  Noth,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.40.htm
+Working,Texas Utilities Code,Tex. Util. Code § 40.103 - PROTECTION OF BONDHOLDERS.  Nothi,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.40.htm
+Working,Texas Utilities Code,Tex. Util. Code § 40.104 - TAX-EXEMPT STATUS.  Nothing in th,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.40.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.001 - APPLICABLE LAW.  Notwithstanding ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.002 - DEFINITIONS.  In this chapter:,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.003 - SECURITIZATION.  (a)  Electric co,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.004 - JURISDICTION OF COMMISSION.  Exce,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.005 - LIMITATION ON MUNICIPAL AUTHORITY,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.051 - BOARD DECISION.  (a)  The board o,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.052 - ELECTRIC COOPERATIVES NOT OFFERIN,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.053 - RETAIL CUSTOMER RIGHT OF CHOICE. ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.054 - SERVICE OUTSIDE CERTIFICATED AREA,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.055 - JURISDICTION OF BOARD OF DIRECTOR,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.056 - ANTICOMPETITIVE ACTIONS.  (a)  If,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.057 - BILLING.  (a)  An electric cooper,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.058 - TARIFFS FOR OPEN ACCESS.  An elec,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.059 - NO POWER TO AMEND CERTIFICATES.  ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.060 - CUSTOMER SERVICE INFORMATION.  (a,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.061 - RETAIL RATE CHANGES BY ELECTRIC C,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.062 - ALLOCATION OF STRANDED INVESTMENT,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.101 - INTERFERENCE WITH CONTRACT.  (a) ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.102 - ACCESS TO WHOLESALE MARKET.  Noth,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.103 - PROTECTION OF BONDHOLDERS.  Nothi,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.104 - TAX-EXEMPT STATUS.  Nothing in th,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.151 - PURPOSE.  (a)  The purpose of thi,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.152 - DEFINITIONS.  In this subchapter:,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.153 - FINANCING ORDERS; TERMS.  (a)  Th,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.154 - PROPERTY RIGHTS.  (a)  The rights,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.155 - NO SETOFF.  The interest of an as,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.156 - NO BYPASS.  (a)  A financing orde,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.157 - TRUE-UP.  (a)  A financing order ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.158 - TRUE SALE.  An agreement by an el,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.159 - SECURITY INTERESTS; ASSIGNMENT; C,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.160 - PLEDGE OF STATE.  Securitized bon,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.161 - TAX EXEMPTION.  Transactions invo,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.162 - NOT PUBLIC UTILITY.  An assignee ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 41.163 - SEVERABILITY.  Effective on the d,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.41.htm
+Working,Texas Utilities Code,Tex. Util. Code § 42.0101 - LEGISLATIVE FINDINGS.  (a)  The ,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.42.htm
+Working,Texas Utilities Code,Tex. Util. Code § 42.0102 - DEFINITIONS.  In this chapter:,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.42.htm
+Working,Texas Utilities Code,Tex. Util. Code § 42.0103 - PUBLIC CHARGING OF ELECTRIC VEHI,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.42.htm
+Working,Texas Utilities Code,Tex. Util. Code § 42.0104 - PUBLIC CHARGING OF ELECTRIC VEHI,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.42.htm
+Working,Texas Utilities Code,Tex. Util. Code § 43.001 - LEGISLATIVE FINDINGS.  (a)  The l,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.43.htm
+Working,Texas Utilities Code,Tex. Util. Code § 43.002 - APPLICABILITY.  (a)  This chapter,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.43.htm
+Working,Texas Utilities Code,Tex. Util. Code § 43.003 - DEFINITIONS.  In this chapter:,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.43.htm
+Working,Texas Utilities Code,Tex. Util. Code § 43.051 - AUTHORIZATION FOR MIDDLE MILE BRO,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.43.htm
+Working,Texas Utilities Code,Tex. Util. Code § 43.052 - CHARGES.   An electric utility th,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.43.htm
+Working,Texas Utilities Code,Tex. Util. Code § 43.053 - NO ADDITIONAL EASEMENTS OR CONSID,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.43.htm
+Working,Texas Utilities Code,Tex. Util. Code § 43.054 - RELIABILITY OF ELECTRIC SYSTEMS M,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.43.htm
+Working,Texas Utilities Code,Tex. Util. Code § 43.101 - PARTICIPATION BY ELECTRIC UTILITY,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.43.htm
+Working,Texas Utilities Code,Tex. Util. Code § 43.102 - COMMISSION REVIEW OF UTILITY MIDD,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.43.htm
+Working,Texas Utilities Code,Tex. Util. Code § 43.103 - COST RECOVERY FOR DEPLOYMENT OF M,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.43.htm
+Working,Texas Utilities Code,Tex. Util. Code § 43.151 - COMPLIANCE WITH FEDERAL AND STATE,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.43.htm
+Working,Texas Utilities Code,Tex. Util. Code Ch. 15 - Judicial Review, Enforcement, and P,https://statutes.capitol.texas.gov/Docs/UT/htm/UT.15.htm
