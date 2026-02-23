@@ -317,7 +317,7 @@ class APIClient {
     return this.request<QueryResponse>('/api/queries', {
       method: 'POST',
       body: JSON.stringify(request),
-    }, true); // Skip auth - queries work without login
+    }, true, 120000); // Skip auth, 120s timeout for LLM processing
   }
 
   // ==========================================================================

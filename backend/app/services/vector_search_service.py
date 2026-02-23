@@ -182,7 +182,7 @@ class VectorSearchService:
 
             scored_results = []
             for chunk in chunks:
-                if chunk.embedding:
+                if chunk.embedding is not None:
                     chunk_vec = np.array(chunk.embedding)
                     chunk_norm = np.linalg.norm(chunk_vec)
                     if chunk_norm > 0:
