@@ -54,10 +54,14 @@ app = FastAPI(
 
 # CORS middleware - configure based on environment
 if settings.app_env == "production":
-    # In production, specify exact origins
-    allowed_origins = [
-        "https://comask-frontend-app.azurewebsites.net",
-    ]
+    import os
+    cors_env = os.getenv("CORS_ORIGINS", "").strip()
+    if cors_env:
+        allowed_origins = [o.strip() for o in cors_env.split(",") if o.strip()]
+    else:
+        allowed_origins = [
+            "https://comask-frontend-app.azurewebsites.net",
+        ]
 else:
     # In development, allow localhost
     allowed_origins = [

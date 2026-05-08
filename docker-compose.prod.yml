@@ -4,7 +4,7 @@
 services:
   # PostgreSQL with pgvector extension
   postgres:
-    image: pgvector/pgvector:pg16
+    image: pgvector/pgvector:pg18
     container_name: comask-postgres-prod
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-comask}
@@ -13,7 +13,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_prod_data:/var/lib/postgresql/data
+      - postgres_prod_data:/var/lib/postgresql
       - ./backend/scripts/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-comask} -d ${POSTGRES_DB:-comask}"]
@@ -55,6 +55,8 @@ services:
       - AZURE_OPENAI_DEPLOYMENT_NAME=${AZURE_OPENAI_DEPLOYMENT_NAME:-gpt-4o}
       - VOYAGE_API_KEY=${VOYAGE_API_KEY}
       - LLM_PROVIDER=${LLM_PROVIDER:-azure_openai}
+      - CLAUDE_API_KEY=${CLAUDE_API_KEY:-}
+      - CORS_ORIGINS=${CORS_ORIGINS}
     ports:
       - "8000:8000"
     depends_on:
@@ -74,6 +76,8 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8000}
     container_name: comask-frontend-prod
     environment:
       - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:8000}

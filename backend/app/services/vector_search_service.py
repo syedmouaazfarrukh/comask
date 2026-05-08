@@ -63,7 +63,7 @@ class VectorSearchService:
         jurisdictions: Optional[List[JurisdictionType]] = None,
         authority_levels: Optional[List[AuthorityLevel]] = None,
         document_types: Optional[List[str]] = None,
-        min_similarity: float = 0.5,
+        min_similarity: float = 0.3,
         include_hybrid: bool = True,
         query_embedding: Optional[List[float]] = None,
     ) -> List[SearchResult]:
@@ -173,8 +173,8 @@ class VectorSearchService:
                 return results
 
             # Calculate cosine similarity for each chunk
-            query_vec = np.array(query_embedding)
-            query_norm = np.linalg.norm(query_vec)
+            query_vec = np.array(query_embedding, dtype=np.float64).flatten()
+            query_norm = float(np.linalg.norm(query_vec))
 
             if query_norm == 0:
                 logger.warning("Query embedding has zero norm")
@@ -183,12 +183,17 @@ class VectorSearchService:
             scored_results = []
             for chunk in chunks:
                 if chunk.embedding is not None:
-                    chunk_vec = np.array(chunk.embedding)
-                    chunk_norm = np.linalg.norm(chunk_vec)
-                    if chunk_norm > 0:
-                        similarity = float(np.dot(query_vec, chunk_vec) / (query_norm * chunk_norm))
-                        if similarity >= min_similarity:
-                            scored_results.append((chunk, similarity))
+                    try:
+                        # Ensure proper 1D float array (pgvector may return various types)
+                        chunk_vec = np.array(list(chunk.embedding), dtype=np.float64).flatten()
+                        chunk_norm = float(np.linalg.norm(chunk_vec))
+                        if chunk_norm > 0:
+                            similarity = float(np.dot(query_vec, chunk_vec) / (query_norm * chunk_norm))
+                            if similarity >= min_similarity:
+                                scored_results.append((chunk, similarity))
+                    except (ValueError, TypeError) as e:
+                        logger.debug("Skipping chunk with invalid embedding", chunk_id=str(chunk.id), error=str(e))
+                        continue
 
             # Sort by similarity descending and limit
             scored_results.sort(key=lambda x: x[1], reverse=True)

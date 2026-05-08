@@ -6,7 +6,6 @@ from app.services.document_service import DocumentService
 from app.processing.embedder import Embedder
 import structlog
 from typing import Optional
-from datetime import datetime, timedelta
 
 logger = structlog.get_logger()
 
@@ -73,31 +72,8 @@ class ExtractionAgent(BaseAgent):
                 query_embedding=query_embedding if use_vector_search and query_embedding else None
             )
             
-            # Filter by recency (last 48 hours if published_date available)
-            # Note: This is a simplified check - in production, you'd want more sophisticated filtering
-            recent_docs = []
-            cutoff_date = datetime.utcnow() - timedelta(hours=48)
-            
-            for doc in extracted_docs:
-                # If no published_date, include it (assume recent)
-                if not doc.get("published_date"):
-                    recent_docs.append(doc)
-                    continue
-                
-                try:
-                    pub_date = datetime.fromisoformat(doc["published_date"].replace("Z", "+00:00"))
-                    if pub_date >= cutoff_date:
-                        recent_docs.append(doc)
-                except:
-                    # If date parsing fails, include the document
-                    recent_docs.append(doc)
-            
-            # If no recent docs, use all docs (better than nothing)
-            if not recent_docs and extracted_docs:
-                recent_docs = extracted_docs[:10]
-            
-            # Limit to top results
-            extracted_docs = recent_docs[:10]
+            # Limit to top results (no recency filter - regulatory docs are timeless)
+            extracted_docs = extracted_docs[:10]
             
             logger.info(
                 "Documents extracted",

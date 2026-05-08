@@ -77,53 +77,68 @@ Score each document's relevance to the query."""
                 max_tokens=1000
             )
             
-            # Parse scores
+            # Parse LLM scores and build index-based score map
+            llm_scores = {}  # index -> score
             try:
-                scores = json.loads(response.content)
-            except json.JSONDecodeError:
-                # Fallback: use existing scores
-                scores = [
-                    {
-                        "document_id": doc.get("id", f"doc_{i}"),
-                        "relevance_score": doc.get("relevance_score", 0.5),
-                        "reason": "Automated scoring",
-                        "confidence": "medium"
-                    }
-                    for i, doc in enumerate(documents)
-                ]
-            
+                # Try to extract JSON from response (may be wrapped in markdown)
+                content = response.content.strip()
+                if content.startswith("```"):
+                    content = content.split("```")[1]
+                    if content.startswith("json"):
+                        content = content[4:]
+                raw_scores = json.loads(content)
+
+                if isinstance(raw_scores, list):
+                    for s in raw_scores:
+                        doc_id = str(s.get("document_id", ""))
+                        score = float(s.get("relevance_score", 0))
+                        # Match by "doc_N" or just "N" pattern (1-indexed)
+                        for prefix in ["doc_", "doc", ""]:
+                            stripped = doc_id.replace(prefix, "").strip()
+                            if stripped.isdigit():
+                                idx = int(stripped) - 1  # Convert to 0-indexed
+                                if 0 <= idx < len(documents):
+                                    llm_scores[idx] = score
+                                break
+
+                logger.info("LLM relevance scores parsed", count=len(llm_scores))
+            except (json.JSONDecodeError, ValueError, TypeError) as e:
+                logger.warning("Failed to parse LLM relevance scores, using search scores", error=str(e))
+
+            # Build final scores: prefer LLM scores, fall back to search scores
+            def get_doc_score(idx: int, doc: dict) -> float:
+                if idx in llm_scores:
+                    return llm_scores[idx]
+                return float(doc.get("relevance_score", 0) or 0)
+
             # Rank documents by score
-            ranked = sorted(
-                documents,
-                key=lambda d: next(
-                    (s["relevance_score"] for s in scores if s["document_id"] == d.get("id")),
-                    d.get("relevance_score", 0)
-                ),
-                reverse=True
-            )
-            
+            scored_docs = [(i, doc, get_doc_score(i, doc)) for i, doc in enumerate(documents[:10])]
+            scored_docs.sort(key=lambda x: x[2], reverse=True)
+
             # Filter by minimum relevance threshold
             min_relevance = 0.3
-            relevant_docs = [
-                doc for doc in ranked
-                if next(
-                    (s["relevance_score"] for s in scores if s["document_id"] == doc.get("id")),
-                    doc.get("relevance_score", 0)
-                ) >= min_relevance
-            ]
-            
+            relevant_docs = [doc for _, doc, score in scored_docs if score >= min_relevance]
+
+            # If LLM scoring filtered everything but we have search results, keep them
+            if not relevant_docs and documents:
+                logger.warning("All docs filtered by relevance, keeping top search results")
+                relevant_docs = documents[:5]
+
+            scores_summary = [{"index": i, "score": s} for i, _, s in scored_docs]
+
             return AgentResult(
                 success=True,
                 data={
                     "ranked_documents": relevant_docs,
-                    "scores": scores,
+                    "scores": scores_summary,
                     "has_relevant_docs": len(relevant_docs) > 0,
-                    "top_score": scores[0]["relevance_score"] if scores else 0
+                    "top_score": scored_docs[0][2] if scored_docs else 0
                 },
                 metadata={
                     "total_documents": len(documents),
                     "relevant_count": len(relevant_docs),
-                    "min_relevance_threshold": min_relevance
+                    "min_relevance_threshold": min_relevance,
+                    "llm_scores_parsed": len(llm_scores)
                 }
             )
             
