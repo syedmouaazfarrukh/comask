@@ -1,0 +1,18 @@
+# Standalone compose for the Comask marketing site.
+# Run from inside the marketing/ directory: `docker compose up --build`
+# Then open http://localhost:3002
+
+services:
+  marketing:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: comask-marketing
+    ports:
+      - "3002:3002"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3002"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
